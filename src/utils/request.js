@@ -75,14 +75,11 @@ export async function request(url, option) {
 
   const checkCode = (response) => {
     if (response.code && response.code === 401) {
-      // RootNavigation.replace("Login", {});
       console.log('CHECKCODE：', codeMessage[401]);
     }
   };
 
   const success = function (res, resolve, reject) {
-    console.log('URL：', getBaseUrl() + url);
-    // console.log('REQUEST SUCCESS,DATA IS：', JSON.stringify(res.data));
     if (res.data.success) {
       resolve(res.data);
     } else {
@@ -91,16 +88,16 @@ export async function request(url, option) {
   };
 
   const fail = function (res, reject) {
-    console.log('URL：', getBaseUrl() + url);
-    // console.log('REQUEST FAIL,DATA IS：', JSON.stringify(res.data));
     reject('网络请求错误');
   };
 
   //print info
   const complete = function (res) {
-    if(res.data.code){
+    if(res?.data?.code){
       checkStatus(res.data);
       checkCode(res.data);
+    }else{
+      reject('网络请求错误');
     }
   };
 

@@ -1,30 +1,9 @@
 import moment from 'moment';
-import { getCurrentUser } from '@/utils/authority';
-import { onlinePreviewUrl } from './defaultSettings';
 
 /**
  * 通用工具类
  */
 export default class Func {
-    /**
-     * 获取文件预览路径
-     * @param fullFileName
-     * @returns {string}
-     */
-    static getPreviewURL(fullFileName) {
-        const watermarkTxt = this.getWatermarkTxt();
-        return `${onlinePreviewUrl}?watermarkTxt=${watermarkTxt}&fullFileName=${fullFileName}`;
-    }
-
-    /**
-     * 获取水印文字
-     * @returns {string}
-     */
-    static getWatermarkTxt() {
-        const user = getCurrentUser();
-        const suffix = user.phone ? user.phone.substring(user.phone.length - 4) : this.getToday();
-        return `${user.realName} ${suffix}`;
-    }
 
     /**
      * 获取今天日期字符串
@@ -138,41 +117,6 @@ export default class Func {
      */
     static join(arr) {
         return arr ? arr.join(',') : '';
-    }
-
-    /**
-     * 根据逗号分隔
-     * @param str
-     * @returns {string}
-     */
-    static split(str) {
-        return str ? String(str).split(',') : '';
-    }
-
-    static val(object, path, value) {
-        let copyObject = object;
-        let s = path.replace(/\[(\w+)\]/g, '.$1');
-        s = s.replace(/^\./, '');
-        const a = s.split('.');
-        for (let i = 0, n = a.length; i < n; i += 1) {
-            const k = a[i];
-            if (k in copyObject) {
-                if (!this.isEmpty(value) && i === n - 1) {
-                    copyObject[k] = value;
-                }
-                copyObject = copyObject[k];
-            } else if (!this.isEmpty(value)) {
-                if (i === n - 1) {
-                    copyObject[k] = value;
-                } else {
-                    copyObject[k] = {};
-                    copyObject = copyObject[k];
-                }
-            } else {
-                return null;
-            }
-        }
-        return copyObject;
     }
 
     static getDateDiff(dateTime) {
@@ -483,14 +427,6 @@ export default class Func {
         return arr;
     }
 
-    static numberToChinaChar(number) {
-        const charArry = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
-        if (number > charArry.length || number < 0) {
-            return number;
-        }
-        return charArry[number];
-    }
-
     /**
      * 身份证校验
      * @param value
@@ -519,18 +455,7 @@ export default class Func {
         // 获取余数
         const resisue = num % 11;
         const last_no = check_code[resisue];
-
-        // 格式的正则
-        // 正则思路
-        /*
-    第一位不可能是0
-    第二位到第六位可以是0-9
-    第七位到第十位是年份，所以七八位为19或者20
-    十一位和十二位是月份，这两位是01-12之间的数值
-    十三位和十四位是日期，是从01-31之间的数值
-    十五，十六，十七都是数字0-9
-    十八位可能是数字0-9，也可能是X
-    */
+   
         const idcard_patter =
             /^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|1|2])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$/;
 
@@ -541,79 +466,12 @@ export default class Func {
         return last === last_no && format;
     };
 
-    // 事务详情页按钮隐藏显示逻辑 非本人承办事务和状态不处理办理中隐藏所有按钮
-    static affairActionButtonsFiler = (status, user, lawyerList) => {
-        // 判断是否超级管理员
-        if (user.authority === 'administrator') {
-            return true;
-        }
-        // 是否承办人
-        let isRepeat = false;
-        for (let i = 0; i < lawyerList.length; i++) {
-            if (lawyerList[i].id === user.userId) {
-                isRepeat = true;
-                break;
-            }
-        }
-        // 承办人 && 编辑状态
-        if (isRepeat && status === 2) {
-            return true;
-        }
-        return false;
-    };
-
-    // 事务详情页日常法律服务（合同事务信息编辑、材料上传，法律咨询咨询信息编辑）按钮隐藏显示逻辑 非本人承办事务隐藏所有按钮
-    static dailyLegalServicesButtonsFiler = (user, lawyerList) => {
-        // 判断是否超级管理员
-        if (user.authority === 'administrator') {
-            return true;
-        }
-        // 是否承办人
-        let isRepeat = false;
-        for (let i = 0; i < lawyerList.length; i++) {
-            if (lawyerList[i].id === user.userId) {
-                isRepeat = true;
-                break;
-            }
-        }
-        // 承办人
-        if (isRepeat) {
-            return true;
-        }
-        return false;
-    };
-
     static isEmail = (s) => {
         return /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(s);
     };
 
     static getNum(text) {
         return text.replace(/[^0-9]/gi, '');
-    }
-
-    /**
-     * 组装代理方地位所需数组
-     * @param title
-     * @param mainBodyList
-     * @returns {[]|*[]}
-     */
-    static getMainBodyList(title, mainBodyList) {
-        if (mainBodyList) {
-            const mainBodys = [];
-            const proposerListLength = mainBodyList.length;
-            for (let i = 0; i < proposerListLength; i += 1) {
-                const values = {
-                    key: `${title}${i + 1}`,
-                    value: mainBodyList[i].name,
-                    no: i + 1,
-                    relatedParty: title,
-                    relatedPartyName: mainBodyList[i].name
-                };
-                mainBodys.push(values);
-            }
-            return mainBodys;
-        }
-        return [];
     }
 
     /**
@@ -667,126 +525,6 @@ export default class Func {
         }
     }
 
-    static changeNumberMoneyToChinese(money) {
-        // 接收数字或者字符串数字
-        if (typeof money === 'string') {
-            if (money === '') return '';
-            if (isNaN(parseFloat(money))) {
-                throw Error(`参数有误：${money}，请输入数字或字符串数字`);
-            } else {
-                // 去掉分隔符(,)
-                money = money.replace(/,/g, '');
-            }
-        } else if (typeof money === 'number') {
-            // 去掉分隔符(,)
-            money = money.toString().replace(/,/g, '');
-        } else {
-            throw Error(`参数有误：${money}，请输入数字或字符串数字`);
-        }
-        // 汉字的数字
-        const cnNums = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
-        // 基本单位
-        const cnIntRadice = ['', '拾', '佰', '仟'];
-        // 对应整数部分扩展单位
-        const cnIntUnits = ['', '万', '亿', '兆'];
-        // 对应小数部分单位
-        const cnDecUnits = ['角', '分', '毫', '厘'];
-        // 整数金额时后面跟的字符
-        const cnInteger = '整';
-        // 整型完以后的单位
-        const cnIntLast = '元';
-        // 金额整数部分
-        let IntegerNum;
-        // 金额小数部分
-        let DecimalNum;
-        // 输出的中文金额字符串
-        let ChineseStr = '';
-        // 正负值标记
-        let Symbol = '';
-        // 转成浮点数
-        money = parseFloat(money);
-        // 如果是0直接返回结果
-        if (money === 0) {
-            ChineseStr = cnNums[0] + cnIntLast + cnInteger;
-            return ChineseStr;
-        }
-        // 如果小于0，则将Symbol标记为负，并转为正数
-        if (money < 0) {
-            money = -money;
-            Symbol = '负 ';
-        }
-        // 转换为字符串
-        money = money.toString();
-        // 将整数部分和小数部分分别存入IntegerNum和DecimalNum
-        if (money.indexOf('.') === -1) {
-            IntegerNum = money;
-            DecimalNum = '';
-        } else {
-            const moneyArr = money.split('.');
-            IntegerNum = moneyArr[0];
-            DecimalNum = moneyArr[1].substr(0, 4);
-        }
-        // 获取整型部分转换
-        if (parseInt(IntegerNum, 10) > 0) {
-            let zeroCount = 0;
-            let IntLen = IntegerNum.length;
-            for (let i = 0; i < IntLen; i++) {
-                // 获取整数的每一项
-                let term = IntegerNum.substr(i, 1);
-                // 剩余待处理的数量
-                let surplus = IntLen - i - 1;
-                // 用于获取整数部分的扩展单位
-                // 剩余数量除以4，比如12345，term为1时，expandUnit则为1，
-                // cnIntUnits[expandUnit]对应得到的单位为万
-                let expandUnit = surplus / 4;
-                // 用于获取整数部分的基本单位
-                // 剩余数量取余4，比如123，那么第一遍遍历term为1，surplus为2，baseUnit则为2，
-                // 所以cnIntRadice[baseUnit]对应得到的基本单位为'佰'
-                let baseUnit = surplus % 4;
-                if (term === '0') {
-                    zeroCount++;
-                } else {
-                    // 连续存在多个0的时候需要补'零'
-                    if (zeroCount > 0) {
-                        ChineseStr += cnNums[0];
-                    }
-                    // 归零
-                    zeroCount = 0;
-                    /*
-          cnNums是汉字的零到玖组成的数组，term则是阿拉伯0-9，
-          直接将阿拉伯数字作为下标获取中文数字
-          例如term是0则cnNums[parseInt(term)]取的就是'零'，9取的就是'玖'
-          最后加上单位就转换成功了！
-          这里只加十百千的单位
-          */
-                    ChineseStr += cnNums[parseInt(term)] + cnIntRadice[baseUnit];
-                }
-                /*
-          如果baseUnit为0，意味着当前项和下一项隔了一个节权位即隔了一个逗号
-          扩展单位只有大单位进阶才需要，判断是否大单位进阶，则通过zeroCount判断
-          baseUnit === 0即存在逗号，baseUnit === 0 && zeroCount < 4 意为大单位进阶
-        */
-                if (baseUnit === 0 && zeroCount < 4) {
-                    ChineseStr += cnIntUnits[expandUnit];
-                }
-            }
-            ChineseStr += cnIntLast;
-        }
-        // 小数部分转换
-        if (DecimalNum !== '') {
-            let decLen = DecimalNum.length;
-            for (let i = 0; i < decLen; i++) {
-                // 同理，参考整数部分
-                let term = DecimalNum.substr(i, 1);
-                if (term !== '0') {
-                    ChineseStr += cnNums[Number(term)] + cnDecUnits[i];
-                }
-            }
-        }
-        ChineseStr = Symbol + ChineseStr;
-        return ChineseStr;
-    }
-
     /**
      * 手机号脱敏处理，如果手机号存在-，中间4位显示*
      * @param deptName
@@ -800,19 +538,6 @@ export default class Func {
     }
 
     /**
-     * 部门脱敏处理，如果部门路径存在-，只显示最后一个路径，其余显示*
-     * @param deptName
-     * @returns {string}
-     */
-    static deptSensitive(deptName) {
-        if (deptName) {
-            const deptLastIndex = deptName.lastIndexOf('-');
-            return deptLastIndex === -1 ? deptName : `****${deptName.substring(deptLastIndex)}`;
-        }
-        return '';
-    }
-
-    /**
      * 删除字符串中的数字
      * @param str
      * @returns {*}
@@ -821,4 +546,27 @@ export default class Func {
         const reg = /[0-9]+/g;
         return str.replace(reg, '');
     }
+
+    /**
+     * 判断是否是obejct
+     * @param object
+     * @returns {boolean}
+     */
+    static isObject(object) {
+        return Object.prototype.toString.call(object) === '[object Object]';
+    }
+
+    static getStyles(styles){
+       const isObject = this.isObject(styles);
+       if(isObject){
+        let list = [];
+        Object.keys(styles).forEach(key => {
+            let style =`${key}: ${styles[key]}`;
+            list.push(style);
+        })
+        return list.join(";")
+       }
+       return "";
+    }
 }
+
