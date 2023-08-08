@@ -51,12 +51,12 @@ export async function request(url, option) {
   };
 
   //token鉴权
-  const token = ()=>getToken()
+  const token = ()=> getToken();
 
   if (token) {
     newOptions.headers = {
       ...newOptions.headers,
-      'Token': token
+      'Token': token()
     };
   }
 

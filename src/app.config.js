@@ -1,12 +1,13 @@
 export default {
     pages: [
         'pages/home/index',
+        'pages/mine/index',
         'pages/login/index'
     ],
     window: {
         backgroundTextStyle: 'light',
         navigationBarBackgroundColor: '#fff',
-        navigationBarTitleText: 'WeChat',
+        navigationBarTitleText: '采日能源',
         navigationBarTextStyle: 'black'
     },
     tabBar: {
@@ -15,13 +16,13 @@ export default {
             {
                 text: '首页',
                 pagePath: 'pages/home/index',
-                iconPath: './assets/home.png',
+                iconPath: './assets/images/home.png',
                 selectedIconPath: './assets/images/selected_home.png'
             },
             {
-                text: '个人',
-                pagePath: 'pages/login/index',
-                iconPath: './assets/user.png',
+                text: '我的',
+                pagePath: 'pages/mine/index',
+                iconPath: './assets/images/user.png',
                 selectedIconPath: './assets/images/selected_user.png'
             }
         ]
