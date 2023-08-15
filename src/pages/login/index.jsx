@@ -1,7 +1,7 @@
 import { View } from '@tarojs/components';
 import { useRouter, getUserProfile } from "@tarojs/taro";
 import { useEffect } from "react";
-import { AtButton } from 'taro-ui';
+import { AtButton } from 'taro-ui'
 import Func from "@/utils/Func";
 
 const Login = (props) => {
@@ -35,7 +35,7 @@ const Login = (props) => {
             })}
         >
             <View>{params.name}</View>
-            <AtButton onClick={onLogin} type="primary">登录1</AtButton>
+            <Button onClick={onLogin} type="primary">登录1</Button>
             <AtButton openType="getPhoneNumber" onGetPhoneNumber={onGetPhoneNumber} type="primary">登录</AtButton>
         </View>
     )

@@ -1,6 +1,6 @@
 # base_xcx_project
 
-构建基本的taro框架，其中包含技术 taro+react+hooks+dva+react-redux+taro-ui
+构建基本的taro框架，其中包含技术 taro+react+hooks+dva+react-redux+taroUI
 
 此项目作为小程序基础框架，对于不同的项目切换不同的分支管理，main分支只作为基础的技术版本更新；
 #### 基础知识：React + DVA + Taro3 

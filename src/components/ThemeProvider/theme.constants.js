@@ -1,7 +1,9 @@
 export default {
     default: {
         color: '#000',
-        backgroundColor: '#ff'
+        backgroundColor: '#fff',
+        colorPrimary: '#255aaa',
+        colorBorder: '#F0F0F0'
     },
     dark: {
         color: '#fff',

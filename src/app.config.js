@@ -2,7 +2,11 @@ export default {
     pages: [
         'pages/home/index',
         'pages/mine/index',
-        'pages/login/index'
+        'pages/login/index',
+        'pages/electricityPrice/index',
+        'pages/investment/index',
+        'pages/policy/index',
+        'pages/test/index'
     ],
     window: {
         backgroundTextStyle: 'light',
@@ -11,7 +15,7 @@ export default {
         navigationBarTextStyle: 'black'
     },
     tabBar: {
-        selectedColor: '#6190E8',
+        selectedColor: '#255aaa',
         list: [
             {
                 text: '首页',

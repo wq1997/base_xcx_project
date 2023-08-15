@@ -2,8 +2,8 @@
 const path = require('path')  // 加在最上面
 
 const config = {
-    projectName: 'taro-dva-template',
-    date: '2021-9-8',
+    projectName: 'taro-dva',
+    date: '2023-08-01',
     designWidth: 750,
     deviceRatio: {
         640: 2.34 / 2,
@@ -19,16 +19,16 @@ const config = {
         options: {}
     },
     framework: 'react',
-  alias: {
-    '@/components': path.resolve(__dirname, '..', 'src/components'),
-    '@/utils': path.resolve(__dirname, '..', 'src/utils'),
-    '@/services': path.resolve(__dirname, '..', 'src/services'),
-    '@/actions': path.resolve(__dirname, '..', 'src/actions'),
-    '@/assets': path.resolve(__dirname, '..', 'src/assets'),
-    '@/config': path.resolve(__dirname, '..', 'src/config'),
-    '@/models': path.resolve(__dirname, '..', 'src/models'),
-    '@/pages': path.resolve(__dirname, '..', 'src/pages')
-  },
+    alias: {
+        '@/components': path.resolve(__dirname, '..', 'src/components'),
+        '@/utils': path.resolve(__dirname, '..', 'src/utils'),
+        '@/services': path.resolve(__dirname, '..', 'src/services'),
+        '@/actions': path.resolve(__dirname, '..', 'src/actions'),
+        '@/assets': path.resolve(__dirname, '..', 'src/assets'),
+        '@/config': path.resolve(__dirname, '..', 'src/config'),
+        '@/models': path.resolve(__dirname, '..', 'src/models'),
+        '@/pages': path.resolve(__dirname, '..', 'src/pages')
+    },
     mini: {
         postcss: {
             pxtransform: {

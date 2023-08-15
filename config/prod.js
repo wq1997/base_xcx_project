@@ -13,5 +13,20 @@ module.exports = {
          *     .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
          * }
          */
+    },
+    weapp: {
+        module: {
+          postcss: {
+            autoprefixer: {
+              enable: true
+            },
+            url: {
+              enable: true,
+              config: {
+                limit: 10240
+              }
+            }
+          }
+        }
     }
 };

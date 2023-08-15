@@ -4,5 +4,20 @@ module.exports = {
     },
     defineConstants: {},
     mini: {},
-    h5: {}
+    h5: {},
+    weapp: {
+        module: {
+          postcss: {
+            autoprefixer: {
+              enable: true
+            },
+            url: {
+              enable: true,
+              config: {
+                limit: 10240
+              }
+            }
+          }
+        }
+    },
 };
