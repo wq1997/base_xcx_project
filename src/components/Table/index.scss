@@ -10,17 +10,19 @@
             text-align: center;
             line-height: 90px;
             position: relative;
+            font-size: 20px;
+            
             .customTableHeaderItemLeftBottom{
                 position: absolute;
                 left: 10px;
                 bottom: -10px;
-                font-size: 25px;
+                font-size: 15px;
             }
             .customTableHeaderItemRightTop{
                 position: absolute;
                 right: 10px;
                 top: -10px;
-                font-size: 25px;
+                font-size: 15px;
             }
             &:not(:last-child){
                 border-right: 0;
@@ -37,9 +39,12 @@
         flex: 1;
         display: flex;
         justify-content: center;
+        align-content: center;
         text-align: center;
         border: 2px solid #f0f0f0;
         border-top: 0;
+        font-size: 20px;
+        padding: 5px;
         &:not(:last-child){
             border-right: 0;
         }

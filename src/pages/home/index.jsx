@@ -38,7 +38,7 @@ const Home = (props)=>{
             display: 'grid',
             "grid-template-columns": 'repeat(2, 1fr)',
             "text-align": "center",
-            gap: '10px'
+            gap: '20px'
           })}
         >
           {homeList.map(home => {
@@ -46,7 +46,7 @@ const Home = (props)=>{
               <View
                 style={Func.getStyles({
                   border: `1px solid ${token.colorBorder}`,
-                  padding: '20px',
+                  padding: '40px',
                   'border-radius': '8px'
                 })}
                 onTap={()=>{
@@ -56,7 +56,7 @@ const Home = (props)=>{
                 }}
               >
                 <View style={Func.getStyles({
-                  "margin-bottom": "15px",
+                  "margin-bottom": "20px",
                 })}>
                   <Icon type={home.icon} size={35} color={token.colorPrimary} />
                 </View>

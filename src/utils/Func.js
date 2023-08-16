@@ -59,7 +59,11 @@ export default class Func {
        if(isObject){
         let list = [];
         Object.keys(styles).forEach(key => {
-            let style =`${key}: ${styles[key]}`;
+            let value = styles[key];
+            if(Object.prototype.toString.call(value)==="[object String]"&&value.endsWith("px")){
+                value = value.replace("px", "rpx");
+            }
+            let style =`${key}: ${value}`;
             list.push(style);
         })
         return list.join(";")

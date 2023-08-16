@@ -3,10 +3,11 @@ export default {
         'pages/home/index',
         'pages/mine/index',
         'pages/login/index',
+        'pages/test/index',
         'pages/electricityPrice/index',
         'pages/investment/index',
+        'pages/investResult/index',
         'pages/policy/index',
-        'pages/test/index'
     ],
     window: {
         backgroundTextStyle: 'light',
