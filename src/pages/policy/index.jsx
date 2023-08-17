@@ -50,7 +50,17 @@ const Policy = (props) => {
                 }}
             >
                 {
-                    [1,1,1,1,1,1,1,1,1,1].map(item => <View style="margin-bottom: 10px"><PolicyCard token={token} /></View>)
+                    [1,1,1,1,1,1,1,1,1,1].map(item => 
+                    <View 
+                        style="margin-bottom: 10px"
+                        onClick={()=>{
+                            Taro.navigateTo({
+                                url: `/pages/policyDetail/index`
+                            })
+                        }}
+                    >
+                        <PolicyCard token={token} />
+                    </View>)
                 }
             </ScrollView>
         </View>

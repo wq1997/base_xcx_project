@@ -46,7 +46,7 @@ const Home = (props)=>{
               <View
                 style={Func.getStyles({
                   border: `1px solid ${token.colorBorder}`,
-                  padding: '40px',
+                  padding: '60px 40px',
                   'border-radius': '8px'
                 })}
                 onTap={()=>{

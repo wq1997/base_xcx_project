@@ -60,8 +60,8 @@ export default class Func {
         let list = [];
         Object.keys(styles).forEach(key => {
             let value = styles[key];
-            if(Object.prototype.toString.call(value)==="[object String]"&&value.endsWith("px")){
-                value = value.replace("px", "rpx");
+            if(Object.prototype.toString.call(value)==="[object String]"&&value.indexOf("px")>-1){
+                value = value.replaceAll("px", "rpx");
             }
             let style =`${key}: ${value}`;
             list.push(style);

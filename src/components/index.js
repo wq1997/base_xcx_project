@@ -5,6 +5,8 @@ import Table from "./Table";
 import Icon from "./Icon";
 import Select from "./Select";
 import PolicyCard from "./PolicyCard";
+import Checkbox from "./Checkbox";
+import UploadImage from "./UploadImages";
 
 export {
     Echarts,
@@ -13,5 +15,7 @@ export {
     Table,
     Icon,
     Select,
-    PolicyCard
+    PolicyCard,
+    Checkbox,
+    UploadImage
 }
