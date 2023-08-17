@@ -31,7 +31,7 @@ const Login = (props) => {
             <View
                 style={Func.getStyles({
                     position: 'absolute',
-                    top: '50%',
+                    top: '40%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
                     width: 'calc(100% - 100px)'
