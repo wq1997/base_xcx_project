@@ -1,6 +1,8 @@
 export default {
     pages: [
         'pages/login/index',
+        'pages/register/index',
+        'pages/forgotPassword/index',
         'pages/home/index',
         'pages/test/index',
         'pages/electricityPrice/index',
@@ -17,8 +19,9 @@ export default {
     window: {
         backgroundTextStyle: 'light',
         navigationBarBackgroundColor: '#fff',
-        navigationBarTitleText: '采日能源',
-        navigationBarTextStyle: 'black'
+        navigationBarTitleText: '采e通',
+        navigationBarTextStyle: 'black',
+        enablePullDownRefresh: false
     },
     tabBar: {
         selectedColor: '#255aaa',

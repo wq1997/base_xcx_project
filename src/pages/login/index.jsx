@@ -47,7 +47,7 @@ const Login = (props) => {
                 >
                     欢迎访问采e通
                 </View>
-                <AtInput name='telephone' placeholder='请输入手机号' />
+                <AtInput name='telephone' placeholder='请输入手机号' type="phone" />
                 <AtInput name='password' placeholder='请输入密码' type='password' />
                 <View
                     style={Func.getStyles({
@@ -60,6 +60,11 @@ const Login = (props) => {
                         style={Func.getStyles({
                            color: token.colorPrimary
                         })}
+                        onClick={()=>{
+                            Taro.navigateTo({
+                                url: '/pages/forgotPassword/index'
+                            })
+                        }}
                     >
                             忘记密码
                     </View>
@@ -82,7 +87,9 @@ const Login = (props) => {
                         'text-align': 'center'
                     })}
                     onClick={()=>{
-                        
+                        Taro.navigateTo({
+                            url: '/pages/register/index'
+                        })
                     }}
                 >
                         去注册

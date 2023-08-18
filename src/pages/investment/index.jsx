@@ -115,13 +115,13 @@ const Investment = (props) => {
                 disabled
             />
             <AtInput
-                title='业主分成比例'
-                value="0%(自营)"
+                title='首付比例'
+                value="100%"
                 disabled
             />
             <AtInput
-                title='首付比例'
-                value="100%"
+                title='业主分成比例'
+                value="0%(自营)"
                 disabled
             />
             <View style={Func.getStyles({
