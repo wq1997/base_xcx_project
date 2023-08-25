@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro';
 import { getToken } from "./authTools";
+import Tips from "@/utils/tips";
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -45,8 +46,6 @@ export async function request(url, option) {
 
   newOptions.headers = {
     ...newOptions.headers,
-    // 客户端认证
-    Authorization: `Basic bGVnYWw6bGVnYWxfc2VjcmV0`,
     'Content-Type': option?.contentType||'application/json;charset=utf-8'
   };
 
@@ -65,17 +64,12 @@ export async function request(url, option) {
       return;
     }
     const infotext = codeMessage[response.code] || response.code;
-    const msgInfo = { [response.code.toString()]: infotext };
-    // 错误通知
-    // const error = new Error(infotext);
-    // error.name = response.code.toString();
-    // throw error;
-    console.log('CHECKSTATUS：', JSON.stringify(msgInfo));
+    Tips.toast(infotext);
   };
 
   const checkCode = (response) => {
-    if (response.code && response.code === 401) {
-      console.log('CHECKCODE：', codeMessage[401]);
+    if (response.code && response.code === 403) {
+      
     }
   };
 
@@ -91,13 +85,12 @@ export async function request(url, option) {
     reject('网络请求错误');
   };
 
-  //print info
   const complete = function (res) {
     if(res?.data?.code){
       checkStatus(res.data);
       checkCode(res.data);
     }else{
-      reject('网络请求错误');
+      Tips.toast("网络请求错误");
     }
   };
 
@@ -108,7 +101,7 @@ export async function request(url, option) {
       url: getBaseUrl() + url,
       data: newOptions.body ,
       method: newOptions.method || 'GET',
-      responseType: 'text',
+      responseType: newOptions.responseType || 'text',
       credentials: newOptions.credentials,
       header: newOptions.headers,
       mode: 'no-cors',

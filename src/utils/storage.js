@@ -1,4 +1,3 @@
-/* eslint-disable prefer-promise-reject-errors */
 import Taro from '@tarojs/taro';
 
 export const setItem = (key, value) => {

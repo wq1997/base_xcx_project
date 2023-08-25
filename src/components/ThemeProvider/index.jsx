@@ -11,7 +11,8 @@ const ThemeProvider = (props) => {
             {
                 React.Children.map(props.children, child => {
                     return React.cloneElement(child, {
-                        token: themeConstants[theme]
+                        token: themeConstants[theme],
+                        ...window.store
                     })
                 })
             }
