@@ -41,12 +41,15 @@ const Login = (props) => {
             Tips.toast("请输入密码")
             return;
         }
-        const res = await loginServe(params);
-        if(res){
-            Taro.switchTab({
-                url: '/pages/home/index'
-            })
-        }
+        // const res = await loginServe(params);
+        // if(res){
+        //     Taro.switchTab({
+        //         url: '/pages/home/index'
+        //     })
+        // }
+        Taro.switchTab({
+          url: '/pages/home/index'
+      })
     }
 
     return (
