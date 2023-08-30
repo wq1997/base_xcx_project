@@ -52,7 +52,7 @@ const ForgotPassword = (props) => {
             className="forgotPassword"
         >
             <AtInput
-                clear
+                name="telephone"
                 type="phone"
                 placeholder='请输入手机号'
                 value={data['telephone']}
@@ -61,22 +61,22 @@ const ForgotPassword = (props) => {
                 {isSendingCode?<View>{m}s后重试</View>:<View onClick={getCode}>发送验证码</View>}
             </AtInput>
             <AtInput
-                clear
+                name="code"
                 type="number"
                 placeholder='请输入验证码'
                 value={data['code']}
                 onChange={(value)=>onChange('code', value)}
             />  
             <AtInput
-                clear
+                name="password"
                 type="password"
                 placeholder='请输入新密码'
                 value={data['password']}
                 onChange={(value)=>onChange('password', value)}
             />   
             <AtInput
-                clear
-                type="newPassword"
+                name="newPassword"
+                type="password"
                 placeholder='请输入确认新密码'
                 value={data['newPassword']}
                 onChange={(value)=>onChange('newPassword', value)}
