@@ -1,6 +1,6 @@
 import { View } from '@tarojs/components';
-import { Checkbox } from "@/components"
-import { AtButton, AtInput } from 'taro-ui'
+import { Checkbox, Input } from "@/components"
+import { AtButton } from 'taro-ui'
 import Func from "@/utils/Func";
 import { useState } from "react";
 import Taro from "@tarojs/taro";
@@ -31,7 +31,7 @@ const Login = (props) => {
             [type]: value
         })
     }
-
+    console.log(params)
     const onLogin = async () => {
         if(!params.telephone){
             Tips.toast("请输入手机号")
@@ -81,24 +81,29 @@ const Login = (props) => {
                 >
                     欢迎访问采e通
                 </View>
-                <AtInput 
+                <Input 
                     value={params.telephone}
                     name='telephone' 
                     placeholder='请输入手机号' 
-                    type="phone" 
-                    onChange={value=>changeValue('telephone', value)}
+                    type="number" 
+                    onChange={value=>{
+                      changeValue('telephone', value);
+                    }}
                 />
-                <AtInput 
+                <Input 
                     value={params.password}
                     name='password' 
                     placeholder='请输入密码' 
                     type='password'
-                    onChange={value=>changeValue('password', value)} 
+                    onChange={value=>{
+                        changeValue('password', value);
+                    }}
                 />
                 <View
                     style={Func.getStyles({
                         display: 'flex',
-                        'justify-content': 'space-between'
+                        'justify-content': 'space-between',
+                        marginTop: '48px'
                     })}
                 >
                     <Checkbox options={remember} token={token} onChange={(remember)=>setRemember(remember)} />

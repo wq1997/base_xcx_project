@@ -7,6 +7,7 @@ import Select from "./Select";
 import PolicyCard from "./PolicyCard";
 import Checkbox from "./Checkbox";
 import UploadImage from "./UploadImages";
+import Input from "./Input";
 
 export {
     Echarts,
@@ -17,5 +18,6 @@ export {
     Select,
     PolicyCard,
     Checkbox,
-    UploadImage
+    UploadImage,
+    Input
 }

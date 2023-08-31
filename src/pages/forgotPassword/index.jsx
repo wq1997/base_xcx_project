@@ -1,5 +1,6 @@
 import { View } from "@tarojs/components"
-import { AtButton, AtInput, AtTextarea } from 'taro-ui';
+import { AtButton, AtTextarea } from 'taro-ui';
+import { Input } from "@/components"
 import Taro from "@tarojs/taro";
 import Func from "@/utils/Func";
 import { useState } from "react";
@@ -51,30 +52,43 @@ const ForgotPassword = (props) => {
             })}
             className="forgotPassword"
         >
-            <AtInput
-                name="telephone"
-                type="phone"
-                placeholder='请输入手机号'
-                value={data['telephone']}
-                onChange={(value)=>onChange('telephone', value)}
-            >   
-                {isSendingCode?<View>{m}s后重试</View>:<View onClick={getCode}>发送验证码</View>}
-            </AtInput>
-            <AtInput
+            <View
+                style={Func.getStyles({
+                    display: 'flex',
+                    'align-items': 'center'
+                })}
+            >
+                <View
+                    style={Func.getStyles({
+                        flex: 1,
+                        'margin-right': '20px'
+                    })}
+                >
+                    <Input
+                        name="telephone"
+                        type="number"
+                        placeholder='请输入手机号'
+                        value={data['telephone']}
+                        onChange={(value)=>onChange('telephone', value)}
+                    />
+                </View>
+                {isSendingCode?<AtButton disabled type="primary">{m}s后重试</AtButton>:<AtButton onClick={getCode} type="primary">发送验证码</AtButton>}
+            </View>
+            <Input
                 name="code"
                 type="number"
                 placeholder='请输入验证码'
                 value={data['code']}
                 onChange={(value)=>onChange('code', value)}
             />  
-            <AtInput
+            <Input
                 name="password"
                 type="password"
                 placeholder='请输入新密码'
                 value={data['password']}
                 onChange={(value)=>onChange('password', value)}
             />   
-            <AtInput
+            <Input
                 name="newPassword"
                 type="password"
                 placeholder='请输入确认新密码'

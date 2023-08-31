@@ -1,7 +1,8 @@
 import { View } from "@tarojs/components"
 import Func from "@/utils/Func";
 import { useState } from "react";
-import { AtButton, AtInput, AtTextarea } from 'taro-ui';
+import { AtButton, AtTextarea } from 'taro-ui';
+import { Input } from "@/components";
 import Taro from "@tarojs/taro";
 import "./index.scss";
 
@@ -19,7 +20,6 @@ const Register = (props) => {
             [type]: value
         })
     }
-
     return (
         <View
             style={Func.getStyles({
@@ -31,7 +31,7 @@ const Register = (props) => {
         >
             <View style={formItemStyle}>
                 <View>姓名</View>
-                <AtInput
+                <Input
                     name='name'
                     type='text'
                     placeholder='请输入姓名'
@@ -41,9 +41,9 @@ const Register = (props) => {
             </View>
             <View style={formItemStyle}>
                 <View>手机号</View>
-                <AtInput
+                <Input
                     name='telephone'
-                    type="phone"
+                    type="number"
                     placeholder='请输入手机号'
                     value={data["telephone"]}
                     onChange={(value)=>onChange("telephone", value)}
@@ -51,7 +51,7 @@ const Register = (props) => {
             </View>
             <View style={formItemStyle}>
                 <View>密码</View>
-                <AtInput
+                <Input
                     name='password'
                     type='password'
                     placeholder='请输入密码'
@@ -61,9 +61,9 @@ const Register = (props) => {
             </View>
             <View style={formItemStyle}>
                 <View>确定密码</View>
-                <AtInput
+                <Input
                     name='surePassword'
-                    type='surePassword'
+                    type='password'
                     placeholder='请输入确定密码'
                     value={data["surePassword"]}
                     onChange={(value)=>onChange("surePassword", value)}
@@ -71,7 +71,7 @@ const Register = (props) => {
             </View>
             <View style={formItemStyle}>
                 <View>公司</View>
-                <AtInput
+                <Input
                     name='company'
                     type='text'
                     placeholder='请输入公司'
@@ -81,7 +81,7 @@ const Register = (props) => {
             </View>
             <View style={formItemStyle}>
                 <View>职务</View>
-                <AtInput
+                <Input
                     name='site'
                     type='text'
                     placeholder='请输入职务'
