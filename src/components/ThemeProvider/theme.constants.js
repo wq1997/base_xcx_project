@@ -2,8 +2,9 @@ export default {
     default: {
         color: '#000',
         backgroundColor: '#fff',
-        colorPrimary: '#6190E8',
-        colorBorder: '#F0F0F0'
+        colorPrimary: '#3560EA',
+        colorBorder: '#F0F0F0',
+        buttonBgColor: '#29DFCE'
     },
     dark: {
         color: '#fff',

@@ -1,5 +1,5 @@
 import { View } from '@tarojs/components';
-import { Checkbox, Input } from '@/components';
+import { Input } from '@/components';
 import { AtButton } from 'taro-ui';
 import Func from '@/utils/Func';
 import { useState } from 'react';
@@ -61,7 +61,8 @@ const Login = (props) => {
             style={Func.getStyles({
                 width: '100%',
                 height: '100vh',
-                background: token.backgroundColor,
+                backgroundImage: `url(https://energy.sermatec-cloud.com/file/D6tZBPGpB_dN_tRyFbDO.png)`,
+                backgroundSize: 'cover',
                 color: token.color
             })}
             className="login"
@@ -69,27 +70,23 @@ const Login = (props) => {
             <View
                 style={Func.getStyles({
                     position: 'absolute',
-                    top: '40%',
+                    top: '45%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
                     width: 'calc(100% - 100px)'
                 })}
             >
-                <View
-                    style={Func.getStyles({
-                        'margin-bottom': '40px',
-                        'text-align': 'center',
-                        color: token.colorPrimary,
-                        'font-size': '40px'
-                    })}
-                >
-                    欢迎访问采e通
-                </View>
                 <Input
                     value={params.phoneNumber}
                     name="phoneNumber"
                     placeholder="请输入手机号"
                     type="phone"
+                    style={{
+                        backgroundColor: 'white',
+                        borderRadius: '6rpx',
+                        paddingLeft: '10rpx',
+                        paddingRight: '10rpx'
+                    }}
                     onChange={(value) => {
                         changeValue('phoneNumber', value);
                     }}
@@ -99,6 +96,13 @@ const Login = (props) => {
                     name="password"
                     placeholder="请输入密码"
                     type="password"
+                    style={{
+                        backgroundColor: 'white',
+                        borderRadius: '6rpx',
+                        paddingLeft: '10rpx',
+                        paddingRight: '10rpx',
+                        marginTop: '10rpx'
+                    }}
                     onChange={(value) => {
                         changeValue('password', value);
                     }}
@@ -107,7 +111,7 @@ const Login = (props) => {
                     style={Func.getStyles({
                         display: 'flex',
                         'justify-content': 'flex-end',
-                        marginTop: '48px'
+                        marginTop: '30px'
                     })}
                 >
                     {/* <Checkbox options={remember} token={token} onChange={(remember) => setRemember(remember)} /> */}
@@ -126,7 +130,7 @@ const Login = (props) => {
                 </View>
                 <View
                     style={Func.getStyles({
-                        margin: '60px 0'
+                        margin: '30px 0'
                     })}
                 >
                     <AtButton type="primary" onClick={onLogin}>

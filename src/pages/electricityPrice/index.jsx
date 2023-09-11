@@ -60,8 +60,8 @@ const ElectricityPrice = (props) => {
     return (
         <View
             style={Func.getStyles({
-                background: token.backgroundColor,
-                color: token.color,
+                // background: token.backgroundColor,
+                // color: token.color,
                 padding: '24px'
             })}
             className="electricityPrice"
@@ -178,7 +178,7 @@ const ElectricityPrice = (props) => {
                 style={Func.getStyles({
                     "text-align": "center",
                     margin: "20px 0",
-                    color: token.colorPrimary,
+                    // color: token.colorPrimary,
                     'font-weight': 600,
                     'font-size': '32px'
                 })}

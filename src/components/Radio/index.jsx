@@ -1,5 +1,4 @@
 import { View } from "@tarojs/components"
-import { Icon } from "@/components"
 import Func from "@/utils/Func";
 import { useState, useEffect } from "react";
 
@@ -57,10 +56,11 @@ const Checkbox = (props) => {
                                         style={Func.getStyles({
                                             position: 'relative',
                                             'font-weight': 600,
-                                            'line-height': '35px'
+                                            'line-height': '35px',
+                                            color: 'white'
                                         })}
                                     >
-                                        <Icon type={'duihao'} size={15} color={'white'} />
+                                        <View>√</View>
                                     </View>
                                }
                             </View>

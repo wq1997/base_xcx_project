@@ -1,22 +1,22 @@
-import { View } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 import { connect } from "react-redux";
 import Func from "@/utils/Func";
-import { Icon } from "@/components";
+import { PUBLIC_FILE_PATH } from "@/utils/constants";
 import Taro from "@tarojs/taro";
 
 const homeList = [
   {
-    icon: 'bengchefenleijiageguanli',
+    icon: 'electricityPrice.svg',
     href: '/pages/electricityPrice/index',
     title: '电价'
   },
   {
-    icon: 'zhengcexinxi',
+    icon: 'policy.svg',
     href: '/pages/policy/index',
     title: '市场政策'
   },
   {
-    icon: 'touzi',
+    icon: 'investment.svg',
     href: '/pages/investment/index',
     title: '投资测算'
   }
@@ -58,7 +58,13 @@ const Home = (props) => {
               <View style={Func.getStyles({
                 "margin-bottom": "20px",
               })}>
-                <Icon type={home.icon} size={35} color={token.colorPrimary} />
+                <Image 
+                  src={`${PUBLIC_FILE_PATH}${home.icon}`} 
+                  style={Func.getStyles({
+                    width: '120px',
+                    height: '120px'
+                  })}
+                />
               </View>
               <View>{home.title}</View>
             </View>

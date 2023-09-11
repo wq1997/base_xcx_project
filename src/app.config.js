@@ -1,12 +1,10 @@
 export default {
     pages: [
-        'pages/feedback/index',
         'pages/login/index',
         'pages/register/index',
         'pages/forgotPassword/index',
         'pages/home/index',
         'pages/test/index',
-        'pages/electricityPrice/index',
         'pages/investment/index',
         'pages/investResult/index',
         'pages/policy/index',
@@ -14,14 +12,15 @@ export default {
         'pages/outer/index',
         'pages/notification/index',
         'pages/mine/index',
-
+        'pages/feedback/index',
+        'pages/electricityPrice/index',
         'pages/mineCenter/index'
     ],
     window: {
         backgroundTextStyle: 'light',
-        navigationBarBackgroundColor: '#fff',
+        navigationBarBackgroundColor: '#3560EA',
         navigationBarTitleText: '采e通',
-        navigationBarTextStyle: 'black',
+        navigationBarTextStyle: 'white',
         enablePullDownRefresh: false
     },
     tabBar: {
