@@ -3,23 +3,56 @@ import Func from "@/utils/Func";
 import { useState } from "react";
 import { AtButton, AtTextarea } from 'taro-ui';
 import { Input } from "@/components";
+import Tips from "@/utils/tips";
 import Taro from "@tarojs/taro";
+import { encryptPassword } from '@/utils/authTools'
+import { register, getPublicKey } from "@/services/user";
 import "./index.scss";
 
 const Register = (props) => {
     const { token } = props;
-    const [data, setData] = useState({});
+    const [params, setParams] = useState({});
 
     const formItemStyle = Func.getStyles({
         'margin-bottom': '30px'
     });
 
     const onChange = (type, value) => {
-        setData({
-            ...data,
+        setParams({
+            ...params,
             [type]: value
         })
     }
+
+    const onRegister = async () => {
+        const { nickName, phoneNumber, password, confirmPassword, company, post, intention } = params
+        if (!nickName?.trim()) return Tips.toast("请输入姓名")
+        if (!phoneNumber) return Tips.toast("请输入手机号")
+        if (!Func.checkRegStr(phoneNumber).isTelephone) return Tips.toast("手机号格式不正确")
+        if (!password?.trim()) return Tips.toast("请输入密码")
+        if (!confirmPassword?.trim()) return Tips.toast("请输入确定密码")
+        if (!company?.trim()) return Tips.toast("请输入公司")
+        if (!post?.trim()) return Tips.toast("请输入职务")
+        if (!intention?.trim()) return Tips.toast("请输入合作意向")
+        Tips.loading('loading...', true)
+        const keyRes = await getPublicKey();
+        if (keyRes?.code == 200) {
+            const res = await register({
+                ...params,
+                password: encryptPassword(keyRes?.data, password),
+                confirmPassword: encryptPassword(keyRes?.data, confirmPassword)
+            });
+            if (res?.code == 200) {
+                Tips.toast("注册成功")
+                setTimeout(() => Taro.reLaunch({
+                    url: '/pages/login/index'
+                }), 1000)
+            }
+        }
+        Tips.loading(false)
+
+    }
+
     return (
         <View
             style={Func.getStyles({
@@ -32,21 +65,21 @@ const Register = (props) => {
             <View style={formItemStyle}>
                 <View>姓名</View>
                 <Input
-                    name='name'
+                    name='nickName'
                     type='text'
                     placeholder='请输入姓名'
-                    value={data["name"]}
-                    onChange={(value)=>onChange("name", value)}
+                    value={params["nickName"]}
+                    onChange={(value) => onChange("nickName", value)}
                 />
             </View>
             <View style={formItemStyle}>
                 <View>手机号</View>
                 <Input
-                    name='telephone'
-                    type="number"
+                    name='phoneNumber'
+                    type="phone"
                     placeholder='请输入手机号'
-                    value={data["telephone"]}
-                    onChange={(value)=>onChange("telephone", value)}
+                    value={params["phoneNumber"]}
+                    onChange={(value) => onChange("phoneNumber", value)}
                 />
             </View>
             <View style={formItemStyle}>
@@ -55,18 +88,18 @@ const Register = (props) => {
                     name='password'
                     type='password'
                     placeholder='请输入密码'
-                    value={data["password"]}
-                    onChange={(value)=>onChange("password", value)}
+                    value={params["password"]}
+                    onChange={(value) => onChange("password", value)}
                 />
             </View>
             <View style={formItemStyle}>
                 <View>确定密码</View>
                 <Input
-                    name='surePassword'
+                    name='confirmPassword'
                     type='password'
                     placeholder='请输入确定密码'
-                    value={data["surePassword"]}
-                    onChange={(value)=>onChange("surePassword", value)}
+                    value={params["confirmPassword"]}
+                    onChange={(value) => onChange("confirmPassword", value)}
                 />
             </View>
             <View style={formItemStyle}>
@@ -75,42 +108,38 @@ const Register = (props) => {
                     name='company'
                     type='text'
                     placeholder='请输入公司'
-                    value={data["company"]}
-                    onChange={(value)=>onChange("company", value)}
+                    value={params["company"]}
+                    onChange={(value) => onChange("company", value)}
                 />
             </View>
             <View style={formItemStyle}>
                 <View>职务</View>
                 <Input
-                    name='site'
+                    name='post'
                     type='text'
                     placeholder='请输入职务'
-                    value={data["site"]}
-                    onChange={(value)=>onChange("site", value)}
+                    value={params["post"]}
+                    onChange={(value) => onChange("post", value)}
                 />
             </View>
             <View style={formItemStyle}>
                 <View>合作意向</View>
-                <View 
+                <View
                     style={Func.getStyles({
                         margin: '24px 0'
                     })}
                 >
                     <AtTextarea
-                        value={data["hzyx"]}
-                        onChange={(value)=>onChange("hzyx", value)}
+                        value={params["intention"]}
+                        onChange={(value) => onChange("intention", value)}
                         maxLength={400}
                         placeholder='合作意向是...'
                     />
                 </View>
             </View>
-            <AtButton 
+            <AtButton
                 type="primary"
-                onClick={()=>{
-                    Taro.reLaunch({
-                        url: '/pages/login/index'
-                    })
-                }}
+                onClick={onRegister}
             >
                 注册
             </AtButton>

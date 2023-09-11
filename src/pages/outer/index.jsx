@@ -6,12 +6,12 @@ const Outer = () => {
     const params = Taro.getCurrentInstance().router.params;
     const { url, title } = params;
 
-    useEffect(()=>{
+    useEffect(() => {
         Taro.setNavigationBarTitle({
             title
         })
     }, [title]);
-    
+
     return (
         <View>
             <WebView src={`${url}`} />

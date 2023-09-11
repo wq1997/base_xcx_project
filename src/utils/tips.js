@@ -8,7 +8,7 @@ export default class Tips {
     /**
      * 信息提示
      */
-    static toast(title, onHide=()=>{}) {
+    static toast(title, onHide = () => {}) {
         Taro.showToast({
             title: title,
             icon: 'none',
@@ -62,15 +62,13 @@ export default class Tips {
      * 弹出提示框
      */
     static async success(title, duration = 2000) {
-        try{
-          await Taro.showToast({
-            title: title,
-            icon: 'success',
-            mask: true,
-            duration: duration
-          });
-        }catch(error){
-
-        }
+        try {
+            await Taro.showToast({
+                title: title,
+                icon: 'success',
+                mask: true,
+                duration: duration
+            });
+        } catch (error) {}
     }
 }

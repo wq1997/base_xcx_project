@@ -1,5 +1,6 @@
 export default {
     pages: [
+        'pages/feedback/index',
         'pages/login/index',
         'pages/register/index',
         'pages/forgotPassword/index',
@@ -13,8 +14,8 @@ export default {
         'pages/outer/index',
         'pages/notification/index',
         'pages/mine/index',
-        'pages/feedback/index',
-        'pages/mineCenter/index',
+
+        'pages/mineCenter/index'
     ],
     window: {
         backgroundTextStyle: 'light',

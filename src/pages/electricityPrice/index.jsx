@@ -1,50 +1,27 @@
-import { View  } from "@tarojs/components"
+import { View } from "@tarojs/components"
 import Func from "@/utils/Func";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Select } from "@/components";
 import { AtButton } from "taro-ui";
+import { getFirstArea, getSecondArea, } from '@/services/area';
+import { getElectricType, getBillingSystem, getVolLevel } from '@/services/electric';
 import { Echarts, Table } from "@/components";
 import "./index.scss";
 
 const ElectricityPrice = (props) => {
     const { token } = props;
-    const [selector, setSelector] = useState({
-        firstArea: [{
-            value: 'china',
-            label: '中国'
-        },{
-            value: 'Americal',
-            label: '美国'
-        }],
-        secondArea: [{
-            value: 'china',
-            label: '中国'
-        }],
-        electricityType: [{
-            value: 'type01',
-            label: '大工业商业用电'
-        },{
-            value: 'type02',
-            label: '一般商业用电'
-        }],
-        zd: [{
-            value: 'zd01',
-            label: '单一制'
-        },{
-            value: 'zd02',
-            label: '两部制'
-        }],
-        dj: [{
-            value: 'dj01',
-            label: '不满35千伏'
-        },{
-            value: 'dj02',
-            label: '1千伏'
-        }]
-    })
+    const [firstAreaOptions, setFirstAreaOptions] = useState([])
+    const [secondAreaOptions, setSecondAreaOptions] = useState([])
+    const [electricityTypeOptions, setElectricityTypeOptions] = useState([])
+    const [billingSystemOptions, setBillingSystemOptions] = useState([])
+    const [volLevelOptions, setVolLevelOptions] = useState([])
+
     const [value, setValue] = useState({
-        firstArea: '',
-        secondArea: ''
+        firstArea: undefined,
+        secondArea: undefined,
+        electricityType: undefined,
+        zd: undefined,
+        dj: undefined
     });
 
     const onChange = (type, currentValue) => {
@@ -53,7 +30,33 @@ const ElectricityPrice = (props) => {
             [type]: currentValue
         })
     }
-    console.log("AAA", value)
+
+    const initOptions = async (api, setFn, params) => {
+        let res = await api(params)
+        if (res?.code == 200) {
+            setFn(res?.data?.map(item => ({
+                label: item.name,
+                value: item?.id
+            })))
+
+        }
+    }
+
+    useEffect(() => {
+        [
+            { api: getFirstArea, setFn: setFirstAreaOptions },
+            { api: getElectricType, setFn: setElectricityTypeOptions },
+            { api: getBillingSystem, setFn: setBillingSystemOptions },
+            { api: getVolLevel, setFn: setVolLevelOptions },
+        ].forEach(({ api, setFn }) => initOptions(api, setFn))
+    }, [])
+
+    useEffect(() => {
+        onChange('secondArea', undefined)
+        value.firstArea && initOptions(getSecondArea, setSecondAreaOptions, value.firstArea)
+    }, [value.firstArea])
+
+
     return (
         <View
             style={Func.getStyles({
@@ -63,40 +66,40 @@ const ElectricityPrice = (props) => {
             })}
             className="electricityPrice"
         >
-            <Select 
+            <Select
                 value={value["firstArea"]}
-                label="一级区域" 
-                options={selector["firstArea"]}
-                placeholder={"请选择一级区域"} 
-                onChange={(value)=>onChange('firstArea', value)}
+                label="一级区域"
+                options={firstAreaOptions}
+                placeholder={"请选择一级区域"}
+                onChange={(value) => onChange('firstArea', value)}
             />
-            <Select 
+            <Select
                 value={value["secondArea"]}
-                label="二级区域" 
-                options={selector["secondArea"]}
-                placeholder={"请选择二级区域"} 
-                onChange={(value)=>onChange('secondArea', value)}
+                label="二级区域"
+                options={secondAreaOptions}
+                placeholder={"请选择二级区域"}
+                onChange={(value) => onChange('secondArea', value)}
             />
-            <Select 
+            <Select
                 value={value["electricityType"]}
-                label="用电类型" 
-                options={selector["electricityType"]}
-                placeholder={"请选择用电类型"} 
-                onChange={(value)=>onChange('electricityType', value)}
+                label="用电类型"
+                options={electricityTypeOptions}
+                placeholder={"请选择用电类型"}
+                onChange={(value) => onChange('electricityType', value)}
             />
-            <Select 
+            <Select
                 value={value["zd"]}
-                label="计费制度" 
-                options={selector["zd"]}
-                placeholder={"请选择计费制度"} 
-                onChange={(value)=>onChange('zd', value)}
+                label="计费制度"
+                options={billingSystemOptions}
+                placeholder={"请选择计费制度"}
+                onChange={(value) => onChange('zd', value)}
             />
-            <Select 
+            <Select
                 value={value["dj"]}
-                label="电压等级" 
-                options={selector["dj"]}
-                placeholder={"请选择电压等级"} 
-                onChange={(value)=>onChange('dj', value)}
+                label="电压等级"
+                options={volLevelOptions}
+                placeholder={"请选择电压等级"}
+                onChange={(value) => onChange('dj', value)}
             />
             <View style={Func.getStyles({
                 "margin-top": '30px'
@@ -106,7 +109,7 @@ const ElectricityPrice = (props) => {
             <View
                 className="echartsContent"
             >
-                <Echarts 
+                <Echarts
                     style={{
                         width: '100%',
                         height: '300px'
@@ -119,14 +122,14 @@ const ElectricityPrice = (props) => {
                         },
                         xAxis: {
                             type: 'category',
-                            data: ["尖峰电价","高峰电价","平时电价","低谷电价"]
+                            data: ["尖峰电价", "高峰电价", "平时电价", "低谷电价"]
                         },
                         yAxis: {
                             type: 'value'
                         },
                         series: [
                             {
-                                data: [143,115,68,27],
+                                data: [143, 115, 68, 27],
                                 type: 'bar',
                                 barWidth: 30
                             }
@@ -134,10 +137,10 @@ const ElectricityPrice = (props) => {
                     }}
                 />
             </View>
-            <Table 
+            <Table
                 columns={[
                     {
-                        title: ["时段电价","电压等级"],
+                        title: ["时段电价", "电压等级"],
                         type: "multiple",
                         key: "multiple"
                     },
@@ -157,7 +160,7 @@ const ElectricityPrice = (props) => {
                         title: "低谷电价",
                         key: "winter"
                     }
-                    ]
+                ]
                 }
                 dataSource={
                     [
@@ -182,10 +185,10 @@ const ElectricityPrice = (props) => {
             >
                 容(需)量用电价格
             </View>
-            <Table 
+            <Table
                 columns={[
                     {
-                        title: ["用电价格","电压等级"],
+                        title: ["用电价格", "电压等级"],
                         type: "multiple",
                         key: "multiple"
                     },
@@ -197,7 +200,7 @@ const ElectricityPrice = (props) => {
                         title: "基本电价按容价格",
                         key: "summer"
                     }
-                    ]
+                ]
                 }
                 dataSource={
                     [

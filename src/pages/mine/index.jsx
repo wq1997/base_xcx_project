@@ -5,10 +5,13 @@ import avatar from "@/assets/images/avatar.png";
 import notification from "@/assets/images/notification.png"
 import feedback from "@/assets/images/feedback.png";
 import Taro from "@tarojs/taro";
+import { getCurrentUser } from '@/utils/authTools';
 import "./index.scss"
 
 const Mine = (props) => {
     const { token } = props;
+    const { username } = getCurrentUser()
+
     return (
         <View
             style={Func.getStyles({
@@ -25,13 +28,13 @@ const Mine = (props) => {
                     "margin-bottom": '60px',
                     "margin-left": '30px'
                 })}
-                onClick={()=>{
+                onClick={() => {
                     Taro.navigateTo({
                         url: '/pages/mineCenter/index'
                     })
                 }}
             >
-                <AtAvatar 
+                <AtAvatar
                     image={avatar}
                     circle
                 />
@@ -39,14 +42,14 @@ const Mine = (props) => {
                     style={Func.getStyles({
                         "margin-left": "30px"
                     })}
-                >王清</View>
+                >{username}</View>
             </View>
             <AtList>
                 <AtListItem
                     title='消息通知'
                     arrow='right'
                     thumb={notification}
-                    onClick={()=>{
+                    onClick={() => {
                         Taro.navigateTo({
                             url: '/pages/notification/index'
                         })
@@ -56,7 +59,7 @@ const Mine = (props) => {
                     title='意见反馈'
                     arrow='right'
                     thumb={feedback}
-                    onClick={()=>{
+                    onClick={() => {
                         Taro.navigateTo({
                             url: '/pages/feedback/index'
                         })

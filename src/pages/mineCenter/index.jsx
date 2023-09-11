@@ -1,11 +1,15 @@
 import { View } from "@tarojs/components"
 import Func from "@/utils/Func";
+import { getCurrentUser } from '@/utils/authTools';
 import avatar from "@/assets/images/avatar.png";
 import { AtAvatar, AtButton } from 'taro-ui';
 import Taro from "@tarojs/taro";
 
 const MineCenter = (props) => {
+
     const { token } = props;
+    const { username, phoneNumber } = getCurrentUser()
+
     const ListItemStyle = Func.getStyles({
         display: 'flex',
         'justify-content': 'space-between',
@@ -33,7 +37,7 @@ const MineCenter = (props) => {
                 style={ListItemStyle}
             >
                 <View style={ListItemLeftStyle}>头像</View>
-                <AtAvatar 
+                <AtAvatar
                     image={avatar}
                     circle
                 />
@@ -42,13 +46,13 @@ const MineCenter = (props) => {
                 style={ListItemStyle}
             >
                 <View style={ListItemLeftStyle}>姓名</View>
-                <View style={ListItemRightStyle}>王清</View>
+                <View style={ListItemRightStyle}>{username}</View>
             </View>
             <View
                 style={ListItemStyle}
             >
                 <View style={ListItemLeftStyle}>手机号</View>
-                <View style={ListItemRightStyle}>13111011101110</View>
+                <View style={ListItemRightStyle}>{phoneNumber}</View>
             </View>
 
             <View
@@ -57,7 +61,7 @@ const MineCenter = (props) => {
                     bottom: '120px',
                     width: 'calc(100% - 48px - 48px)'
                 })}
-                onClick={()=>{
+                onClick={() => {
                     Taro.reLaunch({
                         url: '/pages/login/index'
                     })

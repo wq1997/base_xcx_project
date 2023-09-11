@@ -54,7 +54,7 @@
         "react-redux": "^7.2.5",
         "taro-react-echarts": "^1.2.2",
         "taro-ui": "^3.0.0-alpha",
-        "wxmp-rsa": "^2.1.0"
+        "wxmp-rsa":"^2.1.0"
     },
     "devDependencies": {
         "@babel/core": "^7.8.0",

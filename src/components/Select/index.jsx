@@ -12,19 +12,27 @@ const Select = ({
     const [range, setRange] = useState([]);
     const [valueLabel, setValueLabel] = useState("");
     const [current, setCurrent] = useState();
-    useEffect(()=>{
-        const newRange = options&&options.map(option => option.label);
+    useEffect(() => {
+        const newRange = options && options.map(option => option?.label);
         setRange(newRange);
     }, [JSON.stringify(options)])
-    useEffect(()=>{
-        const index = options&&options.findIndex(option=>option.value===value);
-        setCurrent(index>=0?index:0);
+
+    useEffect(() => {
+        const index = options && options.findIndex(option => option?.value === value);
+        if (index >= 0) {
+            setCurrent(index)
+        } else {
+            setCurrent()
+            setValueLabel();
+        }
     }, [value])
+
     const onChangePicker = (e) => {
         const value = e.target.value;
-        setValueLabel(options[value].label);
-        onChange&&onChange(options[value].value);
+        setValueLabel(options[value]?.label);
+        onChange && onChange(options[value]?.value);
     }
+
     return (
         <Picker mode='selector' range={range} value={current} onChange={onChangePicker}>
             <View
@@ -40,13 +48,13 @@ const Select = ({
                 <View style={Func.getStyles({
                     "font-size": '30px'
                 })}>{label}</View>
-                <View 
+                <View
                     style={Func.getStyles({
-                        color: valueLabel?"#000":'#ccc',
+                        color: valueLabel ? "#000" : '#ccc',
                         'font-size': '32px'
                     })}
                 >
-                    {valueLabel||placeholder}
+                    {valueLabel || placeholder}
                 </View>
             </View>
         </Picker>

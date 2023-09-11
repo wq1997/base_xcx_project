@@ -1,21 +1,30 @@
-import {clearAllItems, getItem, setItem} from "@/utils/storage"
+import WxmpRsa from 'wxmp-rsa';
+import { clearAllItems, getItem, setItem } from '@/utils/storage';
+
+const encryptor = new WxmpRsa();
 
 export function getToken() {
-  return getItem('cet-token') || '';
+    return getItem('cet-token') || null;
 }
 
 export function setToken(token) {
-  setItem('cet-token-token', token);
+    setItem('cet-token', token);
 }
 
 export function setCurrentUser(account) {
-  setItem('cet-current-user', JSON.stringify(account));
+    setItem('cet-current-user', JSON.stringify(account));
 }
 
 export function getCurrentUser() {
-  return getItem('cet-current-user')
+    const value = getItem('cet-current-user');
+    return value ? JSON.parse(value) : null;
 }
 
 export function removeAll() {
-  clearAllItems()
+    clearAllItems();
+}
+
+export function encryptPassword(publicKey, password) {
+    encryptor.setPublicKey(publicKey);
+    return encryptor.encryptLong(password);
 }

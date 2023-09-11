@@ -1,62 +1,62 @@
 import { View } from "@tarojs/components"
 import { Select } from "@/components";
 import { AtButton, AtInput } from "taro-ui";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getFirstArea, getSecondArea, } from '@/services/area';
+import { getElectricType, getBillingSystem, getVolLevel } from '@/services/electric';
 import Func from "@/utils/Func";
 import Taro from "@tarojs/taro";
 import "./index.scss";
 
 const Investment = (props) => {
     const { token } = props;
-    const [selector, setSelector] = useState({
-        firstArea: [{
-            value: 'china',
-            label: '中国'
-        },{
-            value: 'Americal',
-            label: '美国'
-        }],
-        secondArea: [{
-            value: 'china',
-            label: '中国'
-        }],
-        electricityType: [{
-            value: 'type01',
-            label: '大工业商业用电'
-        },{
-            value: 'type02',
-            label: '一般商业用电'
-        }],
-        zd: [{
-            value: 'zd01',
-            label: '单一制'
-        },{
-            value: 'zd02',
-            label: '两部制'
-        }],
-        dj: [{
-            value: 'dj01',
-            label: '不满35千伏'
-        },{
-            value: 'dj02',
-            label: '1千伏'
-        }]
-    });
+    const [firstAreaOptions, setFirstAreaOptions] = useState([])
+    const [secondAreaOptions, setSecondAreaOptions] = useState([])
+    const [electricityTypeOptions, setElectricityTypeOptions] = useState([])
+    const [billingSystemOptions, setBillingSystemOptions] = useState([])
+    const [volLevelOptions, setVolLevelOptions] = useState([])
+
     const [value, setValue] = useState({
-        firstArea: '',
-        secondArea: '',
-        zjrl: ''
+        firstArea: undefined,
+        secondArea: undefined,
+        electricityType: undefined,
+        zd: undefined,
+        dj: undefined
     });
 
     const onChange = (type, currentValue) => {
-        console.log("AAAA", type, currentValue)
         setValue({
             ...value,
             [type]: currentValue
         })
     }
 
-    console.log("AAA", value);
+
+    const initOptions = async (api, setFn, params) => {
+        let res = await api(params)
+        if (res?.code == 200) {
+            setFn(res?.data?.map(item => ({
+                label: item.name,
+                value: item?.id
+            })))
+
+        }
+    }
+
+    useEffect(() => {
+        [
+            { api: getFirstArea, setFn: setFirstAreaOptions },
+            { api: getElectricType, setFn: setElectricityTypeOptions },
+            { api: getBillingSystem, setFn: setBillingSystemOptions },
+            { api: getVolLevel, setFn: setVolLevelOptions },
+        ].forEach(({ api, setFn }) => initOptions(api, setFn))
+    }, [])
+
+    useEffect(() => {
+        onChange('secondArea', undefined)
+        value.firstArea && initOptions(getSecondArea, setSecondAreaOptions, value.firstArea)
+    }, [value.firstArea])
+
 
     return (
         <View
@@ -67,69 +67,73 @@ const Investment = (props) => {
             })}
             className="investment"
         >
-            <Select 
+            <Select
                 value={value["firstArea"]}
-                label="一级区域" 
-                options={selector["firstArea"]}
-                placeholder={"请选择一级区域"} 
-                onChange={(value)=>onChange('firstArea', value)}
+                label="一级区域"
+                options={firstAreaOptions}
+                placeholder={"请选择一级区域"}
+                onChange={(value) => onChange('firstArea', value)}
             />
-            <Select 
+            <Select
                 value={value["secondArea"]}
-                label="二级区域" 
-                options={selector["secondArea"]}
-                placeholder={"请选择二级区域"} 
-                onChange={(value)=>onChange('secondArea', value)}
+                label="二级区域"
+                options={secondAreaOptions}
+                placeholder={"请选择二级区域"}
+                onChange={(value) => onChange('secondArea', value)}
             />
-            <Select 
+            <Select
                 value={value["electricityType"]}
-                label="用电类型" 
-                options={selector["electricityType"]}
-                placeholder={"请选择用电类型"} 
-                onChange={(value)=>onChange('electricityType', value)}
+                label="用电类型"
+                options={electricityTypeOptions}
+                placeholder={"请选择用电类型"}
+                onChange={(value) => onChange('electricityType', value)}
             />
-            <Select 
+            <Select
                 value={value["zd"]}
-                label="计费制度" 
-                options={selector["zd"]}
-                placeholder={"请选择计费制度"} 
-                onChange={(value)=>onChange('zd', value)}
+                label="计费制度"
+                options={billingSystemOptions}
+                placeholder={"请选择计费制度"}
+                onChange={(value) => onChange('zd', value)}
             />
-            <Select 
+            <Select
                 value={value["dj"]}
-                label="电压等级" 
-                options={selector["dj"]}
-                placeholder={"请选择电压等级"} 
-                onChange={(value)=>onChange('dj', value)}
+                label="电压等级"
+                options={volLevelOptions}
+                placeholder={"请选择电压等级"}
+                onChange={(value) => onChange('dj', value)}
             />
             <AtInput
                 name="zjrl"
-                title='装机容量'
-                placeholder='请输入装机容量 kWh'
+                title='装机容量（kWh）'
+                type='number'
+                placeholder='请输入装机容量'
                 value={value["zjrl"]}
-                onChange={(value)=>onChange("zjrl", value)}
+                onChange={(value) => onChange("zjrl", value)}
             />
             <AtInput
-                title='项目周期'
-                value="20年"
-                disabled
+                title='项目周期（年）'
+                type='number'
+                placeholder='请输入项目周期'
+                value=""
             />
             <AtInput
-                title='首付比例'
-                value="100%"
-                disabled
+                title='首付比例（%）'
+                type='number'
+                placeholder='请输入首付比例'
+                value=""
             />
             <AtInput
-                title='业主分成比例'
-                value="0%(自营)"
-                disabled
+                title='业主分成比例（%）'
+                type='number'
+                placeholder='请输入业主分成比例'
+                value=""
             />
             <View style={Func.getStyles({
                 "margin-top": '30px'
             })}>
-                <AtButton 
+                <AtButton
                     type='primary'
-                    onClick={()=>{
+                    onClick={() => {
                         Taro.navigateTo({
                             url: '/pages/investResult/index'
                         })
