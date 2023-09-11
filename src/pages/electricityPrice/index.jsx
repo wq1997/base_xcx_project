@@ -3,25 +3,55 @@ import Func from "@/utils/Func";
 import { useEffect, useState } from "react";
 import { Select } from "@/components";
 import { AtButton } from "taro-ui";
+import Tips from '@/utils/tips';
 import { getFirstArea, getSecondArea, } from '@/services/area';
-import { getElectricType, getBillingSystem, getVolLevel } from '@/services/electric';
+import { getElectricType, getBillingSystem, getVolLevel, getElectricPrice } from '@/services/electric';
 import { Echarts, Table } from "@/components";
 import "./index.scss";
 
+const baseTypePriceColumns = [
+    {
+        title: ["电压等级", "电压等级"],
+        type: "multiple",
+        key: "multiple"
+    },
+    {
+        title: "尖峰电价",
+        key: "cuspPrice"
+    },
+    {
+        title: "高峰电价",
+        key: "highPrice"
+    },
+    {
+        title: "平时电价",
+        key: "flatPrice"
+    },
+    {
+        title: "低谷电价",
+        key: "lowPrice"
+    }
+]
+
 const ElectricityPrice = (props) => {
     const { token } = props;
+    const [typePriceColumns, setTypePriceColumns] = useState([...baseTypePriceColumns])
     const [firstAreaOptions, setFirstAreaOptions] = useState([])
     const [secondAreaOptions, setSecondAreaOptions] = useState([])
     const [electricityTypeOptions, setElectricityTypeOptions] = useState([])
     const [billingSystemOptions, setBillingSystemOptions] = useState([])
     const [volLevelOptions, setVolLevelOptions] = useState([])
+    const [typePrice, setTypePrice] = useState({})
+    const [usePrice, setUsePrice] = useState([])
+    const [volLevelZh, setVolLevelZh] = useState([])
+
 
     const [value, setValue] = useState({
         firstArea: undefined,
         secondArea: undefined,
         electricityType: undefined,
-        zd: undefined,
-        dj: undefined
+        cost: undefined,
+        level: undefined
     });
 
     const onChange = (type, currentValue) => {
@@ -56,6 +86,58 @@ const ElectricityPrice = (props) => {
         value.firstArea && initOptions(getSecondArea, setSecondAreaOptions, value.firstArea)
     }, [value.firstArea])
 
+    const handleSearch = async () => {
+        const { firstArea, secondArea, electricityType, cost, level } = value
+        if (!firstArea) return Tips.toast('请选择一级区域')
+        if (!secondArea) return Tips.toast('请选择二级区域')
+        if (!electricityType) return Tips.toast('请选择用电类型')
+        if (!cost) return Tips.toast('请选择计费制度')
+        if (!level) return Tips.toast('请选择电压等级')
+        Tips.loading('loading...')
+        const res = await getElectricPrice({
+            districtOneId: firstArea,
+            districtTwoId: secondArea,
+            electricityTypeId: electricityType,
+            costId: cost,
+            voltageLevelId: level
+        })
+        if (res?.code == 200) {
+            const { cuspPrice, highPrice, flatPrice, lowPrice, deepValleyPrice, capacityPrice, needPrice, voltageLevel } = res?.data
+            const baseTypePriceItem = {
+                multiple: voltageLevel,
+                cuspPrice,
+                highPrice,
+                flatPrice,
+                lowPrice,
+            }
+            if (deepValleyPrice) {
+                setTypePrice({
+                    ...baseTypePriceItem,
+                    deepValleyPrice
+                })
+                setTypePriceColumns([
+                    ...baseTypePriceColumns,
+                    {
+                        title: "深谷电价",
+                        key: "deepValleyPrice"
+                    }
+                ])
+            } else {
+                setTypePrice({
+                    ...baseTypePriceItem
+                })
+                setTypePriceColumns([
+                    ...baseTypePriceColumns
+                ])
+            }
+            setUsePrice([capacityPrice, needPrice])
+            setVolLevelZh(voltageLevel)
+        } else {
+            setTypePrice([])
+            setUsePrice([])
+        }
+        Tips.loaded('loading...')
+    }
 
     return (
         <View
@@ -88,28 +170,28 @@ const ElectricityPrice = (props) => {
                 onChange={(value) => onChange('electricityType', value)}
             />
             <Select
-                value={value["zd"]}
+                value={value["cost"]}
                 label="计费制度"
                 options={billingSystemOptions}
                 placeholder={"请选择计费制度"}
-                onChange={(value) => onChange('zd', value)}
+                onChange={(value) => onChange('cost', value)}
             />
             <Select
-                value={value["dj"]}
+                value={value["level"]}
                 label="电压等级"
                 options={volLevelOptions}
                 placeholder={"请选择电压等级"}
-                onChange={(value) => onChange('dj', value)}
+                onChange={(value) => onChange('level', value)}
             />
             <View style={Func.getStyles({
                 "margin-top": '30px'
             })}>
-                <AtButton type='primary'>查询区域电价</AtButton>
+                <AtButton type='primary' onClick={handleSearch}>查询区域电价</AtButton>
             </View>
             <View
                 className="echartsContent"
             >
-                <Echarts
+                {/* <Echarts
                     style={{
                         width: '100%',
                         height: '300px'
@@ -122,57 +204,24 @@ const ElectricityPrice = (props) => {
                         },
                         xAxis: {
                             type: 'category',
-                            data: ["尖峰电价", "高峰电价", "平时电价", "低谷电价"]
+                            data: ["尖峰电价", "高峰电价", "平时电价", "低谷电价", "深谷电价"]
                         },
                         yAxis: {
                             type: 'value'
                         },
                         series: [
                             {
-                                data: [143, 115, 68, 27],
+                                data: typePrice,
                                 type: 'bar',
                                 barWidth: 30
                             }
                         ]
                     }}
-                />
+                /> */}
             </View>
             <Table
-                columns={[
-                    {
-                        title: ["时段电价", "电压等级"],
-                        type: "multiple",
-                        key: "multiple"
-                    },
-                    {
-                        title: "尖峰电价",
-                        key: "spring"
-                    },
-                    {
-                        title: "高峰电价",
-                        key: "summer"
-                    },
-                    {
-                        title: "平时电价",
-                        key: "autumn"
-                    },
-                    {
-                        title: "低谷电价",
-                        key: "winter"
-                    }
-                ]
-                }
-                dataSource={
-                    [
-                        {
-                            multiple: '220千伏及以上',
-                            spring: '143',
-                            summer: '115',
-                            autumn: '68',
-                            winter: '27'
-                        }
-                    ]
-                }
+                columns={typePriceColumns}
+                dataSource={[typePrice]}
             />
             <View
                 style={Func.getStyles({
@@ -188,26 +237,25 @@ const ElectricityPrice = (props) => {
             <Table
                 columns={[
                     {
-                        title: ["用电价格", "电压等级"],
+                        title: ["电压等级", "容(需)量用电价格"],
                         type: "multiple",
                         key: "multiple"
                     },
                     {
                         title: "基本电价按需价格",
-                        key: "spring"
+                        key: "capacityPrice"
                     },
                     {
                         title: "基本电价按容价格",
-                        key: "summer"
+                        key: "needPrice"
                     }
-                ]
-                }
+                ]}
                 dataSource={
                     [
                         {
-                            multiple: '220千伏及以上',
-                            spring: '143',
-                            summer: '115'
+                            multiple: volLevelZh,
+                            capacityPrice: usePrice?.[0],
+                            needPrice: usePrice?.[1],
                         }
                     ]
                 }

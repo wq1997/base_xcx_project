@@ -8,7 +8,7 @@ import Taro from "@tarojs/taro";
 const MineCenter = (props) => {
 
     const { token } = props;
-    const { username, phoneNumber } = getCurrentUser()
+    const { nickName, phoneNumber } = getCurrentUser()
 
     const ListItemStyle = Func.getStyles({
         display: 'flex',
@@ -46,7 +46,7 @@ const MineCenter = (props) => {
                 style={ListItemStyle}
             >
                 <View style={ListItemLeftStyle}>姓名</View>
-                <View style={ListItemRightStyle}>{username}</View>
+                <View style={ListItemRightStyle}>{nickName}</View>
             </View>
             <View
                 style={ListItemStyle}

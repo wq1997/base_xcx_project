@@ -2,8 +2,8 @@ import { View } from "@tarojs/components"
 import Func from "@/utils/Func";
 import { useEffect, useState } from "react";
 import { Radio, UploadImage } from "@/components";
-import { AtButton, AtTextarea } from 'taro-ui' 
-import Taro from "@tarojs/taro"; 
+import { AtButton, AtTextarea } from 'taro-ui'
+import Taro from "@tarojs/taro";
 import Tips from '@/utils/tips';
 import { getFeedbackType, addFeedback } from '@/services/feedback';
 
@@ -18,7 +18,7 @@ const Feedback = (props) => {
     }
 
     const initFeedbackType = async () => {
-        let res = await getFeedbackType()
+        const res = await getFeedbackType()
         if (res?.code == 200) {
             setCheckboxList(res?.data?.map(item => ({
                 label: item.name,
@@ -30,13 +30,21 @@ const Feedback = (props) => {
 
     useEffect(() => initFeedbackType(), [])
 
-
     const submit = async () => {
-        const types = checkboxList.map(item => {
-            if (item.checked) return item.value
+        const feedbackType = checkboxList.find(item => item.checked)?.value
+        if (!feedbackType) return Tips.toast('请选择反馈类型');
+        if (!text?.trim()) return Tips.toast('请输入反馈与建议');
+        const res = await addFeedback({
+            feedbackType,
+            text,
+            files: fileNames
         })
-        return console.log(types, fileNames)
-        const res = await addFeedback()
+        if (res?.code == 200) {
+            Tips.toast('添加成功');
+            Taro.switchTab({
+                url: '/pages/mine/index'
+            });
+        }
     }
 
     return (
@@ -63,7 +71,7 @@ const Feedback = (props) => {
                     反馈类型
                 </View>
                 <Radio
-                    options={checkboxList} 
+                    options={checkboxList}
                     token={token}
                     onChange={(options) => {
                         setCheckboxList(options)
@@ -92,7 +100,7 @@ const Feedback = (props) => {
                     placeholder='请输入你的建议...'
                 />
             </View>
-            <UploadImage maxLength={6} fileNames={fileNames} setFileNames={setFileNames} />
+            <UploadImage fileNames={fileNames} setFileNames={setFileNames} />
             <View
                 style={Func.getStyles({
                     "margin-top": '80px',

@@ -10,7 +10,7 @@ import "./index.scss"
 
 const Mine = (props) => {
     const { token } = props;
-    const { username } = getCurrentUser()
+    const { nickName } = getCurrentUser()
 
     return (
         <View
@@ -42,7 +42,7 @@ const Mine = (props) => {
                     style={Func.getStyles({
                         "margin-left": "30px"
                     })}
-                >{username}</View>
+                >{nickName}</View>
             </View>
             <AtList>
                 <AtListItem

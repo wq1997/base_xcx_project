@@ -25,7 +25,7 @@ export const getBaseUrl = () => {
     if (process.env.NODE_ENV == 'production') {
         API_BASE_URL = 'http://192.168.0.108:1888';
     } else {
-        API_BASE_URL = 'http://yb75at.natappfree.cc';
+        API_BASE_URL = 'https://energy.sermatec-cloud.com/api';
     }
     return API_BASE_URL;
 };
@@ -55,7 +55,7 @@ export async function request(url, option) {
     if (token) {
         newOptions.headers = {
             ...newOptions.headers,
-            Token: token()
+            token: token()
         };
     }
 

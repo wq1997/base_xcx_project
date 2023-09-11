@@ -35,7 +35,7 @@ const Login = (props) => {
         if (!phoneNumber?.trim()) return Tips.toast('请输入手机号');
         if (!Func.checkRegStr(phoneNumber).isTelephone) return Tips.toast('手机号格式不正确');
         if (!password?.trim()) return Tips.toast('请输入密码');
-        Tips.loading('loading...', true)
+        Tips.loading('loading...')
         const keyRes = await getPublicKey();
         if (keyRes?.code == 200) {
             const loginRes = await login({
@@ -46,14 +46,14 @@ const Login = (props) => {
                 setToken(loginRes?.data?.token)
                 setCurrentUser({
                     phoneNumber,
-                    username: loginRes?.data?.username
+                    nickName: loginRes?.data?.nickName
                 })
                 Taro.switchTab({
                     url: '/pages/home/index'
                 });
             }
         }
-        Tips.loading('loading...', false)
+        Tips.loaded('loading...')
     };
 
     return (

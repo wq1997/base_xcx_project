@@ -3,13 +3,22 @@ import Taro from "@tarojs/taro";
 import { getBaseUrl } from "@/utils/request";
 import { AtImagePicker } from 'taro-ui';
 import './index.scss';
+import Tips from '@/utils/tips';
 import { useState } from "react";
+
+const acceptTypes = ['.jpg', '.jpeg', '.png', '.bmp']
+const maxSizeMB = 1
+const maxCount = 6
 
 const UploadImage = (props) => {
     const [files, setFiles] = useState([])
-    const { maxLength, fileNames, setFileNames } = props;
+    const { fileNames, setFileNames } = props;
 
     const uploadLoader = (data, _, index) => {
+        const { size, path } = data[data?.length - 1]?.file
+        const suffix = path.substring(path.lastIndexOf("."))
+        if (!acceptTypes.includes(suffix)) return Tips.toast('上传图片格式不被允许');
+        if (size > maxSizeMB * 1024 * 1024) return Tips.toast(`上传图片大小不得超过${maxSizeMB}MB`);
         setFiles(data)
         if (data?.length < files?.length) {
             const _fileNames = [...fileNames]
@@ -73,10 +82,10 @@ const UploadImage = (props) => {
                 onFail={onFail}
                 onImageClick={onImageClick}
                 showAddBtn={files?.length < 6}
-                count={maxLength}
+                count={maxCount}
             />
             <View className="tip">
-                提示：最多可上传{maxLength}张图片，请上传 .jpg .jpeg .png .bmp 格式图片，大小不超过1MB
+                提示：最多可上传{maxCount}张图片，请上传 .jpg .jpeg .png .bmp 格式图片，大小不超过1MB
             </View>
         </View>
     )
