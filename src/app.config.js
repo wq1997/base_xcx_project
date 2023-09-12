@@ -10,9 +10,9 @@ export default {
         'pages/policyDetail/index',
         'pages/outer/index',
         'pages/notification/index',
-        'pages/mine/index',
         'pages/feedback/index',
         'pages/electricityPrice/index',
+        'pages/mine/index',
         'pages/mineCenter/index',
         'pages/test/index'
     ],

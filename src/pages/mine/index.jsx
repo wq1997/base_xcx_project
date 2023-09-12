@@ -9,8 +9,9 @@ import { Avatar } from "@/components";
 import "./index.scss"
 
 const Mine = (props) => {
+
     const { token } = props;
-    const { nickName } = getCurrentUser()
+    const { nickName, phoneNumber } = getCurrentUser()
 
     return (
         <View
@@ -39,7 +40,7 @@ const Mine = (props) => {
                     style={Func.getStyles({
                         "margin-left": "30px"
                     })}
-                >{nickName}</View>
+                >{phoneNumber}</View>
             </View>
             <AtList>
                 <AtListItem
