@@ -6,23 +6,26 @@ const Checkbox = (props) => {
     const { options, token, onChange } = props;
     const [newOptions, setNewOptions] = useState([]);
 
-    if(!(options&&Array.isArray(options))){
+    if (!(options && Array.isArray(options))) {
         return (
             <View />
         )
     }
-    const onChangeCheckbox = (value, checked) =>{ 
+    const onChangeCheckbox = (value,) => {
         const index = newOptions.findIndex(checkbox => checkbox.value === value);
-        newOptions[index].checked = checked;
-        onChange([...newOptions]);
+        const _newOptions = newOptions.map((item, itemIndex) => ({
+            ...item,
+            checked: index == itemIndex
+        }))
+        onChange([..._newOptions]);
     }
-    useEffect(()=>{
+    useEffect(() => {
         setNewOptions(options)
     }, [options])
     return (
         <View
             style={Func.getStyles({
-               display: 'flex'
+                display: 'flex'
             })}
         >
             {
@@ -34,25 +37,25 @@ const Checkbox = (props) => {
                                 'margin-right': '20px',
                                 'align-items': 'center'
                             })}
-                            onClick={()=>{
-                                onChange&&onChangeCheckbox(option.value, !option.checked)
+                            onClick={() => {
+                                onChange && onChangeCheckbox(option.value,)
                             }}
                         >
                             <View
                                 style={Func.getStyles({
-                                    border:`1px solid ${token.colorPrimary}`,
+                                    border: `1px solid ${token.colorPrimary}`,
                                     background: option.checked ? token.colorPrimary : 'white',
                                     width: '35px',
                                     height: '35px',
                                     'margin-right': '10px',
-                                    'border-radius': '8px',
+                                    'border-radius': '50%',
                                     position: 'relative',
                                     'text-align': 'center'
                                 })}
                             >
-                               {
-                                 option.checked&&
-                                    <View 
+                                {
+                                    option.checked &&
+                                    <View
                                         style={Func.getStyles({
                                             position: 'relative',
                                             'font-weight': 600,
@@ -62,7 +65,7 @@ const Checkbox = (props) => {
                                     >
                                         <View>√</View>
                                     </View>
-                               }
+                                }
                             </View>
                             <View
                                 style={Func.getStyles({

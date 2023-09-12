@@ -17,3 +17,10 @@ export const getVolLevel = () => {
         method: 'GET'
     });
 };
+
+export const getElectricPrice = (params) => {
+    return request('/electricityPrice/obtainedOneElectricity', {
+        method: 'POST',
+        body: params
+    });
+};

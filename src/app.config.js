@@ -4,7 +4,6 @@ export default {
         'pages/register/index',
         'pages/forgotPassword/index',
         'pages/home/index',
-        'pages/test/index',
         'pages/investment/index',
         'pages/investResult/index',
         'pages/policy/index',
@@ -14,7 +13,8 @@ export default {
         'pages/mine/index',
         'pages/feedback/index',
         'pages/electricityPrice/index',
-        'pages/mineCenter/index'
+        'pages/mineCenter/index',
+        'pages/test/index'
     ],
     window: {
         backgroundTextStyle: 'light',
