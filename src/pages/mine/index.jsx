@@ -9,8 +9,9 @@ import { getCurrentUser } from '@/utils/authTools';
 import "./index.scss"
 
 const Mine = (props) => {
+
     const { token } = props;
-    const { nickName } = getCurrentUser()
+    const { nickName, phoneNumber } = getCurrentUser()
 
     return (
         <View
@@ -34,15 +35,22 @@ const Mine = (props) => {
                     })
                 }}
             >
-                <AtAvatar
-                    image={avatar}
-                    circle
-                />
+                <View style={Func.getStyles({
+                    width: '100px',
+                    height: '100px',
+                    lineHeight: '100px',
+                    borderRadius: '50%',
+                    backgroundColor: token.colorPrimary,
+                    textAlign: 'center',
+                    color: '#fff',
+                })}>
+                    {nickName.slice(-2)}
+                </View>
                 <View
                     style={Func.getStyles({
                         "margin-left": "30px"
                     })}
-                >{nickName}</View>
+                >{phoneNumber}</View>
             </View>
             <AtList>
                 <AtListItem

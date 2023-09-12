@@ -37,10 +37,17 @@ const MineCenter = (props) => {
                 style={ListItemStyle}
             >
                 <View style={ListItemLeftStyle}>头像</View>
-                <AtAvatar
-                    image={avatar}
-                    circle
-                />
+                <View style={Func.getStyles({
+                    width: '100px',
+                    height: '100px',
+                    lineHeight: '100px',
+                    borderRadius: '50%',
+                    backgroundColor: token.colorPrimary,
+                    textAlign: 'center',
+                    color: '#fff',
+                })}>
+                    {nickName.slice(-2)}
+                </View>
             </View>
             <View
                 style={ListItemStyle}

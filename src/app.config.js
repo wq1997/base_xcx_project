@@ -1,19 +1,19 @@
 export default {
     pages: [
-        'pages/electricityPrice/index',
+        'pages/mine/index',
         'pages/login/index',
         'pages/register/index',
         'pages/forgotPassword/index',
         'pages/home/index',
         'pages/test/index',
-
+        'pages/electricityPrice/index',
         'pages/investment/index',
         'pages/investResult/index',
         'pages/policy/index',
         'pages/policyDetail/index',
         'pages/outer/index',
         'pages/notification/index',
-        'pages/mine/index',
+
         'pages/feedback/index',
         'pages/mineCenter/index'
     ],
