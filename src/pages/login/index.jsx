@@ -82,7 +82,7 @@ const Login = (props) => {
                     placeholder="请输入手机号"
                     type="phone"
                     style={{
-                        backgroundColor: 'white',
+                        backgroundColor: '#ffffff8f',
                         borderRadius: '6rpx',
                         paddingLeft: '10rpx',
                         paddingRight: '10rpx'
@@ -97,7 +97,7 @@ const Login = (props) => {
                     placeholder="请输入密码"
                     type="password"
                     style={{
-                        backgroundColor: 'white',
+                        backgroundColor: '#ffffff8f',
                         borderRadius: '6rpx',
                         paddingLeft: '10rpx',
                         paddingRight: '10rpx',
@@ -114,7 +114,6 @@ const Login = (props) => {
                         marginTop: '30px'
                     })}
                 >
-                    {/* <Checkbox options={remember} token={token} onChange={(remember) => setRemember(remember)} /> */}
                     <View
                         style={Func.getStyles({
                             color: token.colorPrimary

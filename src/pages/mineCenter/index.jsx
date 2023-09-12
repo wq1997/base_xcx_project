@@ -1,9 +1,9 @@
 import { View } from "@tarojs/components"
 import Func from "@/utils/Func";
 import { getCurrentUser } from '@/utils/authTools';
-import avatar from "@/assets/images/avatar.png";
-import { AtAvatar, AtButton } from 'taro-ui';
+import { AtButton } from 'taro-ui';
 import Taro from "@tarojs/taro";
+import { Avatar } from "@/components";
 
 const MineCenter = (props) => {
 
@@ -37,10 +37,7 @@ const MineCenter = (props) => {
                 style={ListItemStyle}
             >
                 <View style={ListItemLeftStyle}>头像</View>
-                <AtAvatar
-                    image={avatar}
-                    circle
-                />
+                <Avatar />
             </View>
             <View
                 style={ListItemStyle}

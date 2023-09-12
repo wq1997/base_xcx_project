@@ -1,4 +1,4 @@
-import echarts from "@/assets/echarts/echarts.min"
+import echarts from "cr_echarts_min";
 import ReactEcharts from "taro-react-echarts";
 
 const Echarts = (props) => {

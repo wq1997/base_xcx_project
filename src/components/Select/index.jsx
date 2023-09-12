@@ -51,7 +51,12 @@ const Select = ({
                 <View
                     style={Func.getStyles({
                         color: valueLabel ? "#000" : '#ccc',
-                        'font-size': '32px'
+                        'font-size': '32px',
+                        width: '50%',
+                        overflow: 'hidden',
+                        'white-space': 'nowrap',
+                        'text-overflow': 'ellipsis',
+                        'text-align': 'right'
                     })}
                 >
                     {valueLabel || placeholder}

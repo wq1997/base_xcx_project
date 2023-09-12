@@ -1,11 +1,11 @@
 import { View } from '@tarojs/components';
 import Func from "@/utils/Func";
-import { AtAvatar, AtList, AtListItem } from 'taro-ui'
-import avatar from "@/assets/images/avatar.png";
+import { AtList, AtListItem } from 'taro-ui';
 import notification from "@/assets/images/notification.png"
 import feedback from "@/assets/images/feedback.png";
 import Taro from "@tarojs/taro";
 import { getCurrentUser } from '@/utils/authTools';
+import { Avatar } from "@/components";
 import "./index.scss"
 
 const Mine = (props) => {
@@ -34,10 +34,7 @@ const Mine = (props) => {
                     })
                 }}
             >
-                <AtAvatar
-                    image={avatar}
-                    circle
-                />
+                <Avatar />
                 <View
                     style={Func.getStyles({
                         "margin-left": "30px"

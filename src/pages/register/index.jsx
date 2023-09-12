@@ -17,6 +17,12 @@ const Register = (props) => {
         'margin-bottom': '30px'
     });
 
+    const formTitleStyle = Func.getStyles({
+        color: token.colorPrimary,
+        "font-size": '32px',
+        "font-weight": 600
+    })
+
     const onChange = (type, value) => {
         setParams({
             ...params,
@@ -62,7 +68,11 @@ const Register = (props) => {
             className="register"
         >
             <View style={formItemStyle}>
-                <View>姓名</View>
+                <View
+                    style={formTitleStyle}
+                >
+                    姓名
+                </View>
                 <Input
                     name='nickName'
                     type='text'
@@ -72,7 +82,7 @@ const Register = (props) => {
                 />
             </View>
             <View style={formItemStyle}>
-                <View>手机号</View>
+                <View style={formTitleStyle}>手机号</View>
                 <Input
                     name='phoneNumber'
                     type="phone"
@@ -82,7 +92,7 @@ const Register = (props) => {
                 />
             </View>
             <View style={formItemStyle}>
-                <View>密码</View>
+                <View style={formTitleStyle}>密码</View>
                 <Input
                     name='password'
                     type='password'
@@ -92,7 +102,7 @@ const Register = (props) => {
                 />
             </View>
             <View style={formItemStyle}>
-                <View>确定密码</View>
+                <View style={formTitleStyle}>确定密码</View>
                 <Input
                     name='confirmPassword'
                     type='password'
@@ -102,7 +112,7 @@ const Register = (props) => {
                 />
             </View>
             <View style={formItemStyle}>
-                <View>公司</View>
+                <View style={formTitleStyle}>公司</View>
                 <Input
                     name='company'
                     type='text'
@@ -112,7 +122,7 @@ const Register = (props) => {
                 />
             </View>
             <View style={formItemStyle}>
-                <View>职务</View>
+                <View style={formTitleStyle}>职务</View>
                 <Input
                     name='post'
                     type='text'
@@ -122,7 +132,7 @@ const Register = (props) => {
                 />
             </View>
             <View style={formItemStyle}>
-                <View>合作意向</View>
+                <View style={formTitleStyle}>合作意向</View>
                 <View
                     style={Func.getStyles({
                         margin: '24px 0'

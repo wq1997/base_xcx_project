@@ -1,6 +1,7 @@
-import { View } from "@tarojs/components"
+import { View, Image } from "@tarojs/components"
 import Func from "@/utils/Func";
 import { useState, useEffect } from "react";
+import { PUBLIC_FILE_PATH } from "@/utils/constants";
 
 const Checkbox = (props) => {
     const { options, token, onChange } = props;
@@ -58,12 +59,18 @@ const Checkbox = (props) => {
                                     <View
                                         style={Func.getStyles({
                                             position: 'relative',
-                                            'font-weight': 600,
-                                            'line-height': '35px',
-                                            color: 'white'
                                         })}
                                     >
-                                        <View>√</View>
+                                        <Image 
+                                            src={`${PUBLIC_FILE_PATH}duihao.svg`} 
+                                            style={Func.getStyles({
+                                                width: '50px',
+                                                height: '50px',
+                                                position: 'relative',
+                                                top: '-6px',
+                                                left: '-6px'
+                                            })}
+                                        />
                                     </View>
                                 }
                             </View>
