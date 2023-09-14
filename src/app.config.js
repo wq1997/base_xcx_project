@@ -1,7 +1,7 @@
 export default {
     pages: [
-        'pages/home/index',
         'pages/login/index',
+        'pages/home/index',
         'pages/register/index',
         'pages/forgotPassword/index',
         'pages/electricityPrice/index',
