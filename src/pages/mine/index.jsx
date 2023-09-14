@@ -1,8 +1,7 @@
 import { View } from '@tarojs/components';
 import Func from "@/utils/Func";
 import { AtList, AtListItem } from 'taro-ui';
-import notification from "@/assets/images/notification.png"
-import feedback from "@/assets/images/feedback.png";
+import { PUBLIC_FILE_PATH } from "@/utils/constants";
 import Taro from "@tarojs/taro";
 import { getCurrentUser } from '@/utils/authTools';
 import { Avatar } from "@/components";
@@ -46,7 +45,7 @@ const Mine = (props) => {
                 <AtListItem
                     title='消息通知'
                     arrow='right'
-                    thumb={notification}
+                    thumb={`${PUBLIC_FILE_PATH}notification.png`}
                     onClick={() => {
                         Taro.navigateTo({
                             url: '/pages/notification/index'
@@ -56,7 +55,7 @@ const Mine = (props) => {
                 <AtListItem
                     title='意见反馈'
                     arrow='right'
-                    thumb={feedback}
+                    thumb={`${PUBLIC_FILE_PATH}feedback.png`}
                     onClick={() => {
                         Taro.navigateTo({
                             url: '/pages/feedback/index'

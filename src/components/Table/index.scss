@@ -49,6 +49,14 @@
             border-right: 0;
         }
     }
+    .noData{
+        border: 1px solid #f0f0f0;
+        border-top: none;
+        text-align: center;
+        padding: 20px;
+        font-size: 20px;
+        color: #ccc;
+    }
 }
 
 .diagonal{
