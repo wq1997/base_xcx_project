@@ -62,8 +62,8 @@ const Login = (props) => {
                 width: '100%',
                 height: '100vh',
                 backgroundImage: `url(https://energy.sermatec-cloud.com/file/D6tZBPGpB_dN_tRyFbDO.png)`,
-                backgroundSize: 'cover',
-                color: token.color
+                backgroundSize: '100% 100%',
+
             })}
             className="login"
         >
@@ -84,7 +84,7 @@ const Login = (props) => {
                     style={{
                         backgroundColor: '#ffffff8f',
                         borderRadius: '6rpx',
-                        paddingLeft: '10rpx',
+                        paddingLeft: '30rpx',
                         paddingRight: '10rpx'
                     }}
                     onChange={(value) => {
@@ -99,7 +99,7 @@ const Login = (props) => {
                     style={{
                         backgroundColor: '#ffffff8f',
                         borderRadius: '6rpx',
-                        paddingLeft: '10rpx',
+                        paddingLeft: '30rpx',
                         paddingRight: '10rpx',
                         marginTop: '10rpx'
                     }}

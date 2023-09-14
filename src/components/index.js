@@ -8,6 +8,7 @@ import UploadImage from './UploadImages';
 import Input from './Input';
 import Radio from './Radio';
 import Avatar from './Avatar';
+import Header from './Header';
 
 export {
     Echarts,
@@ -19,5 +20,6 @@ export {
     UploadImage,
     Input,
     Radio,
-    Avatar
+    Avatar,
+    Header
 };

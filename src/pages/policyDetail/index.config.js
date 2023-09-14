@@ -1,3 +1,4 @@
 export default {
-    navigationBarTitleText: '政策详情'
+   // navigationBarTitleText: '政策详情',
+    navigationStyle: 'custom'
 };

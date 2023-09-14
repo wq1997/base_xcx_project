@@ -2,9 +2,11 @@ import { View } from "@tarojs/components"
 import { Select } from "@/components";
 import { AtButton, AtInput } from "taro-ui";
 import { useState, useEffect } from "react";
+import { calcInvestmentResult } from '@/services/investment';
 import { getFirstArea, getSecondArea, } from '@/services/area';
 import { getElectricType, getBillingSystem, getVolLevel } from '@/services/electric';
 import Func from "@/utils/Func";
+import Tips from '@/utils/tips';
 import Taro from "@tarojs/taro";
 import "./index.scss";
 
@@ -20,8 +22,13 @@ const Investment = (props) => {
         firstArea: undefined,
         secondArea: undefined,
         electricityType: undefined,
-        zd: undefined,
-        dj: undefined
+        cost: undefined,
+        level: undefined,
+        capacity: undefined,
+        cycle: undefined,
+        downPaymentRatio: 0,
+        shareRatio: 100,
+
     });
 
     const onChange = (type, currentValue) => {
@@ -57,6 +64,23 @@ const Investment = (props) => {
         value.firstArea && initOptions(getSecondArea, setSecondAreaOptions, value.firstArea)
     }, [value.firstArea])
 
+    const handleInvestment = async () => {
+        const { firstArea, secondArea, electricityType, cost, level, capacity, cycle } = value;
+        if (!firstArea) return Tips.toast('请选择一级区域');
+        if (!secondArea) return Tips.toast('请选择二级区域');
+        if (!electricityType) return Tips.toast('请选择用电类型');
+        if (!cost) return Tips.toast('请选择计费制度');
+        if (!level) return Tips.toast('请选择电压等级');
+        if (!capacity) return Tips.toast('请输入装机容量');
+        if (!cycle) return Tips.toast('请输入项目周期');
+        let res = await calcInvestmentResult(value)
+        if (res?.code == 200 && res?.data) {
+            Taro.navigateTo({
+                url: `/pages/investResult/index?result=${encodeURIComponent(JSON.stringify(res?.data))}`
+            })
+        }
+    }
+
 
     return (
         <View
@@ -89,44 +113,50 @@ const Investment = (props) => {
                 onChange={(value) => onChange('electricityType', value)}
             />
             <Select
-                value={value["zd"]}
+                value={value["cost"]}
                 label="计费制度"
                 options={billingSystemOptions}
                 placeholder={"请选择计费制度"}
-                onChange={(value) => onChange('zd', value)}
+                onChange={(value) => onChange('cost', value)}
             />
             <Select
-                value={value["dj"]}
+                value={value["level"]}
                 label="电压等级"
                 options={volLevelOptions}
                 placeholder={"请选择电压等级"}
-                onChange={(value) => onChange('dj', value)}
+                onChange={(value) => onChange('level', value)}
             />
             <AtInput
-                name="zjrl"
+                name="capacity"
                 title='装机容量（kWh）'
                 type='number'
                 placeholder='请输入装机容量'
-                value={value["zjrl"]}
-                onChange={(value) => onChange("zjrl", value)}
+                value={value["capacity"]}
+                onChange={(value) => onChange("capacity", +value)}
             />
             <AtInput
+                name="cycle"
                 title='项目周期（年）'
                 type='number'
                 placeholder='请输入项目周期'
-                value=""
+                value={value["cycle"]}
+                onChange={(value) => onChange("cycle", +value)}
             />
             <AtInput
+                name='downPaymentRatio'
                 title='首付比例（%）'
                 type='number'
                 placeholder='请输入首付比例'
-                value=""
+                disabled={true}
+                value={value["downPaymentRatio"]}
             />
             <AtInput
+                name='shareRatio'
                 title='业主分成比例（%）'
                 type='number'
                 placeholder='请输入业主分成比例'
-                value=""
+                disabled={true}
+                value={value["shareRatio"]}
             />
             <View style={Func.getStyles({
                 "margin-top": '30px'
@@ -134,9 +164,8 @@ const Investment = (props) => {
                 <AtButton
                     type='primary'
                     onClick={() => {
-                        Taro.navigateTo({
-                            url: '/pages/investResult/index'
-                        })
+
+                        handleInvestment()
                     }}
                 >
                     开始测算

@@ -3,7 +3,7 @@ import Func from "@/utils/Func";
 
 const PolicyCard = (props) => {
     const { token, listItem } = props;
- 
+
     return (
         <View
             style={Func.getStyles({
@@ -16,7 +16,7 @@ const PolicyCard = (props) => {
                 style={Func.getStyles({
                     "font-size": '30px',
                     "font-weight": 600,
-                    "margin-bottom": '30px'
+                    "margin-bottom": '30px',
                 })}
             >
                 {listItem?.policyName}
@@ -32,7 +32,7 @@ const PolicyCard = (props) => {
                 <View
                     style={Func.getStyles({
                         padding: '10px',
-                        "background-color": token.colorPrimary,
+                        "background-color": '#F8B62C',
                         color: 'white',
                         "border-radius": '4px',
                         "font-size": '20px'
@@ -42,7 +42,7 @@ const PolicyCard = (props) => {
                 </View>
                 <View
                     style={Func.getStyles({
-                        "font-size": '20px'
+                        "font-size": '20px',
                     })}
                 >
                     {listItem?.releaseTime}
@@ -54,7 +54,7 @@ const PolicyCard = (props) => {
                     'text-overflow': 'ellipsis',
                     '-webkit-line-clamp': 4,
                     display: '-webkit-box',
-                    '-webkit-box-orient': 'vertical'
+                    '-webkit-box-orient': 'vertical',
                 })}
             >
                 {listItem?.policyPoints}
