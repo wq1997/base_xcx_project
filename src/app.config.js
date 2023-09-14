@@ -1,12 +1,13 @@
 export default {
     pages: [
+        'pages/home/index',
         'pages/login/index',
         'pages/register/index',
         'pages/forgotPassword/index',
-        'pages/home/index',
         'pages/electricityPrice/index',
         'pages/investment/index',
         'pages/investResult/index',
+        'pages/standard/index',
         'pages/policy/index',
         'pages/policyDetail/index',
         'pages/outer/index',

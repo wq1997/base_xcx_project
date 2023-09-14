@@ -19,6 +19,11 @@ const homeList = [
     icon: 'investment.svg',
     href: '/pages/investment/index',
     title: '投资测算'
+  },
+  {
+    icon: 'standard.svg',
+    href: '/pages/standard/index',
+    title: '标准'
   }
 ]
 
