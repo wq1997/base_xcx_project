@@ -24,7 +24,7 @@ export default {
         enablePullDownRefresh: false
     },
     tabBar: {
-        selectedColor: '#255aaa',
+        selectedColor: '#3560EA',
         list: [
             {
                 text: '首页',
