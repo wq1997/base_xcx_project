@@ -49,10 +49,9 @@ const ElectricityPrice = (props) => {
     const [electricityTypeOptions, setElectricityTypeOptions] = useState([]);
     const [billingSystemOptions, setBillingSystemOptions] = useState([]);
     const [volLevelOptions, setVolLevelOptions] = useState([]);
-    const [typePrice, setTypePrice] = useState({});
-    const [usePrice, setUsePrice] = useState([]);
-    const [volLevelZh, setVolLevelZh] = useState();
-
+    const [table1DataSource, setTable1DataSource] = useState([]);
+    const [table2DataSource, setTable2DataSource] = useState([]);
+    
     const [value, setValue] = useState({
         firstArea: undefined,
         secondArea: undefined,
@@ -60,6 +59,8 @@ const ElectricityPrice = (props) => {
         cost: undefined,
         level: undefined
     });
+
+    const showSecondArea = (value.firstArea&&secondAreaOptions?.length>0 || !value.firstArea);
 
     const onChange = (type, currentValue) => {
         setValue({
@@ -97,7 +98,7 @@ const ElectricityPrice = (props) => {
     const handleSearch = async () => {
         const { firstArea, secondArea, electricityType, cost, level } = value;
         if (!firstArea) return Tips.toast('请选择一级区域');
-        if (!secondArea) return Tips.toast('请选择二级区域');
+        if (showSecondArea && !secondArea) return Tips.toast('请选择二级区域');
         if (!electricityType) return Tips.toast('请选择用电类型');
         if (!cost) return Tips.toast('请选择计费制度');
         if (!level) return Tips.toast('请选择电压等级');
@@ -122,11 +123,13 @@ const ElectricityPrice = (props) => {
             } = res?.data;
             const baseTypePriceItem = { cuspPrice, highPrice, flatPrice, lowPrice };
             if (deepValleyPrice) {
-                setTypePrice({
-                    multiple: voltageLevel,
-                    ...baseTypePriceItem,
-                    deepValleyPrice
-                });
+                setTable1DataSource([
+                    {
+                        multiple: voltageLevel,
+                        ...baseTypePriceItem,
+                        deepValleyPrice
+                    }
+                ])
                 setTypePriceColumns([
                     ...baseTypePriceColumns,
                     {
@@ -137,18 +140,27 @@ const ElectricityPrice = (props) => {
                 setEchartXLabel([...baseEchartXLabel, '深谷电价']);
                 setEchartData([...Object.values(baseTypePriceItem), deepValleyPrice]);
             } else {
-                setTypePrice({ multiple: voltageLevel, ...baseTypePriceItem });
+                setTable1DataSource([
+                    { 
+                        multiple: voltageLevel, 
+                        ...baseTypePriceItem 
+                    }
+                ])
                 setTypePriceColumns([...baseTypePriceColumns]);
                 setEchartXLabel([...baseEchartXLabel]);
                 setEchartData(Object.values(baseTypePriceItem));
             }
-            setUsePrice([capacityPrice, needPrice]);
-            setVolLevelZh(voltageLevel);
+            setTable2DataSource([
+                {
+                    multiple: voltageLevel,
+                    capacityPrice: capacityPrice,
+                    needPrice: needPrice
+                }
+            ])
         } else {
-            setTypePrice([]);
-            setUsePrice([]);
             setEchartData([]);
-            setVolLevelZh();
+            setTable1DataSource([]);
+            setTable2DataSource([]);
         }
         Tips.loaded('loading...');
     };
@@ -169,13 +181,16 @@ const ElectricityPrice = (props) => {
                 placeholder={'请选择一级区域'}
                 onChange={(value) => onChange('firstArea', value)}
             />
-            <Select
-                value={value['secondArea']}
-                label="二级区域"
-                options={secondAreaOptions}
-                placeholder={'请选择二级区域'}
-                onChange={(value) => onChange('secondArea', value)}
-            />
+            {
+                showSecondArea&&
+                <Select
+                    value={value['secondArea']}
+                    label="二级区域"
+                    options={secondAreaOptions}
+                    placeholder={'请选择二级区域'}
+                    onChange={(value) => onChange('secondArea', value)}
+                />
+            }
             <Select
                 value={value['electricityType']}
                 label="用电类型"
@@ -216,7 +231,9 @@ const ElectricityPrice = (props) => {
                         tooltip: {},
                         grid: {
                             top: 30,
-                            bottom: 30
+                            bottom: 30,
+                            left: 30,
+                            right:5
                         },
                         xAxis: [
                             {
@@ -228,7 +245,8 @@ const ElectricityPrice = (props) => {
                             }
                         ],
                         yAxis: {
-                            type: 'value'
+                            type: 'value',
+                            show: true,
                         },
                         series: [
                             {
@@ -239,8 +257,22 @@ const ElectricityPrice = (props) => {
                         ]
                     }}
                 />
+                {
+                    echartData?.length===0&&
+                    <View
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            color: '#ccc'
+                        }}
+                    >
+                        暂无数据
+                    </View>
+                }
             </View>
-            <Table columns={typePriceColumns} dataSource={[typePrice]} />
+            <Table columns={typePriceColumns} dataSource={table1DataSource} />
             <View
                 style={Func.getStyles({
                     'text-align': 'center',
@@ -268,13 +300,7 @@ const ElectricityPrice = (props) => {
                         key: 'needPrice'
                     }
                 ]}
-                dataSource={[
-                    {
-                        multiple: volLevelZh,
-                        capacityPrice: usePrice?.[0],
-                        needPrice: usePrice?.[1]
-                    }
-                ]}
+                dataSource={table2DataSource}
             />
         </View>
     );

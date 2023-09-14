@@ -2,6 +2,7 @@ import { View } from '@tarojs/components';
 import "./index.scss";
 
 const Table = ({ columns = [], dataSource = [] }) => {
+    console.log("dataSource", dataSource)
     return (
         <View className="customTable">
             <View className="customTableHeader">
@@ -28,20 +29,29 @@ const Table = ({ columns = [], dataSource = [] }) => {
             </View>
             <View className="customTableContent">
                 {
-                    dataSource.map(data => {
-                        return (
-                            <View className="customTableContentRow">
-                                {
-                                    Object.keys(data).map((filed, index) => {
-                                        const width = columns[index]?.width
-                                        return (
-                                            <View className="customTableContentCol" style={`width: ${width}`}>{data[filed]}</View>
-                                        )
-                                    })
-                                }
-                            </View>
-                        )
-                    })
+                    dataSource?.length>0?
+                        <View>
+                            {
+                                dataSource.map(data => {
+                                    return (
+                                        <View className="customTableContentRow">
+                                            {
+                                                Object.keys(data).map((filed, index) => {
+                                                    const width = columns[index]?.width
+                                                    return (
+                                                        <View className="customTableContentCol" style={`width: ${width}`}>{data[filed]}</View>
+                                                    )
+                                                })
+                                            }
+                                        </View>
+                                    )
+                                })
+                            }
+                        </View>
+                        :
+                        <View className='noData'>
+                            暂无数据
+                        </View>
                 }
             </View>
         </View>

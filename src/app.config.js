@@ -4,6 +4,7 @@ export default {
         'pages/register/index',
         'pages/forgotPassword/index',
         'pages/home/index',
+        'pages/electricityPrice/index',
         'pages/investment/index',
         'pages/investResult/index',
         'pages/policy/index',
@@ -11,7 +12,6 @@ export default {
         'pages/outer/index',
         'pages/notification/index',
         'pages/feedback/index',
-        'pages/electricityPrice/index',
         'pages/mine/index',
         'pages/mineCenter/index',
         'pages/test/index'
