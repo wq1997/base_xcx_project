@@ -24,19 +24,19 @@ export default {
         enablePullDownRefresh: false
     },
     tabBar: {
-        selectedColor: '#3560EA',
+        selectedColor: '#47AEE3',
         list: [
             {
                 text: '首页',
                 pagePath: 'pages/home/index',
-                iconPath: './assets/images/home.png',
-                selectedIconPath: './assets/images/selected_home.png'
+                iconPath: './assets/images/home.jpg',
+                selectedIconPath: './assets/images/home.jpg'
             },
             {
                 text: '我的',
                 pagePath: 'pages/mine/index',
-                iconPath: './assets/images/user.png',
-                selectedIconPath: './assets/images/selected_user.png'
+                iconPath: './assets/images/user.jpg',
+                selectedIconPath: './assets/images/user.jpg'
             }
         ]
     }
