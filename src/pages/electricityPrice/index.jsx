@@ -234,7 +234,15 @@ const ElectricityPrice = (props) => {
                             {
                                 data: echartData,
                                 type: 'bar',
-                                barWidth: 30
+                                barWidth: 30,
+                                itemStyle: {
+                                    normal: {
+                                        color: function (params) {
+                                            var colorList = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae'];
+                                            return colorList[params.dataIndex]
+                                        },
+                                    }
+                                },
                             }
                         ]
                     }}

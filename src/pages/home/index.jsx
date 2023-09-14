@@ -24,21 +24,46 @@ const homeList = [
 
 const Home = (props) => {
   const { token } = props;
+  console.log(token)
   return (
     <View
       style={Func.getStyles({
         height: 'calc(100vh - 48px)',
         background: token.backgroundColor,
         color: token.color,
-        padding: '24px'
+        padding: '24px',
+        position: 'relative'
       })}
     >
+      <View style={Func.getStyles({
+        width: '100%',
+        height: '500px',
+        position: 'absolute',
+        background: token.colorPrimary,
+        top: 0,
+        left: 0
+      })}>
+        <View style={Func.getStyles({
+          width: '100%',
+          height: '300px',
+          position: 'absolute',
+          background: token.colorPrimary,
+          bottom: '-140px',
+          left: 0,
+          'border-radius': '50%'
+        })}>
+
+        </View>
+      </View>
       <View
         style={Func.getStyles({
           display: 'grid',
           "grid-template-columns": 'repeat(2, 1fr)',
           "text-align": "center",
-          gap: '20px'
+          gap: '20px',
+          width: 'calc(100% - 48px)',
+          position: 'absolute',
+          top: '24px',
         })}
       >
         {homeList.map(home => {
@@ -58,8 +83,8 @@ const Home = (props) => {
               <View style={Func.getStyles({
                 "margin-bottom": "20px",
               })}>
-                <Image 
-                  src={`${PUBLIC_FILE_PATH}${home.icon}`} 
+                <Image
+                  src={`${PUBLIC_FILE_PATH}${home.icon}`}
                   style={Func.getStyles({
                     width: '120px',
                     height: '120px'

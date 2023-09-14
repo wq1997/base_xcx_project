@@ -1,9 +1,10 @@
 export default {
     pages: [
+        'pages/home/index',
         'pages/login/index',
         'pages/register/index',
         'pages/forgotPassword/index',
-        'pages/home/index',
+        
         'pages/investment/index',
         'pages/investResult/index',
         'pages/policy/index',
