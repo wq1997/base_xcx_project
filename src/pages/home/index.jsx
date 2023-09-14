@@ -72,7 +72,8 @@ const Home = (props) => {
               style={Func.getStyles({
                 border: `1px solid ${token.colorBorder}`,
                 padding: '60px 40px',
-                'border-radius': '8px'
+                'border-radius': '20px',
+                backgroundColor: '#DBDEFD'
               })}
               onTap={() => {
                 Taro.navigateTo({
@@ -91,7 +92,10 @@ const Home = (props) => {
                   })}
                 />
               </View>
-              <View>{home.title}</View>
+              <View style={Func.getStyles({
+                'font-size': '30px',
+                'font-weight': 'bold'
+              })}>{home.title}</View>
             </View>
           )
         })}
