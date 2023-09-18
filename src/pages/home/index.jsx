@@ -1,4 +1,4 @@
-import { View, Image } from '@tarojs/components';
+import { View, Image, Swiper, SwiperItem } from '@tarojs/components';
 import { connect } from "react-redux";
 import Func from "@/utils/Func";
 import { PUBLIC_FILE_PATH } from "@/utils/constants";
@@ -24,6 +24,21 @@ const homeList = [
     icon: 'standard.svg',
     href: '/pages/standard/index',
     title: '标准'
+  }
+]
+
+const banners = [
+  {
+    src: `${PUBLIC_FILE_PATH}min-home-1.png`,
+  },
+  {
+    src: `${PUBLIC_FILE_PATH}min-home-2.png`,
+  },
+  {
+    src: `${PUBLIC_FILE_PATH}min-home-3.png`,
+  },
+  { 
+    src: `${PUBLIC_FILE_PATH}min-home-4.png`
   }
 ]
 
@@ -62,44 +77,83 @@ const Home = (props) => {
       </View>
       <View
         style={Func.getStyles({
-          display: 'grid',
-          "grid-template-columns": 'repeat(2, 1fr)',
-          "text-align": "center",
-          gap: '20px',
           width: 'calc(100% - 48px)',
           position: 'absolute',
           top: '24px',
         })}
       >
-        {homeList.map(home => {
-          return (
-            <View
-              style={Func.getStyles({
-                border: `1px solid ${token.colorBorder}`,
-                padding: '60px 40px',
-                'border-radius': '8px'
-              })}
-              onTap={() => {
-                Taro.navigateTo({
-                  url: home.href
-                })
-              }}
-            >
-              <View style={Func.getStyles({
-                "margin-bottom": "20px",
-              })}>
-                <Image
-                  src={`${PUBLIC_FILE_PATH}${home.icon}`}
-                  style={Func.getStyles({
-                    width: '120px',
-                    height: '120px'
-                  })}
-                />
+        <View
+          style={Func.getStyles({
+            display: 'grid',
+            "grid-template-columns": 'repeat(2, 1fr)',
+            "text-align": "center",
+            gap: '20px'
+          })}
+        >
+          {homeList.map(home => {
+            return (
+              <View
+                style={Func.getStyles({
+                  border: `1px solid ${token.colorBorder}`,
+                  padding: '60px 40px',
+                  'border-radius': '8px'
+                })}
+                onTap={() => {
+                  Taro.navigateTo({
+                    url: home.href
+                  })
+                }}
+              >
+                <View style={Func.getStyles({
+                  "margin-bottom": "20px",
+                })}>
+                  <Image
+                    src={`${PUBLIC_FILE_PATH}${home.icon}`}
+                    style={Func.getStyles({
+                      width: '120px',
+                      height: '120px'
+                    })}
+                  />
+                </View>
+                <View>{home.title}</View>
               </View>
-              <View>{home.title}</View>
-            </View>
-          )
-        })}
+            )
+          })}
+        </View>
+        <View
+          style={Func.getStyles({
+            marginTop: '40px'
+          })}
+        >
+          <Swiper
+              indicatorColor='#999'
+              indicatorActiveColor='#333'
+              circular
+              indicatorDots
+              style={Func.getStyles({
+                height: '450px',
+                'box-shadow': '0px 10px 10px rgba(0,0,0,0.2)',
+                background: 'transparent',
+                'border-radius': '20px'
+              })}
+              autoplay
+          >
+            {banners.map((banner) => {
+              return (
+                <SwiperItem key={banner.src}>
+                    <Image
+                      src={banner.src}
+                      style={Func.getStyles({
+                        width: '100%',
+                        height: '100%',
+                        'object-fit': 'contain'
+                      })}
+                    />
+                </SwiperItem>
+              );
+            })}
+          </Swiper>
+        </View>
       </View>
     </View>
   );

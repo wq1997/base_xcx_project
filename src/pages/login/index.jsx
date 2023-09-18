@@ -7,6 +7,7 @@ import Taro from '@tarojs/taro';
 import Tips from '@/utils/tips';
 import { setToken, encryptPassword, setCurrentUser } from '@/utils/authTools';
 import { login, getPublicKey } from '@/services/user';
+import { PUBLIC_FILE_PATH } from "@/utils/constants";
 import './index.scss';
 
 const Login = (props) => {
@@ -61,7 +62,7 @@ const Login = (props) => {
             style={Func.getStyles({
                 width: '100%',
                 height: '100vh',
-                backgroundImage: `url(https://energy.sermatec-cloud.com/file/D6tZBPGpB_dN_tRyFbDO.png)`,
+                backgroundImage: `url(${PUBLIC_FILE_PATH}mini_background.jpg)`,
                 backgroundSize: '100% 100%',
 
             })}
@@ -70,7 +71,7 @@ const Login = (props) => {
             <View
                 style={Func.getStyles({
                     position: 'absolute',
-                    top: '45%',
+                    top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
                     width: 'calc(100% - 100px)'

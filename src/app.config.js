@@ -31,13 +31,13 @@ export default {
                 text: '首页',
                 pagePath: 'pages/home/index',
                 iconPath: './assets/images/home.jpg',
-                selectedIconPath: './assets/images/home.jpg'
+                selectedIconPath: './assets/images/home_selected.jpg'
             },
             {
                 text: '我的',
                 pagePath: 'pages/mine/index',
                 iconPath: './assets/images/user.jpg',
-                selectedIconPath: './assets/images/user.jpg'
+                selectedIconPath: './assets/images/user_selected.jpg'
             }
         ]
     }
