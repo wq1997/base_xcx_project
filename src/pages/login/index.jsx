@@ -63,7 +63,6 @@ const Login = (props) => {
                 height: '100vh',
                 backgroundImage: `url(https://energy.sermatec-cloud.com/file/D6tZBPGpB_dN_tRyFbDO.png)`,
                 backgroundSize: '100% 100%',
-
             })}
             className="login"
         >

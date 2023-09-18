@@ -1,13 +1,13 @@
 import { View } from '@tarojs/components';
 import "./index.scss";
 
-const Table = ({ columns = [], dataSource = [] }) => {
-    console.log("dataSource", dataSource)
+const Table = ({ columns = [], dataSource = [], colorList = [] }) => {
+
     return (
         <View className="customTable">
             <View className="customTableHeader">
                 {
-                    columns.map(column => {
+                    columns.map((column, index) => {
                         const { width, title, type } = column;
                         return (
                             <View className={`customTableHeaderItem ${type === "multiple" && "diagonal"}`} style={`width: ${width}`}>
@@ -20,7 +20,7 @@ const Table = ({ columns = [], dataSource = [] }) => {
                                 }
                                 {
                                     type !== "multiple" &&
-                                    <View>{title}</View>
+                                    <View style={{ color: colorList[index - 1] }}>{title}</View>
                                 }
                             </View>
                         )
@@ -29,7 +29,7 @@ const Table = ({ columns = [], dataSource = [] }) => {
             </View>
             <View className="customTableContent">
                 {
-                    dataSource?.length>0?
+                    dataSource?.length > 0 ?
                         <View>
                             {
                                 dataSource.map(data => {

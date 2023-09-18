@@ -1,8 +1,9 @@
 export default {
     pages: [
+        'pages/register/index',
         'pages/login/index',
         'pages/home/index',
-        'pages/register/index',
+       
         'pages/forgotPassword/index',
         'pages/electricityPrice/index',
         'pages/investment/index',
@@ -25,7 +26,7 @@ export default {
         enablePullDownRefresh: false
     },
     tabBar: {
-        selectedColor: '#47AEE3',
+        selectedColor: '#3560EA',
         list: [
             {
                 text: '首页',

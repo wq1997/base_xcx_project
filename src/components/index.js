@@ -9,6 +9,7 @@ import Input from './Input';
 import Radio from './Radio';
 import Avatar from './Avatar';
 import Header from './Header';
+import LinearButton from './LinearButton';
 
 export {
     Echarts,
@@ -21,5 +22,6 @@ export {
     Input,
     Radio,
     Avatar,
-    Header
+    Header,
+    LinearButton
 };

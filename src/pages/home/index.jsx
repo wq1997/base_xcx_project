@@ -1,4 +1,4 @@
-import { View, Image } from '@tarojs/components';
+import { View, Image, Text } from '@tarojs/components';
 import { connect } from "react-redux";
 import Func from "@/utils/Func";
 import { PUBLIC_FILE_PATH } from "@/utils/constants";
@@ -29,7 +29,7 @@ const homeList = [
 
 const Home = (props) => {
   const { token } = props;
-  console.log(token)
+
   return (
     <View
       style={Func.getStyles({
@@ -55,10 +55,27 @@ const Home = (props) => {
           background: token.colorPrimary,
           bottom: '-140px',
           left: 0,
-          'border-radius': '50%'
+          'border-radius': '50%',
         })}>
 
         </View>
+      </View>
+      <View style={Func.getStyles({
+        color: '#fff',
+        position: 'absolute',
+        height: '120px',
+        top: 0,
+        width: '100%',
+        display: 'flex',
+        'justify-content': 'center',
+        'align-items': 'center',
+        'font-weight': 'bold',
+        'letter-spacing': '2px'
+      })}>
+        <Text style={Func.getStyles({
+          'margin-right': '30px'
+        })}>SERMATEC</Text>
+        <Text>采日能源</Text>
       </View>
       <View
         style={Func.getStyles({
@@ -68,7 +85,7 @@ const Home = (props) => {
           gap: '20px',
           width: 'calc(100% - 48px)',
           position: 'absolute',
-          top: '24px',
+          top: '120px',
         })}
       >
         {homeList.map(home => {
@@ -78,7 +95,7 @@ const Home = (props) => {
                 border: `1px solid ${token.colorBorder}`,
                 padding: '60px 40px',
                 'border-radius': '20px',
-                backgroundColor: '#DBDEFD'
+                backgroundColor: '#fffffff2'
               })}
               onTap={() => {
                 Taro.navigateTo({
