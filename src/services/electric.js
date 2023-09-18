@@ -1,20 +1,23 @@
 import { request } from '@/utils/request';
 
-export const getElectricType = () => {
-    return request('/dataType/obtainedElectricTypeList', {
-        method: 'GET'
+export const getElectricType = (params) => {
+    return request('/open/obtainedElectricTypeBy', {
+        method: 'POST',
+        body: params
     });
 };
 
-export const getBillingSystem = () => {
-    return request('/dataType/obtainedBillingSystemList', {
-        method: 'GET'
+export const getBillingSystem = (params) => {
+    return request('/open/obtainedBillingSystemBy', {
+        method: 'POST',
+        body: params
     });
 };
 
-export const getVolLevel = () => {
-    return request('/dataType/obtainedVoltageLevelList', {
-        method: 'GET'
+export const getVolLevel = (params) => {
+    return request('/open/obtainedVoltageLevelListBy', {
+        method: 'POST',
+        body: params
     });
 };
 

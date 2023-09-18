@@ -1,8 +1,11 @@
-.mine{
-    .at-list__item{
+.mine {
+    .at-list {
+        border-radius: 10px;
+    }
+    .at-list__item {
         padding: 40px 24px;
     }
-    .at-list::after{
+    .at-list::after {
         border: none;
     }
 }

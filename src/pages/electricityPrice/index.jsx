@@ -12,7 +12,7 @@ import {
 } from '@/services/electric';
 import './index.scss';
 
-const colorList = ['#ED1C22', '#F8931D', '#61a0a8', '#8CC63E', '#8CC63E']
+const colorList = ['#ED1C22', '#F8931D', '#61a0a8', '#8CC63E', '#8CC63E'];
 const baseEchartXLabel = ['尖峰电价', '高峰电价', '平时电价', '低谷电价'];
 const baseTypePriceColumns = [
     {
@@ -59,15 +59,6 @@ const ElectricityPrice = (props) => {
         level: undefined
     });
 
-    const showSecondArea = (value.firstArea && secondAreaOptions?.length > 0 || !value.firstArea);
-
-    const onChange = (type, currentValue) => {
-        setValue({
-            ...value,
-            [type]: currentValue
-        });
-    };
-
     const initOptions = async (api, setFn, params) => {
         let res = await api(params);
         if (res?.code == 200) {
@@ -80,24 +71,68 @@ const ElectricityPrice = (props) => {
         }
     };
 
-    useEffect(() => {
-        [
-            { api: getFirstArea, setFn: setFirstAreaOptions },
-            { api: getElectricType, setFn: setElectricityTypeOptions },
-            { api: getBillingSystem, setFn: setBillingSystemOptions },
-            { api: getVolLevel, setFn: setVolLevelOptions }
-        ].forEach(({ api, setFn }) => initOptions(api, setFn));
-    }, []);
+    const onChange = (type, currentValue) => {
+        const { firstArea, secondArea, electricityType, } = value;
+        if (type == 'firstArea') {
+            setValue({
+                firstArea: currentValue,
+                secondArea: undefined,
+                electricityType: undefined,
+                cost: undefined,
+                level: undefined
+            });
+            initOptions(getSecondArea, setSecondAreaOptions, currentValue);
+        }
+        if (type == 'secondArea') {
+            setValue({
+                ...value,
+                secondArea: currentValue,
+                electricityType: undefined,
+                cost: undefined,
+                level: undefined
+            });
+            initOptions(getElectricType, setElectricityTypeOptions, {
+                districtOneId: firstArea,
+                districtTwoId: currentValue
+            });
+        }
+        if (type == 'electricityType') {
+            setValue({
+                ...value,
+                electricityType: currentValue,
+                cost: undefined,
+                level: undefined
+            });
+            initOptions(getBillingSystem, setBillingSystemOptions, {
+                districtOneId: firstArea,
+                districtTwoId: secondArea,
+                electricityTypeId: currentValue
+            });
+        }
+        if (type == 'cost') {
+            setValue({
+                ...value,
+                cost: currentValue,
+                level: undefined
+            });
+            initOptions(getVolLevel, setVolLevelOptions, {
+                districtOneId: firstArea,
+                districtTwoId: secondArea,
+                electricityTypeId: electricityType,
+                cost: currentValue
+            });
+        }
+    };
 
     useEffect(() => {
-        onChange('secondArea', undefined);
-        value.firstArea && initOptions(getSecondArea, setSecondAreaOptions, value.firstArea);
-    }, [value.firstArea]);
+        initOptions(getFirstArea, setFirstAreaOptions,)
+    }, []);
+
 
     const handleSearch = async () => {
         const { firstArea, secondArea, electricityType, cost, level } = value;
         if (!firstArea) return Tips.toast('请选择一级区域');
-        if (showSecondArea && !secondArea) return Tips.toast('请选择二级区域');
+        if (!secondArea) return Tips.toast('请选择二级区域');
         if (!electricityType) return Tips.toast('请选择用电类型');
         if (!cost) return Tips.toast('请选择计费制度');
         if (!level) return Tips.toast('请选择电压等级');
@@ -128,7 +163,7 @@ const ElectricityPrice = (props) => {
                         ...baseTypePriceItem,
                         deepValleyPrice
                     }
-                ])
+                ]);
                 setTypePriceColumns([
                     ...baseTypePriceColumns,
                     {
@@ -144,7 +179,7 @@ const ElectricityPrice = (props) => {
                         multiple: voltageLevel,
                         ...baseTypePriceItem
                     }
-                ])
+                ]);
                 setTypePriceColumns([...baseTypePriceColumns]);
                 setEchartXLabel([...baseEchartXLabel]);
                 setEchartData(Object.values(baseTypePriceItem));
@@ -155,7 +190,7 @@ const ElectricityPrice = (props) => {
                     capacityPrice: capacityPrice,
                     needPrice: needPrice
                 }
-            ])
+            ]);
         } else {
             setEchartData([]);
             setTable1DataSource([]);
@@ -178,16 +213,13 @@ const ElectricityPrice = (props) => {
                 placeholder={'请选择一级区域'}
                 onChange={(value) => onChange('firstArea', value)}
             />
-            {
-                showSecondArea &&
-                <Select
-                    value={value['secondArea']}
-                    label="二级区域"
-                    options={secondAreaOptions}
-                    placeholder={'请选择二级区域'}
-                    onChange={(value) => onChange('secondArea', value)}
-                />
-            }
+            <Select
+                value={value['secondArea']}
+                label="二级区域"
+                options={secondAreaOptions}
+                placeholder={'请选择二级区域'}
+                onChange={(value) => onChange('secondArea', value)}
+            />
             <Select
                 value={value['electricityType']}
                 label="用电类型"
@@ -214,7 +246,7 @@ const ElectricityPrice = (props) => {
                     'margin-top': '30px'
                 })}
             >
-                <LinearButton onClick={handleSearch} title='查询区域电价（/元）' />
+                <LinearButton onClick={handleSearch} title="查询区域电价（/元）" />
             </View>
             <View className="echartsContent">
                 <Echarts
@@ -241,7 +273,7 @@ const ElectricityPrice = (props) => {
                         ],
                         yAxis: {
                             type: 'value',
-                            show: true,
+                            show: true
                         },
                         series: [
                             {
@@ -250,22 +282,20 @@ const ElectricityPrice = (props) => {
                                 barWidth: 30,
                                 itemStyle: {
                                     normal: {
-                                        color: params => colorList[params.dataIndex]
+                                        color: (params) => colorList[params.dataIndex]
                                     }
                                 },
                                 label: {
                                     normal: {
-                                        show: true,//开启显示
-                                        position: 'top',//柱形上方
+                                        show: true, //开启显示
+                                        position: 'top' //柱形上方
                                     }
                                 }
-
                             }
                         ]
                     }}
                 />
-                {
-                    echartData?.length === 0 &&
+                {echartData?.length === 0 && (
                     <View
                         style={{
                             position: 'absolute',
@@ -277,7 +307,7 @@ const ElectricityPrice = (props) => {
                     >
                         暂无数据
                     </View>
-                }
+                )}
             </View>
             <Table columns={typePriceColumns} colorList={colorList} dataSource={table1DataSource} />
             <View
@@ -307,7 +337,7 @@ const ElectricityPrice = (props) => {
                         key: 'needPrice'
                     }
                 ]}
-                colorList={[token.colorPrimary, token.colorPrimary,]}
+                colorList={[token.colorPrimary, token.colorPrimary]}
                 dataSource={table2DataSource}
             />
         </View>

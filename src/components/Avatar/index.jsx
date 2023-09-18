@@ -14,16 +14,17 @@ const Avatar = () => {
                 display: 'flex',
                 'background-color': '#7F3BFF',
                 'justify-content': 'center',
-                'align-items': 'center'
+                'align-items': 'center',
+                background: 'linear-gradient(to right, #27E0CE 20%, #32B9CD 80%)',
             })}
         >
-            <View 
+            <View
                 style={Func.getStyles({
                     color: 'white',
                     'font-weight': 600
                 })}
             >
-                {nickName?nickName.slice(-2):''}
+                {nickName ? nickName.slice(-2) : ''}
             </View>
         </View>
     )

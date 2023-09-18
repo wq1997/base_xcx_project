@@ -12,7 +12,6 @@ import "./index.scss";
 const Register = (props) => {
     const { token } = props;
     const [params, setParams] = useState({});
-    const { top, height } = Taro.getMenuButtonBoundingClientRect();
 
     const formItemStyle = Func.getStyles({
         'margin-bottom': '30px'

@@ -15,7 +15,7 @@ const Mine = (props) => {
     return (
         <View
             style={Func.getStyles({
-                background: token.backgroundColor,
+                background: 'token.backgroundColor',
                 color: token.color,
                 padding: '24px'
             })}
@@ -23,10 +23,33 @@ const Mine = (props) => {
         >
             <View
                 style={Func.getStyles({
+                    width: '100%',
+                    height: '300px',
+                    position: 'absolute',
+                    background: token.colorPrimary,
+                    top: 0,
+                    left: 0
+                })}
+            >
+                <View
+                    style={Func.getStyles({
+                        width: '100%',
+                        height: '300px',
+                        position: 'absolute',
+                        background: token.colorPrimary,
+                        bottom: '-140px',
+                        left: 0,
+                        'border-radius': '50%'
+                    })}
+                ></View>
+            </View>
+            <View
+                style={Func.getStyles({
                     display: 'flex',
                     "align-items": 'center',
-                    "margin-bottom": '60px',
-                    "margin-left": '30px'
+                    height: '200px',
+                    position: 'absolute',
+                    top: 0
                 })}
                 onClick={() => {
                     Taro.navigateTo({
@@ -37,32 +60,42 @@ const Mine = (props) => {
                 <Avatar />
                 <View
                     style={Func.getStyles({
-                        "margin-left": "30px"
+                        "margin-left": "30px",
+                        color: '#fff'
                     })}
                 >{phoneNumber}</View>
             </View>
-            <AtList>
-                <AtListItem
-                    title='消息通知'
-                    arrow='right'
-                    thumb={`${PUBLIC_FILE_PATH}notification.png`}
-                    onClick={() => {
-                        Taro.navigateTo({
-                            url: '/pages/notification/index'
-                        })
-                    }}
-                />
-                <AtListItem
-                    title='意见反馈'
-                    arrow='right'
-                    thumb={`${PUBLIC_FILE_PATH}feedback.png`}
-                    onClick={() => {
-                        Taro.navigateTo({
-                            url: '/pages/feedback/index'
-                        })
-                    }}
-                />
-            </AtList>
+            <View
+                style={Func.getStyles({
+                    position: 'absolute',
+                    top: '200px',
+                    width: 'calc(100% - 48px)',
+                    'border-radius': '16px'
+                })}
+            >
+                <AtList>
+                    <AtListItem
+                        title='消息通知'
+                        arrow='right'
+                        thumb={`${PUBLIC_FILE_PATH}notification.png`}
+                        onClick={() => {
+                            Taro.navigateTo({
+                                url: '/pages/notification/index'
+                            })
+                        }}
+                    />
+                    <AtListItem
+                        title='意见反馈'
+                        arrow='right'
+                        thumb={`${PUBLIC_FILE_PATH}feedback.png`}
+                        onClick={() => {
+                            Taro.navigateTo({
+                                url: '/pages/feedback/index'
+                            })
+                        }}
+                    />
+                </AtList>
+            </View>
         </View>
     )
 }

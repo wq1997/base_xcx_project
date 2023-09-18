@@ -31,13 +31,6 @@ const Investment = (props) => {
         shareRatio: 100
     });
 
-    const onChange = (type, currentValue) => {
-        setValue({
-            ...value,
-            [type]: currentValue
-        });
-    };
-
     const initOptions = async (api, setFn, params) => {
         let res = await api(params);
         if (res?.code == 200) {
@@ -49,20 +42,65 @@ const Investment = (props) => {
             );
         }
     };
+    const onChange = (type, currentValue) => {
+        const { firstArea, secondArea, electricityType, } = value;
+        if (type == 'firstArea') {
+            setValue({
+                ...value,
+                firstArea: currentValue,
+                secondArea: undefined,
+                electricityType: undefined,
+                cost: undefined,
+                level: undefined
+            });
+            initOptions(getSecondArea, setSecondAreaOptions, currentValue);
+        }
+        if (type == 'secondArea') {
+            setValue({
+                ...value,
+                secondArea: currentValue,
+                electricityType: undefined,
+                cost: undefined,
+                level: undefined
+            });
+            initOptions(getElectricType, setElectricityTypeOptions, {
+                districtOneId: firstArea,
+                districtTwoId: currentValue
+            });
+        }
+        if (type == 'electricityType') {
+            setValue({
+                ...value,
+                electricityType: currentValue,
+                cost: undefined,
+                level: undefined
+            });
+            initOptions(getBillingSystem, setBillingSystemOptions, {
+                districtOneId: firstArea,
+                districtTwoId: secondArea,
+                electricityTypeId: currentValue
+            });
+        }
+        if (type == 'cost') {
+            setValue({
+                ...value,
+                cost: currentValue,
+                level: undefined
+            });
+            initOptions(getVolLevel, setVolLevelOptions, {
+                districtOneId: firstArea,
+                districtTwoId: secondArea,
+                electricityTypeId: electricityType,
+                cost: currentValue
+            });
+        }
+    };
 
     useEffect(() => {
-        [
-            { api: getFirstArea, setFn: setFirstAreaOptions },
-            { api: getElectricType, setFn: setElectricityTypeOptions },
-            { api: getBillingSystem, setFn: setBillingSystemOptions },
-            { api: getVolLevel, setFn: setVolLevelOptions }
-        ].forEach(({ api, setFn }) => initOptions(api, setFn));
+        initOptions(getFirstArea, setFirstAreaOptions,)
     }, []);
 
-    useEffect(() => {
-        onChange('secondArea', undefined);
-        value.firstArea && initOptions(getSecondArea, setSecondAreaOptions, value.firstArea);
-    }, [value.firstArea]);
+
 
     const handleInvestment = async () => {
         const { firstArea, secondArea, electricityType, cost, level, capacity, cycle } = value;
