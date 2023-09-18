@@ -1,46 +1,43 @@
-import { View } from "@tarojs/components"
-import Taro from "@tarojs/taro";
-import { getBaseUrl } from "@/utils/request";
+import { View } from '@tarojs/components';
+import Taro from '@tarojs/taro';
+import { getBaseUrl } from '@/utils/request';
 import { AtImagePicker } from 'taro-ui';
 import './index.scss';
 import Tips from '@/utils/tips';
-import { useState } from "react";
+import { useState } from 'react';
 
-const acceptTypes = ['.jpg', '.jpeg', '.png', '.bmp']
-const maxSizeMB = 1
-const maxCount = 6
+const acceptTypes = ['.jpg', '.jpeg', '.png', '.bmp'];
+const maxSizeMB = 1;
+const maxCount = 6;
 
 const UploadImage = (props) => {
-    const [files, setFiles] = useState([])
+    const [files, setFiles] = useState([]);
     const { fileNames, setFileNames } = props;
 
     const uploadLoader = (data, _, index) => {
-        const { size, path } = data[data?.length - 1]?.file
-        const suffix = path.substring(path.lastIndexOf("."))
+        const { size, path } = data[data?.length - 1]?.file;
+        const suffix = path.substring(path.lastIndexOf('.'));
         if (!acceptTypes.includes(suffix)) return Tips.toast('上传图片格式不被允许');
         if (size > maxSizeMB * 1024 * 1024) return Tips.toast(`上传图片大小不得超过${maxSizeMB}MB`);
-        setFiles(data)
+        setFiles(data);
         if (data?.length < files?.length) {
-            const _fileNames = [...fileNames]
-            _fileNames.splice(index, 1)
-            setFileNames(_fileNames)
-            return
+            const _fileNames = [...fileNames];
+            _fileNames.splice(index, 1);
+            setFileNames(_fileNames);
+            return;
         }
         Taro.showLoading({
             title: `正在上传第${data?.length}张`
-        })
+        });
         Taro.uploadFile({
             url: getBaseUrl() + '/feedback/uploadFeedbackImage',
             header: {
-                'content-type': 'multipart/form-data',
+                'content-type': 'multipart/form-data'
             },
             name: 'file',
             filePath: data[data?.length - 1].url,
             success: (resp) => {
-                setFileNames([
-                    ...fileNames,
-                    JSON.parse(resp?.data)?.data
-                ])
+                setFileNames([...fileNames, JSON.parse(resp?.data)?.data]);
                 Taro.showToast({
                     title: '上传成功',
                     icon: 'success',
@@ -54,26 +51,20 @@ const UploadImage = (props) => {
                     icon: 'fail',
                     duration: 2000
                 });
-                const _files = [...files]
-                _files.splice(data?.length - 1, 1)
-                setFiles(_files)
+                const _files = [...files];
+                _files.splice(data?.length - 1, 1);
+                setFiles(_files);
                 Taro.hideLoading();
-            },
-        })
-    }
+            }
+        });
+    };
 
-    const onImageClick = () => {
+    const onImageClick = () => {};
 
-    }
-
-    const onFail = () => {
-
-    }
+    const onFail = () => {};
 
     return (
-        <View
-            className="uploadImages"
-        >
+        <View className="uploadImages">
             <AtImagePicker
                 multiple={false}
                 length={3}
@@ -85,10 +76,19 @@ const UploadImage = (props) => {
                 count={maxCount}
             />
             <View className="tip">
-                提示：最多可上传{maxCount}张图片，请上传 .jpg .jpeg .png .bmp 格式图片，大小不超过1MB
+                <View
+                    style={{
+                        width: '60px'
+                    }}
+                >
+                    提示：
+                </View>
+                <View>
+                    最多可上传{maxCount}张图片，请上传 .jpg .jpeg .png .bmp 格式图片，大小不超过1MB
+                </View>
             </View>
         </View>
-    )
-}
+    );
+};
 
 export default UploadImage;

@@ -1,4 +1,4 @@
-.uploadImages{
+.uploadImages {
     .at-image-picker__flex-box {
         padding: 0;
     }
@@ -6,7 +6,8 @@
         margin-left: 0;
     }
 
-    .tip{
+    .tip {
+        display: flex;
         margin-top: 20px;
         font-size: 25px;
         color: #ccc;

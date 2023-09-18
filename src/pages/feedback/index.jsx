@@ -56,12 +56,13 @@ const Feedback = (props) => {
                 background: '#F8F8F8',
                 color: token.color,
                 padding: '24px',
-                height: '100vh'
+                height: '100vh',
+                'box-sizing': 'border-box'
             })}
         >
             <View
                 style={Func.getStyles({
-                    'margin-bottom': '80px',
+                    'margin-bottom': '40px',
                     backgroundColor: '#fff',
                     padding: '24px',
                     'border-radius': '16px'
@@ -103,7 +104,7 @@ const Feedback = (props) => {
             </View>
             <View
                 style={Func.getStyles({
-                    'margin-bottom': '80px',
+                    'margin-bottom': '40px',
                     backgroundColor: '#fff',
                     padding: '24px',
                     'border-radius': '16px'
@@ -140,7 +141,7 @@ const Feedback = (props) => {
             <UploadImage fileNames={fileNames} setFileNames={setFileNames} />
             <View
                 style={Func.getStyles({
-                    'margin-top': '80px'
+                    'margin-top': '40px'
                 })}
             >
                 <LinearButton
