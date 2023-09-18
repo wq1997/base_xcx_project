@@ -1,4 +1,4 @@
-import { View, Image, Swiper, SwiperItem } from '@tarojs/components';
+import { View, Image, Swiper, SwiperItem, Text } from '@tarojs/components';
 import { connect } from "react-redux";
 import Func from "@/utils/Func";
 import { PUBLIC_FILE_PATH } from "@/utils/constants";
@@ -44,7 +44,7 @@ const banners = [
 
 const Home = (props) => {
   const { token } = props;
-  console.log(token)
+
   return (
     <View
       style={Func.getStyles({
@@ -70,16 +70,33 @@ const Home = (props) => {
           background: token.colorPrimary,
           bottom: '-140px',
           left: 0,
-          'border-radius': '50%'
+          'border-radius': '50%',
         })}>
 
         </View>
+      </View>
+      <View style={Func.getStyles({
+        color: '#fff',
+        position: 'absolute',
+        height: '120px',
+        top: 0,
+        width: '100%',
+        display: 'flex',
+        'justify-content': 'center',
+        'align-items': 'center',
+        'font-weight': 'bold',
+        'letter-spacing': '2px'
+      })}>
+        <Text style={Func.getStyles({
+          'margin-right': '30px'
+        })}>SERMATEC</Text>
+        <Text>采日能源</Text>
       </View>
       <View
         style={Func.getStyles({
           width: 'calc(100% - 48px)',
           position: 'absolute',
-          top: '24px',
+          top: '120px',
         })}
       >
         <View
@@ -90,35 +107,41 @@ const Home = (props) => {
             gap: '20px'
           })}
         >
-          {homeList.map(home => {
-            return (
-              <View
-                style={Func.getStyles({
-                  border: `1px solid ${token.colorBorder}`,
-                  padding: '60px 40px',
-                  'border-radius': '8px'
-                })}
-                onTap={() => {
-                  Taro.navigateTo({
-                    url: home.href
-                  })
-                }}
-              >
-                <View style={Func.getStyles({
-                  "margin-bottom": "20px",
-                })}>
-                  <Image
-                    src={`${PUBLIC_FILE_PATH}${home.icon}`}
-                    style={Func.getStyles({
-                      width: '120px',
-                      height: '120px'
-                    })}
-                  />
+          {
+            homeList.map(home => {
+              return (
+                <View
+                  style={Func.getStyles({
+                    border: `1px solid ${token.colorBorder}`,
+                    padding: '60px 40px',
+                    'border-radius': '20px',
+                    backgroundColor: '#fffffff2'
+                  })}
+                  onTap={() => {
+                    Taro.navigateTo({
+                      url: home.href
+                    })
+                  }}
+                >
+                  <View style={Func.getStyles({
+                    "margin-bottom": "20px",
+                  })}>
+                    <Image
+                      src={`${PUBLIC_FILE_PATH}${home.icon}`}
+                      style={Func.getStyles({
+                        width: '120px',
+                        height: '120px'
+                      })}
+                    />
+                  </View>
+                  <View style={Func.getStyles({
+                    'font-size': '30px',
+                    'font-weight': 'bold'
+                  })}>{home.title}</View>
                 </View>
-                <View>{home.title}</View>
-              </View>
-            )
-          })}
+              )
+            })
+          }
         </View>
         <View
           style={Func.getStyles({

@@ -7,7 +7,12 @@
         margin-bottom: 40px;
         .resultListItem {
             padding: 20px 20px;
-            border: 1px solid #d3cfcf;
+            //  border: 1px solid #d3cfcf;
+            text-align: left;
+            &.value {
+                text-align: right;
+                color: #5c5cfa;
+            }
             &:nth-child(even) {
                 border-bottom: none;
                 border-left: none;
@@ -23,10 +28,11 @@
         grid-template-columns: 1fr 1fr;
         text-align: center;
         gap: 30px;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
         .estimateDataItem {
             padding: 10px 15px;
-            border: 1px solid #d3cfcf;
+            background: #fff;
+            border-radius: 8px;
         }
     }
 
@@ -34,19 +40,23 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         text-align: center;
-        &:last-child {
-            border-bottom: 1px solid #d3cfcf;
+        grid-gap: 40px;
+        background-color: #fff;
+        padding: 20px;
+        &.header {
+            border-radius: 16px 16px 0 0;
+            .estimateResultItem {
+                padding: 15px 20px;
+                color: #fff;
+                border-radius: 8px;
+                background-color: #5c5cfa;
+                &.revenue {
+                    background-color: #fbb03b;
+                }
+            }
         }
-        .estimateResultItem {
-            padding: 15px 20px;
-            border: 1px solid #d3cfcf;
-            &:nth-child(even) {
-                border-bottom: none;
-                border-left: none;
-            }
-            &:nth-child(odd) {
-                border-bottom: none;
-            }
+        &:last-child {
+            border-radius: 0 0 16px 16px;
         }
     }
 }

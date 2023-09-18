@@ -1,8 +1,7 @@
 import { View } from '@tarojs/components';
 import Func from '@/utils/Func';
 import { useEffect, useState } from 'react';
-import { Select } from '@/components';
-import { AtButton } from 'taro-ui';
+import { Select, LinearButton, Echarts, Table } from '@/components';
 import Tips from '@/utils/tips';
 import { getFirstArea, getSecondArea } from '@/services/area';
 import {
@@ -11,9 +10,9 @@ import {
     getVolLevel,
     getElectricPrice
 } from '@/services/electric';
-import { Echarts, Table } from '@/components';
 import './index.scss';
 
+const colorList = ['#ED1C22', '#F8931D', '#61a0a8', '#8CC63E', '#8CC63E']
 const baseEchartXLabel = ['尖峰电价', '高峰电价', '平时电价', '低谷电价'];
 const baseTypePriceColumns = [
     {
@@ -51,7 +50,7 @@ const ElectricityPrice = (props) => {
     const [volLevelOptions, setVolLevelOptions] = useState([]);
     const [table1DataSource, setTable1DataSource] = useState([]);
     const [table2DataSource, setTable2DataSource] = useState([]);
-    
+
     const [value, setValue] = useState({
         firstArea: undefined,
         secondArea: undefined,
@@ -60,7 +59,7 @@ const ElectricityPrice = (props) => {
         level: undefined
     });
 
-    const showSecondArea = (value.firstArea&&secondAreaOptions?.length>0 || !value.firstArea);
+    const showSecondArea = (value.firstArea && secondAreaOptions?.length > 0 || !value.firstArea);
 
     const onChange = (type, currentValue) => {
         setValue({
@@ -141,9 +140,9 @@ const ElectricityPrice = (props) => {
                 setEchartData([...Object.values(baseTypePriceItem), deepValleyPrice]);
             } else {
                 setTable1DataSource([
-                    { 
-                        multiple: voltageLevel, 
-                        ...baseTypePriceItem 
+                    {
+                        multiple: voltageLevel,
+                        ...baseTypePriceItem
                     }
                 ])
                 setTypePriceColumns([...baseTypePriceColumns]);
@@ -168,8 +167,6 @@ const ElectricityPrice = (props) => {
     return (
         <View
             style={Func.getStyles({
-                // background: token.backgroundColor,
-                // color: token.color,
                 padding: '24px'
             })}
             className="electricityPrice"
@@ -182,7 +179,7 @@ const ElectricityPrice = (props) => {
                 onChange={(value) => onChange('firstArea', value)}
             />
             {
-                showSecondArea&&
+                showSecondArea &&
                 <Select
                     value={value['secondArea']}
                     label="二级区域"
@@ -217,9 +214,7 @@ const ElectricityPrice = (props) => {
                     'margin-top': '30px'
                 })}
             >
-                <AtButton type="primary" onClick={handleSearch}>
-                    查询区域电价（/元）
-                </AtButton>
+                <LinearButton onClick={handleSearch} title='查询区域电价（/元）' />
             </View>
             <View className="echartsContent">
                 <Echarts
@@ -233,7 +228,7 @@ const ElectricityPrice = (props) => {
                             top: 30,
                             bottom: 30,
                             left: 30,
-                            right:5
+                            right: 5
                         },
                         xAxis: [
                             {
@@ -255,18 +250,22 @@ const ElectricityPrice = (props) => {
                                 barWidth: 30,
                                 itemStyle: {
                                     normal: {
-                                        color: function (params) {
-                                            var colorList = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae'];
-                                            return colorList[params.dataIndex]
-                                        },
+                                        color: params => colorList[params.dataIndex]
                                     }
                                 },
+                                label: {
+                                    normal: {
+                                        show: true,//开启显示
+                                        position: 'top',//柱形上方
+                                    }
+                                }
+
                             }
                         ]
                     }}
                 />
                 {
-                    echartData?.length===0&&
+                    echartData?.length === 0 &&
                     <View
                         style={{
                             position: 'absolute',
@@ -280,7 +279,7 @@ const ElectricityPrice = (props) => {
                     </View>
                 }
             </View>
-            <Table columns={typePriceColumns} dataSource={table1DataSource} />
+            <Table columns={typePriceColumns} colorList={colorList} dataSource={table1DataSource} />
             <View
                 style={Func.getStyles({
                     'text-align': 'center',
@@ -308,6 +307,7 @@ const ElectricityPrice = (props) => {
                         key: 'needPrice'
                     }
                 ]}
+                colorList={[token.colorPrimary, token.colorPrimary,]}
                 dataSource={table2DataSource}
             />
         </View>

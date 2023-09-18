@@ -1,8 +1,8 @@
 import { View } from "@tarojs/components"
 import Func from "@/utils/Func";
 import { useState } from "react";
-import { AtButton, AtTextarea } from 'taro-ui';
-import { Input } from "@/components";
+import { AtTextarea } from 'taro-ui';
+import { Input, LinearButton } from "@/components";
 import Tips from "@/utils/tips";
 import Taro from "@tarojs/taro";
 import { encryptPassword } from '@/utils/authTools'
@@ -12,6 +12,7 @@ import "./index.scss";
 const Register = (props) => {
     const { token } = props;
     const [params, setParams] = useState({});
+    const { top, height } = Taro.getMenuButtonBoundingClientRect();
 
     const formItemStyle = Func.getStyles({
         'margin-bottom': '30px'
@@ -63,95 +64,114 @@ const Register = (props) => {
             style={Func.getStyles({
                 background: token.backgroundColor,
                 color: token.color,
-                padding: '24px'
+                backgroundColor: '#80808021',
+                padding: '24px',
             })}
             className="register"
         >
-            <View style={formItemStyle}>
-                <View
-                    style={formTitleStyle}
-                >
-                    姓名
-                </View>
-                <Input
-                    name='nickName'
-                    type='text'
-                    placeholder='请输入姓名'
-                    value={params["nickName"]}
-                    onChange={(value) => onChange("nickName", value)}
-                />
-            </View>
-            <View style={formItemStyle}>
-                <View style={formTitleStyle}>手机号</View>
-                <Input
-                    name='phoneNumber'
-                    type="phone"
-                    placeholder='请输入手机号'
-                    value={params["phoneNumber"]}
-                    onChange={(value) => onChange("phoneNumber", value)}
-                />
-            </View>
-            <View style={formItemStyle}>
-                <View style={formTitleStyle}>密码</View>
-                <Input
-                    name='password'
-                    type='password'
-                    placeholder='请输入密码'
-                    value={params["password"]}
-                    onChange={(value) => onChange("password", value)}
-                />
-            </View>
-            <View style={formItemStyle}>
-                <View style={formTitleStyle}>确定密码</View>
-                <Input
-                    name='confirmPassword'
-                    type='password'
-                    placeholder='请输入确定密码'
-                    value={params["confirmPassword"]}
-                    onChange={(value) => onChange("confirmPassword", value)}
-                />
-            </View>
-            <View style={formItemStyle}>
-                <View style={formTitleStyle}>公司</View>
-                <Input
-                    name='company'
-                    type='text'
-                    placeholder='请输入公司'
-                    value={params["company"]}
-                    onChange={(value) => onChange("company", value)}
-                />
-            </View>
-            <View style={formItemStyle}>
-                <View style={formTitleStyle}>职务</View>
-                <Input
-                    name='post'
-                    type='text'
-                    placeholder='请输入职务'
-                    value={params["post"]}
-                    onChange={(value) => onChange("post", value)}
-                />
-            </View>
-            <View style={formItemStyle}>
-                <View style={formTitleStyle}>合作意向</View>
-                <View
-                    style={Func.getStyles({
-                        margin: '24px 0'
-                    })}
-                >
-                    <AtTextarea
-                        value={params["intention"]}
-                        onChange={(value) => onChange("intention", value)}
-                        maxLength={400}
-                        placeholder='合作意向是...'
+            <View
+                style={Func.getStyles({
+                    background: token.colorPrimary,
+                    height: '160px',
+                    position: 'absolute',
+                    width: '100%',
+                    left: 0,
+                    top: 0,
+                })}
+            ></View>
+            <View style={Func.getStyles({
+                padding: '24px',
+                backgroundColor: '#fff',
+                'margin-bottom': '30px',
+                'border-radius': '16px',
+                position: 'relative',
+            })}>
+                <View style={formItemStyle}>
+                    <View
+                        style={formTitleStyle}
+                    >
+                        姓名
+                    </View>
+                    <Input
+                        name='nickName'
+                        type='text'
+                        placeholder='请输入姓名'
+                        value={params["nickName"]}
+                        onChange={(value) => onChange("nickName", value)}
                     />
                 </View>
+                <View style={formItemStyle}>
+                    <View style={formTitleStyle}>手机号</View>
+                    <Input
+                        name='phoneNumber'
+                        type="phone"
+                        placeholder='请输入手机号'
+                        value={params["phoneNumber"]}
+                        onChange={(value) => onChange("phoneNumber", value)}
+                    />
+                </View>
+                <View style={formItemStyle}>
+                    <View style={formTitleStyle}>密码</View>
+                    <Input
+                        name='password'
+                        type='password'
+                        placeholder='请输入密码'
+                        value={params["password"]}
+                        onChange={(value) => onChange("password", value)}
+                    />
+                </View>
+                <View style={formItemStyle}>
+                    <View style={formTitleStyle}>确定密码</View>
+                    <Input
+                        name='confirmPassword'
+                        type='password'
+                        placeholder='请输入确定密码'
+                        value={params["confirmPassword"]}
+                        onChange={(value) => onChange("confirmPassword", value)}
+                    />
+                </View>
+                <View style={formItemStyle}>
+                    <View style={formTitleStyle}>公司</View>
+                    <Input
+                        name='company'
+                        type='text'
+                        placeholder='请输入公司'
+                        value={params["company"]}
+                        onChange={(value) => onChange("company", value)}
+                    />
+                </View>
+                <View style={formItemStyle}>
+                    <View style={formTitleStyle}>职务</View>
+                    <Input
+                        name='post'
+                        type='text'
+                        placeholder='请输入职务'
+                        value={params["post"]}
+                        onChange={(value) => onChange("post", value)}
+                    />
+                </View>
+                <View style={formItemStyle}>
+                    <View style={formTitleStyle}>合作意向</View>
+                    <View
+                        style={Func.getStyles({
+                            margin: '24px 0'
+                        })}
+                    >
+                        <AtTextarea
+                            value={params["intention"]}
+                            onChange={(value) => onChange("intention", value)}
+                            maxLength={400}
+                            placeholder='合作意向是...'
+                        />
+                    </View>
+                </View>
             </View>
-            <AtButton
-                type="primary"
-                onClick={onRegister}
-            >
-                注册
-            </AtButton>
+            <LinearButton
+                onClick={() => {
+                    onRegister();
+                }}
+                title="注册"
+            />
         </View>
     )
 }

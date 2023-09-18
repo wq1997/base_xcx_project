@@ -64,7 +64,6 @@ const Login = (props) => {
                 height: '100vh',
                 backgroundImage: `url(${PUBLIC_FILE_PATH}mini_background.jpg)`,
                 backgroundSize: '100% 100%',
-
             })}
             className="login"
         >
