@@ -72,7 +72,7 @@ const ElectricityPrice = (props) => {
     };
 
     const onChange = (type, currentValue) => {
-        const { firstArea, secondArea, electricityType, } = value;
+        const { firstArea, secondArea, electricityType } = value;
         if (type == 'firstArea') {
             setValue({
                 firstArea: currentValue,
@@ -81,6 +81,9 @@ const ElectricityPrice = (props) => {
                 cost: undefined,
                 level: undefined
             });
+            setElectricityTypeOptions([]);
+            setBillingSystemOptions([]);
+            setVolLevelOptions([]);
             initOptions(getSecondArea, setSecondAreaOptions, currentValue);
         }
         if (type == 'secondArea') {
@@ -91,6 +94,8 @@ const ElectricityPrice = (props) => {
                 cost: undefined,
                 level: undefined
             });
+            setBillingSystemOptions([]);
+            setVolLevelOptions([]);
             initOptions(getElectricType, setElectricityTypeOptions, {
                 districtOneId: firstArea,
                 districtTwoId: currentValue
@@ -103,6 +108,7 @@ const ElectricityPrice = (props) => {
                 cost: undefined,
                 level: undefined
             });
+            setVolLevelOptions([]);
             initOptions(getBillingSystem, setBillingSystemOptions, {
                 districtOneId: firstArea,
                 districtTwoId: secondArea,
@@ -122,12 +128,17 @@ const ElectricityPrice = (props) => {
                 cost: currentValue
             });
         }
+        if (type == 'level') {
+            setValue({
+                ...value,
+                [type]: currentValue
+            });
+        }
     };
 
     useEffect(() => {
-        initOptions(getFirstArea, setFirstAreaOptions,)
+        initOptions(getFirstArea, setFirstAreaOptions);
     }, []);
-
 
     const handleSearch = async () => {
         const { firstArea, secondArea, electricityType, cost, level } = value;

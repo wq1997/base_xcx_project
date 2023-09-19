@@ -43,7 +43,7 @@ const Investment = (props) => {
         }
     };
     const onChange = (type, currentValue) => {
-        const { firstArea, secondArea, electricityType, } = value;
+        const { firstArea, secondArea, electricityType } = value;
         if (type == 'firstArea') {
             setValue({
                 ...value,
@@ -53,6 +53,9 @@ const Investment = (props) => {
                 cost: undefined,
                 level: undefined
             });
+            setElectricityTypeOptions([]);
+            setBillingSystemOptions([]);
+            setVolLevelOptions([]);
             initOptions(getSecondArea, setSecondAreaOptions, currentValue);
         }
         if (type == 'secondArea') {
@@ -63,6 +66,8 @@ const Investment = (props) => {
                 cost: undefined,
                 level: undefined
             });
+            setBillingSystemOptions([]);
+            setVolLevelOptions([]);
             initOptions(getElectricType, setElectricityTypeOptions, {
                 districtOneId: firstArea,
                 districtTwoId: currentValue
@@ -75,6 +80,7 @@ const Investment = (props) => {
                 cost: undefined,
                 level: undefined
             });
+            setVolLevelOptions([]);
             initOptions(getBillingSystem, setBillingSystemOptions, {
                 districtOneId: firstArea,
                 districtTwoId: secondArea,
@@ -94,13 +100,17 @@ const Investment = (props) => {
                 cost: currentValue
             });
         }
+        if (type == 'capacity' || type == 'cycle') {
+            setValue({
+                ...value,
+                [type]: currentValue
+            });
+        }
     };
 
     useEffect(() => {
-        initOptions(getFirstArea, setFirstAreaOptions,)
+        initOptions(getFirstArea, setFirstAreaOptions);
     }, []);
-
-
 
     const handleInvestment = async () => {
         const { firstArea, secondArea, electricityType, cost, level, capacity, cycle } = value;
@@ -137,8 +147,7 @@ const Investment = (props) => {
                 style={Func.getStyles({
                     background: token.colorPrimary,
                     height: '200px',
-                    'padding-top': 2 * (top + height) - 50 + 'px',
-
+                    'padding-top': 2 * (top + height) - 50 + 'px'
                 })}
             ></View>
             <View
