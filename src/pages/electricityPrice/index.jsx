@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Select, LinearButton, Echarts, Table } from '@/components';
 import Tips from '@/utils/tips';
 import { getFirstArea, getSecondArea } from '@/services/area';
+import { AtIcon, AtToast } from 'taro-ui';
 import {
     getElectricType,
     getBillingSystem,
@@ -43,6 +44,8 @@ const ElectricityPrice = (props) => {
     const [typePriceColumns, setTypePriceColumns] = useState([...baseTypePriceColumns]);
     const [echartXLabel, setEchartXLabel] = useState([...baseEchartXLabel]);
     const [echartData, setEchartData] = useState([]);
+    const [remarkDate, setRemarkDate] = useState();
+    const [isOpened, setIsOpened] = useState(false);
     const [firstAreaOptions, setFirstAreaOptions] = useState([]);
     const [secondAreaOptions, setSecondAreaOptions] = useState([]);
     const [electricityTypeOptions, setElectricityTypeOptions] = useState([]);
@@ -157,6 +160,7 @@ const ElectricityPrice = (props) => {
         });
         if (res?.code == 200) {
             const {
+                remarkDate,
                 cuspPrice,
                 highPrice,
                 flatPrice,
@@ -167,6 +171,7 @@ const ElectricityPrice = (props) => {
                 voltageLevel
             } = res?.data;
             const baseTypePriceItem = { cuspPrice, highPrice, flatPrice, lowPrice };
+            setRemarkDate(remarkDate);
             if (deepValleyPrice) {
                 setTable1DataSource([
                     {
@@ -203,6 +208,7 @@ const ElectricityPrice = (props) => {
                 }
             ]);
         } else {
+            setRemarkDate();
             setEchartData([]);
             setTable1DataSource([]);
             setTable2DataSource([]);
@@ -259,6 +265,44 @@ const ElectricityPrice = (props) => {
             >
                 <LinearButton onClick={handleSearch} title="查询区域电价（/元）" />
             </View>
+            {remarkDate && (
+                <View
+                    style={Func.getStyles({
+                        display: 'flex',
+                        'justify-content': 'flex-end',
+                        'margin-top': '20px',
+                        position: 'relative'
+                    })}
+                >
+                    {isOpened && (
+                        <View
+                            style={Func.getStyles({
+                                width: '50%',
+                                'min-width': '400px',
+                                'line-height': '50px',
+                                padding: '10px 20px',
+                                'border-radius': '10px',
+                                background: '#000',
+                                'font-size': '25px',
+                                color: '#fff',
+                                'margin-right': '20px',
+                                position: 'absolute',
+                                left: '22%',
+                                'z-index': 999,
+                                top: '-160px'
+                            })}
+                        >
+                            {remarkDate}
+                        </View>
+                    )}
+                    <AtIcon
+                        value="help"
+                        size="20"
+                        color="#3F536E"
+                        onClick={() => setIsOpened(!isOpened)}
+                    ></AtIcon>
+                </View>
+            )}
             <View className="echartsContent">
                 <Echarts
                     style={{
