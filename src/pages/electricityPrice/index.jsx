@@ -277,9 +277,9 @@ const ElectricityPrice = (props) => {
                     {isOpened && (
                         <View
                             style={Func.getStyles({
-                                width: '50%',
+                                width: '60%',
                                 'min-width': '400px',
-                                'line-height': '50px',
+                                'line-height': '45px',
                                 padding: '10px 20px',
                                 'border-radius': '10px',
                                 background: '#000',
@@ -287,7 +287,7 @@ const ElectricityPrice = (props) => {
                                 color: '#fff',
                                 'margin-right': '20px',
                                 position: 'absolute',
-                                left: '22%',
+                                left: '20%',
                                 'z-index': 999,
                                 top: '-160px'
                             })}
@@ -296,7 +296,7 @@ const ElectricityPrice = (props) => {
                         </View>
                     )}
                     <AtIcon
-                        value="help"
+                        value={isOpened ? "close-circle" : "help"}
                         size="20"
                         color="#3F536E"
                         onClick={() => setIsOpened(!isOpened)}
