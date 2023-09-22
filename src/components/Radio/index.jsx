@@ -44,14 +44,19 @@ const Checkbox = (props) => {
                         >
                             <View
                                 style={Func.getStyles({
-                                    border: `1px solid ${token.colorPrimary}`,
+                                    border: `2px solid ${token.colorPrimary}`,
                                     background: option.checked ? token.colorPrimary : 'white',
+                                    background: '#fff',
                                     width: '35px',
                                     height: '35px',
                                     'margin-right': '10px',
                                     'border-radius': '50%',
                                     position: 'relative',
-                                    'text-align': 'center'
+                                    'text-align': 'center',
+                                    display: 'flex',
+                                    'justify-content': 'center',
+                                    'align-items': 'center',
+                                    'box-sizing': 'border-box'
                                 })}
                             >
                                 {
@@ -59,18 +64,12 @@ const Checkbox = (props) => {
                                     <View
                                         style={Func.getStyles({
                                             position: 'relative',
+                                            background: token.colorPrimary,
+                                            width: '20px',
+                                            height: '20px',
+                                            'border-radius': '50%',
                                         })}
                                     >
-                                        <Image 
-                                            src={`${PUBLIC_FILE_PATH}duihao.svg`} 
-                                            style={Func.getStyles({
-                                                width: '50px',
-                                                height: '50px',
-                                                position: 'relative',
-                                                top: '-6px',
-                                                left: '-6px'
-                                            })}
-                                        />
                                     </View>
                                 }
                             </View>

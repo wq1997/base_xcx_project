@@ -14,7 +14,7 @@ const Outer = () => {
 
     return (
         <View>
-            <WebView src={`${url}`} />
+            <WebView src={`https://energy.sermatec-cloud.com/mobile/webview`} />
         </View>
     )
 }

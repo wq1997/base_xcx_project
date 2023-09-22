@@ -4,64 +4,94 @@ import { getBaseUrl } from '@/utils/request';
 import { AtImagePicker } from 'taro-ui';
 import './index.scss';
 import Tips from '@/utils/tips';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const acceptTypes = ['.jpg', '.jpeg', '.png', '.bmp'];
 const maxSizeMB = 1;
 const maxCount = 6;
 
+let uploadedFiles = []
+let uploadedNames = []
+
 const UploadImage = (props) => {
     const [files, setFiles] = useState([]);
     const { fileNames, setFileNames } = props;
 
-    const uploadLoader = (data, _, index) => {
-        const { size, path } = data[data?.length - 1]?.file;
-        const suffix = path.substring(path.lastIndexOf('.'));
-        if (!acceptTypes.includes(suffix)) return Tips.toast('上传图片格式不被允许');
-        if (size > maxSizeMB * 1024 * 1024) return Tips.toast(`上传图片大小不得超过${maxSizeMB}MB`);
-        setFiles(data);
+    useEffect(() => {
+        uploadedFiles = []
+        uploadedNames = []
+    }, [])
+
+    const uploadLoader = async (data, _, index) => {
+
+        if (data?.length > 0) {
+            if (data?.length > maxCount) return Tips.toast(`最多上传${maxCount}张图片`);
+            for (const item of data) {
+                const { size, path } = item?.file;
+                const suffix = path.substring(path.lastIndexOf('.'));
+                if (!acceptTypes.includes(suffix)) return Tips.toast('上传图片格式不被允许');
+                if (size > maxSizeMB * 1024 * 1024) return Tips.toast(`上传图片大小不得超过${maxSizeMB}MB`);
+            }
+        }
+
         if (data?.length < files?.length) {
             const _fileNames = [...fileNames];
             _fileNames.splice(index, 1);
+            uploadedNames.splice(index, 1);
             setFileNames(_fileNames);
+            const _files = [...files];
+            _files.splice(index, 1);
+            uploadedFiles.splice(index, 1);
+            setFiles(_files);
             return;
         }
-        Taro.showLoading({
-            title: `正在上传第${data?.length}张`
-        });
-        Taro.uploadFile({
-            url: getBaseUrl() + '/feedback/uploadFeedbackImage',
-            header: {
-                'content-type': 'multipart/form-data'
-            },
-            name: 'file',
-            filePath: data[data?.length - 1].url,
-            success: (resp) => {
-                setFileNames([...fileNames, JSON.parse(resp?.data)?.data]);
-                Taro.showToast({
-                    title: '上传成功',
-                    icon: 'success',
-                    duration: 2000
+
+        for (const item of data.entries()) {
+            const [index, temp] = item
+            if (!temp?.uploaded) {
+                Taro.showLoading({
+                    title: `正在上传第${index + 1}张`
                 });
-                Taro.hideLoading();
-            },
-            fail: () => {
-                Taro.showToast({
-                    title: '上传失败',
-                    icon: 'fail',
-                    duration: 2000
+                await Taro.uploadFile({
+                    url: getBaseUrl() + '/feedback/uploadFeedbackImage',
+                    header: {
+                        'content-type': 'multipart/form-data'
+                    },
+                    name: 'file',
+                    filePath: temp?.file?.path,
+                    success: (resp) => {
+                        uploadedFiles.push({
+                            ...temp,
+                            uploaded: true
+                        })
+                        uploadedNames.push(JSON.parse(resp?.data)?.data)
+                        Taro.showToast({
+                            title: '上传成功',
+                            icon: 'success',
+                            duration: 2000
+                        });
+                        Taro.hideLoading();
+                    },
+                    fail: () => {
+                        Taro.showToast({
+                            title: '上传失败',
+                            icon: 'fail',
+                            duration: 3000
+                        });
+                        Taro.hideLoading();
+                    }
                 });
-                const _files = [...files];
-                _files.splice(data?.length - 1, 1);
-                setFiles(_files);
-                Taro.hideLoading();
             }
-        });
+            if (data?.length - 1 == index) {
+                setFiles([...uploadedFiles])
+                setFileNames([...uploadedNames])
+            }
+        }
     };
 
-    const onImageClick = () => {};
+    const onImageClick = () => { };
 
-    const onFail = () => {};
+    const onFail = () => { };
 
     return (
         <View className="uploadImages">

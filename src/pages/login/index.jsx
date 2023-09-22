@@ -13,8 +13,8 @@ import './index.scss';
 const Login = (props) => {
     const { token } = props;
     const [params, setParams] = useState({
-        phoneNumber: '15655867638',
-        password: '123456'
+        phoneNumber: '',
+        password: ''
     });
     const [remember, setRemember] = useState([
         {
