@@ -44,6 +44,7 @@ const ElectricityPrice = (props) => {
     const [typePriceColumns, setTypePriceColumns] = useState([...baseTypePriceColumns]);
     const [echartXLabel, setEchartXLabel] = useState([...baseEchartXLabel]);
     const [echartData, setEchartData] = useState([]);
+    const [flag, setFlag] = useState(false);
     const [remarkDate, setRemarkDate] = useState();
     const [isOpened, setIsOpened] = useState(false);
     const [firstAreaOptions, setFirstAreaOptions] = useState([]);
@@ -159,6 +160,7 @@ const ElectricityPrice = (props) => {
             voltageLevelId: level
         });
         if (res?.code == 200) {
+            setFlag(true);
             const {
                 remarkDate,
                 cuspPrice,
@@ -208,6 +210,7 @@ const ElectricityPrice = (props) => {
                 }
             ]);
         } else {
+            setFlag(false);
             setRemarkDate();
             setEchartData([]);
             setTable1DataSource([]);
@@ -296,105 +299,117 @@ const ElectricityPrice = (props) => {
                         </View>
                     )}
                     <AtIcon
-                        value={isOpened ? "close-circle" : "help"}
+                        value={isOpened ? 'close-circle' : 'help'}
                         size="20"
                         color="#3F536E"
                         onClick={() => setIsOpened(!isOpened)}
                     ></AtIcon>
                 </View>
             )}
-            <View className="echartsContent">
-                <Echarts
-                    style={{
-                        width: '100%',
-                        height: '300px'
-                    }}
-                    option={{
-                        tooltip: {},
-                        grid: {
-                            top: 30,
-                            bottom: 30,
-                            left: 30,
-                            right: 5
-                        },
-                        xAxis: [
-                            {
-                                type: 'category',
-                                data: echartXLabel,
-                                axisLabel: {
-                                    interval: 0 //代表显示所有x轴标签显示
-                                }
-                            }
-                        ],
-                        yAxis: {
-                            type: 'value',
-                            show: true
-                        },
-                        series: [
-                            {
-                                data: echartData,
-                                type: 'bar',
-                                barWidth: 30,
-                                itemStyle: {
-                                    normal: {
-                                        color: (params) => colorList[params.dataIndex]
-                                    }
-                                },
-                                label: {
-                                    normal: {
-                                        show: true, //开启显示
-                                        position: 'top' //柱形上方
-                                    }
-                                }
-                            }
-                        ]
-                    }}
-                />
-                {echartData?.length === 0 && (
-                    <View
-                        style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            color: '#ccc'
-                        }}
-                    >
-                        暂无数据
-                    </View>
-                )}
-            </View>
-            <Table columns={typePriceColumns} colorList={colorList} dataSource={table1DataSource} />
+
             <View
                 style={Func.getStyles({
-                    'text-align': 'center',
-                    margin: '20px 0',
-                    color: token.colorPrimary,
-                    'font-weight': 600,
-                    'font-size': '32px'
+                    opacity: flag ? 1 : 0
                 })}
             >
-                容(需)量用电价格
+                <View className="echartsContent">
+                    <Echarts
+                        style={{
+                            width: '100%',
+                            height: '300px',
+                        }}
+                        option={{
+                            tooltip: {},
+                            grid: {
+                                top: 30,
+                                bottom: 30,
+                                left: 30,
+                                right: 5
+                            },
+                            xAxis: [
+                                {
+                                    type: 'category',
+                                    data: echartXLabel,
+                                    axisLabel: {
+                                        interval: 0 //代表显示所有x轴标签显示
+                                    },
+                                    show: flag
+                                }
+                            ],
+                            yAxis: {
+                                type: 'value',
+                                show: true
+                            },
+                            series: [
+                                {
+                                    data: echartData,
+                                    type: 'bar',
+                                    barWidth: 30,
+                                    itemStyle: {
+                                        normal: {
+                                            color: (params) => colorList[params.dataIndex]
+                                        }
+                                    },
+                                    label: {
+                                        normal: {
+                                            show: true, //开启显示
+                                            position: 'top' //柱形上方
+                                        }
+                                    }
+                                }
+                            ]
+                        }}
+                    />
+                    {echartData?.length === 0 && (
+                        <View
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                color: '#ccc'
+                            }}
+                        >
+                            暂无数据
+                        </View>
+                    )}
+                </View>
+                <Table
+                    columns={typePriceColumns}
+                    colorList={colorList}
+                    dataSource={table1DataSource}
+                />
+                <View
+                    style={Func.getStyles({
+                        'text-align': 'center',
+                        margin: '20px 0',
+                        color: token.colorPrimary,
+                        'font-weight': 600,
+                        'font-size': '32px'
+                    })}
+                >
+                    容(需)量用电价格
+                </View>
+                <Table
+                    columns={[
+                        {
+                            title: ['电压等级', '容(需)量用电价格'],
+                            type: 'multiple',
+                            key: 'multiple'
+                        },
+                        {
+                            title: '基本电价按需价格',
+                            key: 'capacityPrice'
+                        },
+                        {
+                            title: '基本电价按容价格',
+                            key: 'needPrice'
+                        }
+                    ]}
+                    colorList={[token.colorPrimary, token.colorPrimary]}
+                    dataSource={table2DataSource}
+                />
             </View>
-            <Table
-                columns={[
-                    {
-                        title: ['电压等级', '容(需)量用电价格'],
-                        type: 'multiple',
-                        key: 'multiple'
-                    },
-                    {
-                        title: '基本电价按需价格',
-                        key: 'capacityPrice'
-                    },
-                    {
-                        title: '基本电价按容价格',
-                        key: 'needPrice'
-                    }
-                ]}
-                colorList={[token.colorPrimary, token.colorPrimary]}
-                dataSource={table2DataSource}
-            />
         </View>
     );
 };

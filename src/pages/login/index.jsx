@@ -85,7 +85,7 @@ const Login = (props) => {
                         backgroundColor: '#ffffff8f',
                         borderRadius: '6rpx',
                         paddingLeft: '30rpx',
-                        paddingRight: '10rpx'
+                        paddingRight: '10rpx',
                     }}
                     onChange={(value) => {
                         changeValue('phoneNumber', value);
@@ -101,7 +101,7 @@ const Login = (props) => {
                         borderRadius: '6rpx',
                         paddingLeft: '30rpx',
                         paddingRight: '10rpx',
-                        marginTop: '10rpx'
+                        marginTop: '20rpx'
                     }}
                     onChange={(value) => {
                         changeValue('password', value);

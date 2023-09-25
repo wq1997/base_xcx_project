@@ -1,28 +1,38 @@
-import { View } from "@tarojs/components"
-import { Header } from "@/components";
-import Func from "@/utils/Func";
-import Taro from "@tarojs/taro";
+import { View } from '@tarojs/components';
+import { Header } from '@/components';
+import Func from '@/utils/Func';
+import Tips from '@/utils/tips';
+import Taro from '@tarojs/taro';
 
 const PolicyDetail = (props) => {
     const { token } = props;
-    const { router } = Taro.getCurrentInstance()
-    const listItem = JSON.parse(decodeURIComponent(router?.params?.listItem))
-    const { top, height } = Taro.getMenuButtonBoundingClientRect()
+    const { router } = Taro.getCurrentInstance();
+    const listItem = JSON.parse(decodeURIComponent(router?.params?.listItem));
+    const { top, height } = Taro.getMenuButtonBoundingClientRect();
+
+    const handleCopy = (link) => {
+        Taro.setClipboardData({
+            data: link,
+            success: function (res) {
+                Tips.toast('链接已复制，请粘贴到浏览器中打开');
+            }
+        });
+    };
 
     return (
         <View
             style={Func.getStyles({
                 background: token.backgroundColor,
-                color: token.color,
+                color: token.color
             })}
         >
-            <Header title='政策详情'></Header>
+            <Header title="政策详情"></Header>
             <View
                 style={Func.getStyles({
                     color: token.colorPrimary,
-                    "text-align": 'center',
-                    "font-size": '32px',
-                    "font-weight": 700,
+                    'text-align': 'center',
+                    'font-size': '32px',
+                    'font-weight': 700,
                     background: 'linear-gradient(to bottom, #4A4CF7 20%, #16A8EA 70%)',
                     height: '300px',
                     color: '#fff',
@@ -35,38 +45,40 @@ const PolicyDetail = (props) => {
             >
                 {listItem?.policyName}
             </View>
-            <View style={Func.getStyles({
-                "margin-bottom": '60px',
-                "font-size": '30px',
-                'line-height': '60px',
-                padding: '30px',
-                'border-radius': '50px 50px 0 0 ',
-                backgroundColor: '#fff',
-                'position': 'relative',
-                top: '-50px'
-            })}>
+            <View
+                style={Func.getStyles({
+                    'margin-bottom': '60px',
+                    'font-size': '30px',
+                    'line-height': '60px',
+                    padding: '30px',
+                    'border-radius': '50px 50px 0 0 ',
+                    backgroundColor: '#fff',
+                    position: 'relative',
+                    top: '-50px'
+                })}
+            >
                 <View
                     style={Func.getStyles({
                         display: 'flex',
                         'justify-content': 'space-between',
                         'align-items': 'center',
-                        "margin-bottom": '50px'
+                        'margin-bottom': '50px'
                     })}
                 >
                     <View
                         style={Func.getStyles({
                             padding: '0 10px',
-                            "background-color": '#F8B62C',
+                            'background-color': '#F8B62C',
                             color: 'white',
-                            "border-radius": '4px',
-                            "font-size": '20px',
+                            'border-radius': '4px',
+                            'font-size': '20px'
                         })}
                     >
                         {listItem?.issueUnit}
                     </View>
                     <View
                         style={Func.getStyles({
-                            "font-size": '20px',
+                            'font-size': '20px',
                             'font-weight': 'bold'
                         })}
                     >
@@ -76,18 +88,18 @@ const PolicyDetail = (props) => {
                 <View
                     style={Func.getStyles({
                         color: token.colorPrimary,
-                        "margin-bottom": '30px',
-                        "text-align": 'center',
-                        "font-size": '32px',
-                        "font-weight": 600
+                        'margin-bottom': '30px',
+                        'text-align': 'center',
+                        'font-size': '32px',
+                        'font-weight': 600
                     })}
                 >
                     政策摘要
                 </View>
                 <View
                     style={Func.getStyles({
-                        "margin-bottom": '60px',
-                        "font-size": '30px',
+                        'margin-bottom': '60px',
+                        'font-size': '30px',
                         'line-height': '60px'
                     })}
                 >
@@ -96,18 +108,18 @@ const PolicyDetail = (props) => {
                 <View
                     style={Func.getStyles({
                         color: token.colorPrimary,
-                        "margin-bottom": '30px',
-                        "text-align": 'center',
-                        "font-size": '32px',
-                        "font-weight": 600
+                        'margin-bottom': '30px',
+                        'text-align': 'center',
+                        'font-size': '32px',
+                        'font-weight': 600
                     })}
                 >
                     政策解读
                 </View>
                 <View
                     style={Func.getStyles({
-                        "margin-bottom": '60px',
-                        "font-size": '30px',
+                        'margin-bottom': '60px',
+                        'font-size': '30px',
                         'line-height': '60px'
                     })}
                 >
@@ -115,23 +127,21 @@ const PolicyDetail = (props) => {
                 </View>
                 <View
                     onClick={() => {
-                        Taro.navigateTo({
-                            url: `/pages/outer/index?url=${listItem?.originalLink}`
-                        })
+                        handleCopy(listItem?.originalLink);
                     }}
                     style={Func.getStyles({
                         width: '100%',
-                        "margin-bottom": '30px',
-                        "font-size": '32px',
+                        'margin-bottom': '30px',
+                        'font-size': '32px',
                         'text-align': 'center',
                         color: '#2395f1'
                     })}
                 >
-                    政策原文→
+                    政策原文
                 </View>
             </View>
         </View>
-    )
-}
+    );
+};
 
 export default PolicyDetail;
