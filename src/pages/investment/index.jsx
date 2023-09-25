@@ -100,7 +100,7 @@ const Investment = (props) => {
                 cost: currentValue
             });
         }
-        if (type == 'capacity' || type == 'cycle') {
+        if (type == 'capacity' || type == 'cycle' || type=='level') {
             setValue({
                 ...value,
                 [type]: currentValue

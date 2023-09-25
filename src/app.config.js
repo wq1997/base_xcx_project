@@ -1,11 +1,10 @@
 export default {
     pages: [
-        'pages/electricityPrice/index',
         'pages/login/index',
         'pages/home/index',
         'pages/register/index',
         'pages/forgotPassword/index',
-
+        'pages/electricityPrice/index',
         'pages/investment/index',
         'pages/investResult/index',
         'pages/standard/index',
