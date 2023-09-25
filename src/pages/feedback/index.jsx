@@ -44,9 +44,11 @@ const Feedback = (props) => {
         });
         if (res?.code == 200) {
             Tips.toast('添加成功');
-            Taro.switchTab({
-                url: '/pages/mine/index'
-            });
+            setTimeout(() => {
+                Taro.switchTab({
+                    url: '/pages/mine/index'
+                });
+            }, 1000)
         }
     };
 
@@ -133,9 +135,15 @@ const Feedback = (props) => {
                 </View>
                 <AtTextarea
                     value={text}
-                    onChange={(value) => setText(value)}
+                    onChange={(value) => {
+                        if (value?.length == 400) {
+                            setText(value)
+                            return Tips.toast('最多输入400个字符');
+                        }
+                        setText(value)
+                    }}
                     maxLength={400}
-                    placeholder="请输入你的建议..."
+                    placeholder="请输入您的建议..."
                 />
             </View>
             <UploadImage fileNames={fileNames} setFileNames={setFileNames} />
