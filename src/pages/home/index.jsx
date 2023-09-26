@@ -29,16 +29,16 @@ const homeList = [
 
 const banners = [
     {
-        src: `${PUBLIC_FILE_PATH}min-home-1.png`
+        src: `${PUBLIC_FILE_PATH}min-home-3.png`
     },
     {
         src: `${PUBLIC_FILE_PATH}min-home-2.png`
     },
     {
-        src: `${PUBLIC_FILE_PATH}min-home-3.png`
+        src: `${PUBLIC_FILE_PATH}min-home-4.png`
     },
     {
-        src: `${PUBLIC_FILE_PATH}min-home-4.png`
+        src: `${PUBLIC_FILE_PATH}min-home-1.png`
     }
 ];
 
