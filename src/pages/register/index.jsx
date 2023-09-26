@@ -40,7 +40,6 @@ const Register = (props) => {
         if (!company?.trim()) return Tips.toast("请输入公司")
         if (!post?.trim()) return Tips.toast("请输入职务")
         if (!intention?.trim()) return Tips.toast("请输入合作意向")
-        Tips.loading('loading...')
         const keyRes = await getPublicKey();
         if (keyRes?.code == 200) {
             const res = await register({
@@ -55,7 +54,6 @@ const Register = (props) => {
                 }), 1000)
             }
         }
-        Tips.loaded('loading...')
     }
 
     return (
