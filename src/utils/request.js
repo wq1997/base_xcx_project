@@ -97,7 +97,7 @@ export async function request(url, option) {
 
     return new Promise((resolve, reject) => {
         Taro.request({
-            url: (url?.startsWith("http") || url?.startsWith("https"))? url:getBaseUrl() + url,
+            url: url?.startsWith('http') || url?.startsWith('https') ? url : getBaseUrl() + url,
             data: newOptions.body,
             method: newOptions.method || 'GET',
             responseType: newOptions.responseType || 'text',

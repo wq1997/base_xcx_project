@@ -23,7 +23,7 @@ const UploadImage = (props) => {
     }, [])
 
     const uploadLoader = async (data, _, index) => {
-z
+
         if (data?.length > 0) {
             if (data?.length > maxCount) return Tips.toast(`最多上传${maxCount}张图片`);
             for (const item of data) {
