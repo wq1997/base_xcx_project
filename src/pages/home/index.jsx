@@ -35,10 +35,10 @@ const banners = [
         src: `${PUBLIC_FILE_PATH}min-home-2.png`
     },
     {
-        src: `${PUBLIC_FILE_PATH}min-home-4.png`
+        src: `${PUBLIC_FILE_PATH}min-home-1.png`
     },
     {
-        src: `${PUBLIC_FILE_PATH}min-home-1.png`
+        src: `${PUBLIC_FILE_PATH}min-home-4.png`
     }
 ];
 
@@ -153,7 +153,7 @@ const Home = (props) => {
                         circular
                         indicatorDots
                         style={Func.getStyles({
-                            height: '450px',
+                            height: '400px',
                             'box-shadow': '0px 10px 10px rgba(0,0,0,0.2)',
                             background: 'transparent',
                             'border-radius': '20px'
