@@ -36,7 +36,6 @@ const Login = (props) => {
         if (!phoneNumber?.trim()) return Tips.toast('请输入手机号');
         if (!Func.checkRegStr(phoneNumber).isTelephone) return Tips.toast('手机号格式不正确');
         if (!password?.trim()) return Tips.toast('请输入密码');
-        Tips.loading('loading...')
         const keyRes = await getPublicKey();
         if (keyRes?.code == 200) {
             const loginRes = await login({
@@ -54,7 +53,6 @@ const Login = (props) => {
                 });
             }
         }
-        Tips.loaded('loading...')
     };
 
     return (
