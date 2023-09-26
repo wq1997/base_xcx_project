@@ -1,5 +1,6 @@
 export default {
     pages: [
+        'pages/feedback/index',
         'pages/login/index',
         'pages/home/index',
         'pages/register/index',
@@ -12,7 +13,7 @@ export default {
         'pages/policyDetail/index',
         'pages/outer/index',
         'pages/notification/index',
-        'pages/feedback/index',
+
         'pages/mine/index',
         'pages/mineCenter/index',
         'pages/test/index'
