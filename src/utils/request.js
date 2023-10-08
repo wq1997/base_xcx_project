@@ -55,7 +55,7 @@ export async function request(url, option) {
     if (token) {
         newOptions.headers = {
             ...newOptions.headers,
-            token: token()
+            Token: token()
         };
     }
 

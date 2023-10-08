@@ -5,6 +5,7 @@ import { AtImagePicker } from 'taro-ui';
 import './index.scss';
 import Tips from '@/utils/tips';
 import { useEffect, useState } from 'react';
+import { getToken } from '@/utils/authTools';
 
 const acceptTypes = ['.jpg', '.jpeg', '.png', '.bmp'];
 const maxSizeMB = 1;
@@ -55,21 +56,31 @@ const UploadImage = (props) => {
                 await Taro.uploadFile({
                     url: getBaseUrl() + '/feedback/uploadFeedbackImage',
                     header: {
-                        'content-type': 'multipart/form-data'
+                        'content-type': 'multipart/form-data',
+                        Token: getToken()
                     },
                     name: 'file',
                     filePath: temp?.file?.path,
                     success: (resp) => {
-                        uploadedFiles.push({
-                            ...temp,
-                            uploaded: true
-                        })
-                        uploadedNames.push(JSON.parse(resp?.data)?.data)
-                        Taro.showToast({
-                            title: '上传成功',
-                            icon: 'success',
-                            duration: 2000
-                        });
+                        const res = JSON.parse(resp?.data)
+                        if (res?.code == '200') {
+                            uploadedFiles.push({
+                                ...temp,
+                                uploaded: true
+                            })
+                            uploadedNames.push(JSON.parse(resp?.data)?.data)
+                            Taro.showToast({
+                                title: '上传成功',
+                                icon: 'success',
+                                duration: 2000
+                            });
+                        } else {
+                            Taro.showToast({
+                                title: '上传失败',
+                                icon: 'fail',
+                                duration: 3000
+                            });
+                        }
                         Taro.hideLoading();
                     },
                     fail: () => {
