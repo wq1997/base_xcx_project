@@ -35,8 +35,11 @@ const Register = (props) => {
         if (!nickName?.trim()) return Tips.toast("请输入姓名")
         if (!phoneNumber) return Tips.toast("请输入手机号")
         if (!Func.checkRegStr(phoneNumber).isTelephone) return Tips.toast("手机号格式不正确")
-        if (!password?.trim()) return Tips.toast("请输入密码")
+        if (!password?.trim()) return Tips.toast("请输入密码");
+        if (password?.trim()?.length<8) return Tips.toast("密码长度需要大于等于8位");
         if (!confirmPassword?.trim()) return Tips.toast("请输入确定密码")
+        if (confirmPassword?.trim()?.length<8) return Tips.toast("确定密码长度需要大于等于8位");
+        if (password!==confirmPassword) return Tips.toast("密码与确认密码不一致");
         if (!company?.trim()) return Tips.toast("请输入公司")
         if (!post?.trim()) return Tips.toast("请输入职务")
         if (!intention?.trim()) return Tips.toast("请输入合作意向")

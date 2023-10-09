@@ -137,7 +137,7 @@ const Feedback = (props) => {
                     value={text}
                     onChange={(value) => {
                         if (value?.length == 400) {
-                            setText(value)
+                            setText(value);
                             return Tips.toast('最多输入400个字符');
                         }
                         setText(value)

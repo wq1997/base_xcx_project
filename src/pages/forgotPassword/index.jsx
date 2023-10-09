@@ -49,7 +49,10 @@ const ForgotPassword = (props) => {
         if (!Func.checkRegStr(phoneNumber).isTelephone) return Tips.toast('手机号格式不正确');
         if (!code) return Tips.toast('请输入验证码');
         if (!newPassword) return Tips.toast('请输入新密码');
+        if (newPassword?.length<8) return Tips.toast('新密码长度需要大于等于8位');
         if (!confirmPassword) return Tips.toast('请输入确认新密码');
+        if (confirmPassword?.length<8) return Tips.toast('确认新密码长度需要大于等于8位');
+        if (newPassword !== confirmPassword) return Tips.toast('新密码与确认新密码不一致');
         const keyRes = await getPublicKey();
         if (keyRes?.code == 200) {
             const forgotRes = await forgotPassword({
