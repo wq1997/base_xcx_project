@@ -97,7 +97,7 @@ const Investment = (props) => {
                 districtOneId: firstArea,
                 districtTwoId: secondArea,
                 electricityTypeId: electricityType,
-                cost: currentValue
+                costId: currentValue
             });
         }
         if (type == 'level' || type == 'capacity' || type == 'cycle') {
@@ -113,15 +113,26 @@ const Investment = (props) => {
     }, []);
 
     const handleInvestment = async () => {
-        const { firstArea, secondArea, electricityType, cost, level, capacity, cycle } = value;
+        const { firstArea, secondArea, electricityType, cost, level, capacity, cycle, downPaymentRatio, shareRatio } = value;
         if (!firstArea) return Tips.toast('请选择一级区域');
         if (!secondArea) return Tips.toast('请选择二级区域');
         if (!electricityType) return Tips.toast('请选择用电类型');
         if (!cost) return Tips.toast('请选择计费制度');
         if (!level) return Tips.toast('请选择电压等级');
         if (!capacity) return Tips.toast('请输入装机容量');
+        if (!Func.checkRegStr(+capacity).isPositiveNumber) return Tips.toast('装机容量必须是正数');
         if (!cycle) return Tips.toast('请输入项目周期');
-        let res = await calcInvestmentResult(value);
+        if (!Func.checkRegStr(+cycle).isPositiveInteger) return Tips.toast('项目周期必须是正整数');
+        let res = await calcInvestmentResult({
+            districtOneId: firstArea,
+            districtTwoId: secondArea,
+            electricityTypeId: electricityType,
+            costId: cost,
+            voltageLevelId: level,
+            capacity: +capacity,
+            cycle: +cycle,
+            downPaymentRatio, shareRatio
+        });
         if (res?.code == 200 && res?.data) {
             Taro.navigateTo({
                 url: `/pages/investResult/index?result=${encodeURIComponent(
@@ -204,7 +215,7 @@ const Investment = (props) => {
                     type="number"
                     placeholder="请输入装机容量"
                     value={value['capacity']}
-                    onChange={(value) => onChange('capacity', +value)}
+                    onChange={(value) => onChange('capacity', value)}
                 />
                 <AtInput
                     name="cycle"
@@ -212,7 +223,7 @@ const Investment = (props) => {
                     type="number"
                     placeholder="请输入项目周期"
                     value={value['cycle']}
-                    onChange={(value) => onChange('cycle', +value)}
+                    onChange={(value) => onChange('cycle', value)}
                 />
                 <AtInput
                     name="downPaymentRatio"

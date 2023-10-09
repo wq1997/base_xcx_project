@@ -129,7 +129,7 @@ const ElectricityPrice = (props) => {
                 districtOneId: firstArea,
                 districtTwoId: secondArea,
                 electricityTypeId: electricityType,
-                cost: currentValue
+                costId: currentValue
             });
         }
         if (type == 'level') {

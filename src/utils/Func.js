@@ -1,7 +1,9 @@
 const checkTypes = {
     isTelephone: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
     isEmail: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
-    isAllSpace: /^[ ]*$/
+    isAllSpace: /^[ ]*$/,
+    isPositiveNumber: /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/,
+    isPositiveInteger: /^[0-9]*[1-9][0-9]*$/
 };
 
 export default class Func {
@@ -106,7 +108,9 @@ export default class Func {
      */
     static checkRegStr(str) {
         return {
-            isTelephone: checkTypes.isTelephone.test(str)
+            isTelephone: checkTypes.isTelephone.test(str),
+            isPositiveNumber: checkTypes.isPositiveNumber.test(str),
+            isPositiveInteger: checkTypes.isPositiveInteger.test(str)
         };
     }
 }

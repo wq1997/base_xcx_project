@@ -1,4 +1,4 @@
-import { View } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import { Header } from '@/components';
 import Func from '@/utils/Func';
 import Tips from '@/utils/tips';
@@ -125,20 +125,25 @@ const PolicyDetail = (props) => {
                 >
                     {listItem?.policyAnalyse}
                 </View>
-                <View
-                    onClick={() => {
-                        handleCopy(listItem?.originalLink);
-                    }}
-                    style={Func.getStyles({
-                        width: '100%',
-                        'margin-bottom': '30px',
-                        'font-size': '32px',
-                        'text-align': 'center',
-                        color: '#2395f1'
-                    })}
-                >
-                    政策原文
+                <View style={Func.getStyles({
+                    width: '100%',
+                    'margin-bottom': '30px',
+                    'font-size': '30px',
+                    'text-align': 'center',
+                })}>
+                    请点击
+                    <Text
+                        onClick={() => {
+                            handleCopy(listItem?.originalLink);
+                        }}
+                        style={Func.getStyles({
+                            color: '#2395f1'
+                        })}
+                    >
+                        政策原文
+                    </Text>复制链接，在浏览器中打开
                 </View>
+
             </View>
         </View>
     );
