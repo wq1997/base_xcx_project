@@ -72,7 +72,7 @@ const Policy = (props) => {
         >
             <AtSearchBar
                 showActionButton
-                placeholder='请输入政策标题'
+                placeholder='请输入关键字'
                 value={keyword}
                 onChange={onChange}
                 onActionClick={handleSearch}
