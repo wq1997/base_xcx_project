@@ -54,11 +54,11 @@ const InvestResult = (props) => {
                 <View className="resultListItem">收益率（IRR）</View>
                 <View className="resultListItem value">{_result?.irr} %</View>
                 <View className="resultListItem">动态单位造价</View>
-                <View className="resultListItem value">{_result?.unitCost}</View>
+                <View className="resultListItem value">{_result?.unitCost} 元</View>
                 <View className="resultListItem">动态总造价</View>
-                <View className="resultListItem value">{_result?.totalCost}</View>
+                <View className="resultListItem value">{_result?.totalCost} 万元</View>
                 <View className="resultListItem">占地面积</View>
-                <View className="resultListItem value">{_result?.floorArea}</View>
+                <View className="resultListItem value">{_result?.floorArea} ㎡</View>
             </View>
             <View
                 style={Func.getStyles({
@@ -79,7 +79,7 @@ const InvestResult = (props) => {
             </View>
             <View className="estimateResult header">
                 <View className="estimateResultItem">年数</View>
-                <View className="estimateResultItem revenue">总收益</View>
+                <View className="estimateResultItem revenue">总收益(元)</View>
             </View>
             {_result?.annualIncome?.map((item, index) => {
                 return (
